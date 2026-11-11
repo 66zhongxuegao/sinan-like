@@ -1,0 +1,64 @@
+{
+  "at": "2026-10-16T20:24:03.300Z",
+  "mode": "normal",
+  "config": {
+    "frontend": "http://127.0.0.1:5180",
+    "backend": "http://127.0.0.1:18010",
+    "reuse": true
+  },
+  "runtime": {
+    "electron": "44.7.0",
+    "node": "24.21.0",
+    "chrome": "152.0.7977.130"
+  },
+  "userData": "D:\\CH3SH\\1.SJTU\\3.activities\\12.挑战杯\\tripcraft_lvyuan\\.dsh-run\\normal\\selfcheck-userdata",
+  "demo": null,
+  "normal": {
+    "user": "audit-normal-82194327"
+  },
+  "checks": {
+    "preloadDesktop": true,
+    "uiLoaded": true,
+    "uiAtFrontendLogin": true,
+    "loginPageHasNoStandardEntry": true,
+    "sameOriginApiReachable": true,
+    "instanceModeCheck": true,
+    "loginOk": true,
+    "normalOrdersReadable": true,
+    "normalOrderFound": true,
+    "normalOrderIsNotFixedDemoOrder": true
+  },
+  "errors": [],
+  "ui": {
+    "href": "http://127.0.0.1:5180/#/login",
+    "title": "TripCraft · 司南礼客 — 定制师全流程模拟实战系统",
+    "textHead": "已连接 司南礼客 TRIPCRAFT 定制师全流程实战训练系统 登录 登录后继续你的训练，刷新页面无需重新登录。 用户名 密码 登录 还没有账号？ 注册新账号",
+    "preload": {
+      "desktop": true,
+      "version": "0.1.0"
+    },
+    "loginStatus": 200,
+    "loginUser": "audit-normal-82194327",
+    "loginUserId": "u-953bba06900a",
+    "loginUserKind": "real",
+    "tokenPresent": true,
+    "ordersStatus": 200,
+    "orderId": "",
+    "firstOrderId": "9000000000000006",
+    "orderStage": "",
+    "scenarioStatus": 200,
+    "scenarioMode": "live",
+    "demoInstanceEnabled": false,
+    "fetchError": ""
+  },
+  "screenshot": {
+    "path": "D:\\CH3SH\\1.SJTU\\3.activities\\12.挑战杯\\tripcraft_lvyuan\\.dsh-run\\normal\\selfcheck-normal\\desktop-window-1792182243588.png",
+    "bytes": 256507,
+    "size": {
+      "width": 2139,
+      "height": 1356
+    },
+    "isPng": true
+  },
+  "ok": true
+}

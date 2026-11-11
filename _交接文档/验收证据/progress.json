@@ -1,0 +1,1736 @@
+{
+  "username": "demo-linxiao-verified-20261017",
+  "steps": [
+    {
+      "name": "注册学员林晓",
+      "url": "http://127.0.0.1:15181/#/",
+      "at": "2026-10-16T18:56:13.224Z"
+    },
+    {
+      "name": "12题初测与起始画像",
+      "url": "http://127.0.0.1:15181/#/profile/quiz",
+      "at": "2026-10-16T18:56:27.614Z"
+    },
+    {
+      "name": "学习讲义并完成答题训练",
+      "url": "http://127.0.0.1:15181/#/learn/thread/C6.1",
+      "at": "2026-10-16T18:57:06.847Z",
+      "rounds": 5,
+      "teach": 60
+    },
+    {
+      "name": "查看训练后的能力雷达",
+      "url": "http://127.0.0.1:15181/#/profile",
+      "at": "2026-10-16T18:57:11.158Z"
+    },
+    {
+      "name": "导入固定黄先生案例",
+      "url": "http://127.0.0.1:15181/#/demo",
+      "at": "2026-10-16T18:57:12.434Z"
+    },
+    {
+      "name": "抢单并打开订单",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009",
+      "at": "2026-10-16T18:57:14.808Z"
+    },
+    {
+      "name": "文字首呼完成并返回订单",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/call",
+      "at": "2026-10-16T18:57:16.517Z"
+    },
+    {
+      "name": "添加联系人：客户、地接社",
+      "url": "http://127.0.0.1:15181/#/practice/im",
+      "at": "2026-10-16T18:57:19.245Z"
+    },
+    {
+      "name": "客户沟通渠道已建立",
+      "url": "http://127.0.0.1:15181/#/practice/im?session=im-dm-u-1d1caa6af35c-%E5%AE%A2%E6%88%B7-32724",
+      "at": "2026-10-16T18:57:20.438Z"
+    },
+    {
+      "name": "填写并投递：需求确认单",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/deliverables?code=requirement_sheet",
+      "at": "2026-10-16T18:57:22.703Z",
+      "code": "requirement_sheet",
+      "receipt": "已投递\n版本 V1\n2026-10-17 02:57:22\n去向：黄先生\n《需求确认单》已投递（V1）\n四分类齐全：必须/希望/可替代/明确不要\n客户反馈收到，我看了下，日期和房型没问题，老人不吃辣这条麻烦一定写进去。\n当前门槛 0/4 · 定制师提供方案 下一步：填写逐日行程并投递\n资源询价\n向地接/酒店/车队询价并留证\n返回订单",
+      "sentTo": [
+        "客户",
+        "平台"
+      ]
+    },
+    {
+      "name": "资源群完成明确询价",
+      "url": "http://127.0.0.1:15181/#/practice/im?session=im-hub-u-1d1caa6af35c",
+      "at": "2026-10-16T18:57:24.326Z"
+    },
+    {
+      "name": "填写并投递：资源询价记录",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/deliverables?code=resource_quote",
+      "at": "2026-10-16T18:57:26.473Z",
+      "code": "resource_quote",
+      "receipt": "已投递\n版本 V1\n2026-10-17 02:57:26\n去向：内部留存\n《资源询价记录》已投递（V1）\n当前门槛 0/4 · 定制师提供方案 下一步：填写逐日行程并投递\n逐日行程\n逐日写清交通、住宿、活动与用餐\n返回订单",
+      "sentTo": []
+    },
+    {
+      "name": "填写并投递：行程方案",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/deliverables?code=itinerary",
+      "at": "2026-10-16T18:57:29.605Z",
+      "code": "itinerary",
+      "receipt": "已投递\n版本 V1\n2026-10-17 02:57:29\n去向：黄先生\n《行程方案》已投递（V1）\n逐日时间轴：识别到 5 天\n行程要素：交通/住宿/餐饮/景点齐全\n客户反馈方案我看了，整体挺合适的。就是第四天能不能别安排博物馆，老人走不动，换成轻松点的？\n当前门槛 1/4 · 定制师提供方案 下一步：填写分项报价并投递\n客户反馈\n发送方案给客户，收集已读与反馈\n返回订单",
+      "sentTo": [
+        "客户",
+        "平台"
+      ]
+    },
+    {
+      "name": "方案V1真实创建发送并收到反馈",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/plan/new?plan=plan-9000000000000009-v1",
+      "at": "2026-10-16T18:57:39.394Z",
+      "plan": "plan-9000000000000009-v1",
+      "feedback": "方案我看了，整体挺合适的。就是第四天能不能别安排博物馆，老人走不动，换成轻松点的？"
+    },
+    {
+      "name": "客户反馈后修改D4并重新发送V2",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/plan/new?plan=plan-9000000000000009-v2",
+      "at": "2026-10-16T18:57:47.467Z",
+      "plan": "plan-9000000000000009-v2",
+      "feedback": "第四天换成翠湖短线加花市手工，这样老人轻松多了，这个版本可以，就按这版走；价格按之前的来，我没别的意见。"
+    },
+    {
+      "name": "填写并投递：分项报价单",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/deliverables?code=quotation",
+      "at": "2026-10-16T18:57:50.663Z",
+      "code": "quotation",
+      "receipt": "已投递\n版本 V1\n2026-10-17 02:57:50\n去向：黄先生\n《分项报价单》已投递（V1）\n分项合计：解析出 5 项，合计 12690 元\n分项与总价一致：分项 12690 vs 总价 12690（差 0）\n毛利率：14.5%\n保险项：已包含\n客户反馈价格我再跟太太商量一下，明天中午前回你；含不含门票和保险你说得挺清楚。\n当前门槛 3/4 · 定制师提供方案 下一步：确认客户已认可当前版本\n成交确认\n客户确认成交\n返回订单",
+      "sentTo": [
+        "客户",
+        "平台"
+      ]
+    },
+    {
+      "name": "登记最终方案客户确认",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/plan/new?plan=plan-9000000000000009-v2",
+      "at": "2026-10-16T18:57:52.494Z"
+    },
+    {
+      "name": "填写并投递：合同与保险",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/deliverables?code=contract",
+      "at": "2026-10-16T18:57:55.263Z",
+      "code": "contract",
+      "receipt": "已投递\n版本 V1\n2026-10-17 02:57:55\n去向：黄先生\n《合同与保险》已投递（V1）\n合同：已体现\n保险：已体现\n客户反馈合同我签了，定金已经转过去了，你们查一下。\n当前门槛 0/2 · 客户确认合同 下一步：订房、订车、订票、订导游并预留\n资源锁定\n把地接、酒店、车队的确认锁定下来\n返回订单",
+      "sentTo": [
+        "客户",
+        "平台"
+      ]
+    },
+    {
+      "name": "添加联系人：酒店、车队、导游、司机",
+      "url": "http://127.0.0.1:15181/#/practice/im",
+      "at": "2026-10-16T18:57:58.831Z"
+    },
+    {
+      "name": "填写并投递：出团通知书",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/deliverables?code=departure_notice",
+      "at": "2026-10-16T18:58:01.006Z",
+      "code": "departure_notice",
+      "receipt": "已投递\n版本 V1\n2026-10-17 02:58:00\n去向：黄先生、资源对接群\n《出团通知书》已投递（V1）\n客户反馈收到，我们按这个准备，集合时间我记下了。\n当前门槛 0/1 · 客户出团 下一步：拿地接结算单与报价单逐项核对\n结算回访\n成本损失结清、客户回访\n返回订单",
+      "sentTo": [
+        "客户"
+      ]
+    },
+    {
+      "name": "逐一回应本单真实注入事件",
+      "url": "http://127.0.0.1:15181/#/practice/im?session=im-dm-u-1d1caa6af35c-%E5%AF%BC%E6%B8%B8-38875",
+      "at": "2026-10-16T18:58:04.097Z",
+      "incidents": [
+        {
+          "code": "INC-RESOURCE-VAGUE",
+          "channel": "地接资源信息群",
+          "reply": "请把车型、座位、日价、含不含司机与油费，以及今天几点前能给准信，一次发我。",
+          "reacted": [
+            "C4.4"
+          ]
+        },
+        {
+          "code": "INC-CUSTOMER-OBJECTION",
+          "channel": "客户服务群",
+          "reply": "明白，您先说是价格还是节奏问题；我按优先级给您两版取舍，今天 18 点前发您。",
+          "reacted": [
+            "C1.7",
+            "C5.5"
+          ]
+        },
+        {
+          "code": "INC-VEHICLE-BREAKDOWN",
+          "channel": "司导沟通群",
+          "reply": "赵师傅你先联系备用车，客人那边我来解释；更换车的差额由车队承担，你恢复后立刻给我时间点。",
+          "reacted": [
+            "C6.1",
+            "C8.3",
+            "C8.4"
+          ]
+        },
+        {
+          "code": "INC-PRE-TRIP-GAP",
+          "channel": "司导沟通群",
+          "reply": "长辈忌口与每日步行≤2 小时要求我已书面发给酒店与导游；接机按北京时间 10:30。请回复确认收到。",
+          "reacted": [
+            "C6.1",
+            "C8.3",
+            "C8.4"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "车辆故障费用向资源方追偿",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/finance",
+      "at": "2026-10-16T18:58:05.093Z"
+    },
+    {
+      "name": "填写并投递：地接结算核对单",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/deliverables?code=settlement",
+      "at": "2026-10-16T18:58:07.796Z",
+      "code": "settlement",
+      "receipt": "已投递\n版本 V1\n2026-10-17 02:58:07\n去向：内部留存\n《地接结算核对单》已投递（V1）\n当前门槛 0/2 · 定制师提交结算 下一步：确认尾款支付完成\n评分\n按订单事实评分\n返回订单",
+      "sentTo": []
+    },
+    {
+      "name": "真实结账并核对收入成本毛利",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/finance",
+      "at": "2026-10-16T18:58:08.939Z",
+      "revenue": 12690,
+      "cost": 11030,
+      "profit": 1660,
+      "loss": 0
+    },
+    {
+      "name": "填写并投递：回访与复盘记录",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/deliverables?code=review",
+      "at": "2026-10-16T18:58:11.046Z",
+      "code": "review",
+      "receipt": "已投递\n版本 V1\n2026-10-17 02:58:11\n去向：内部留存\n《回访与复盘记录》已投递（V1）\n当前门槛 0/0 · 订单完成\n评分\n按订单事实评分\n返回订单",
+      "sentTo": []
+    },
+    {
+      "name": "订单评分生成并人工复核",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/score",
+      "at": "2026-10-16T18:58:13.860Z",
+      "score": {
+        "ok": true,
+        "order_id": "9000000000000009",
+        "scored": 11,
+        "written": 0,
+        "dropped": [],
+        "escalated": [
+          {
+            "skill_point_id": "C1.7",
+            "score": 77,
+            "level": "M3",
+            "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C1.1",
+            "score": 84,
+            "level": "M4",
+            "comment": "首呼开场身份清楚、确认了通话方便（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C4.4",
+            "score": 82,
+            "level": "M4",
+            "comment": "询价问到含项与回复时限（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C3.1",
+            "score": 72,
+            "level": "M3",
+            "comment": "逐日行程六要素齐全，但体力分级未标注（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C5.5",
+            "score": 83,
+            "level": "M4",
+            "comment": "分项报价算术自洽并预留涨价空间（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C8.3",
+            "score": 80,
+            "level": "M4",
+            "comment": "饮食禁忌书面传给地接与酒店（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C5.1",
+            "score": 79,
+            "level": "M3",
+            "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C8.4",
+            "score": 81,
+            "level": "M4",
+            "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C2.1",
+            "score": 80,
+            "level": "M4",
+            "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C6.1",
+            "score": 79,
+            "level": "M3",
+            "comment": "突发事件先回应再确认时间点（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C4.1",
+            "score": 77,
+            "level": "M3",
+            "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          }
+        ],
+        "candidates": 11,
+        "coverage": {
+          "targets": 11,
+          "covered": 11,
+          "ratio": 1,
+          "threshold": 0.8,
+          "passed": true
+        },
+        "calibration": {
+          "baseline": false,
+          "passed": false,
+          "weight": 0,
+          "run_id": "",
+          "agreement": 0,
+          "evidence_accuracy": 0,
+          "samples": 0,
+          "reason": "尚未建立校准基线：评分 Agent 未经校准集验证，本次不写画像"
+        },
+        "thresholds": {
+          "confidence": 0.7,
+          "boundary_delta": 3,
+          "source": "经验默认值（未标定）",
+          "run_id": ""
+        },
+        "deferred": true,
+        "deferred_reason": "尚未建立校准基线：评分 Agent 未经校准集验证，本次不写画像，本次不写画像",
+        "skill_points": [
+          {
+            "skill_point_id": "C1.7",
+            "score": 77,
+            "level": "M3",
+            "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C1.1",
+            "score": 84,
+            "level": "M4",
+            "comment": "首呼开场身份清楚、确认了通话方便（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C4.4",
+            "score": 82,
+            "level": "M4",
+            "comment": "询价问到含项与回复时限（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C3.1",
+            "score": 72,
+            "level": "M3",
+            "comment": "逐日行程六要素齐全，但体力分级未标注（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C5.5",
+            "score": 83,
+            "level": "M4",
+            "comment": "分项报价算术自洽并预留涨价空间（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C8.3",
+            "score": 80,
+            "level": "M4",
+            "comment": "饮食禁忌书面传给地接与酒店（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C5.1",
+            "score": 79,
+            "level": "M3",
+            "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C8.4",
+            "score": 81,
+            "level": "M4",
+            "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C2.1",
+            "score": 80,
+            "level": "M4",
+            "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C6.1",
+            "score": 79,
+            "level": "M3",
+            "comment": "突发事件先回应再确认时间点（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          },
+          {
+            "skill_point_id": "C4.1",
+            "score": 77,
+            "level": "M3",
+            "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+            "confidence": 0.6,
+            "covered": true,
+            "status": "待复核",
+            "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+          }
+        ],
+        "average": 79
+      },
+      "acceptedReviews": 11
+    },
+    {
+      "name": "最终能力雷达与成绩趋势刷新后保留",
+      "url": "http://127.0.0.1:15181/#/profile",
+      "at": "2026-10-16T18:58:16.015Z",
+      "stage": "订单完成"
+    },
+    {
+      "name": "浏览器导出PDF：requirement_sheet",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/deliverables?code=requirement_sheet",
+      "at": "2026-10-16T18:58:19.379Z"
+    },
+    {
+      "name": "独立核对方案反馈、11项复核、能力提升与完整覆盖",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/plan/new?plan=plan-9000000000000009-v2",
+      "at": "2026-10-16T19:00:16.537Z"
+    },
+    {
+      "name": "浏览器导出PDF：itinerary",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/deliverables?code=itinerary",
+      "at": "2026-10-16T19:00:53.664Z"
+    },
+    {
+      "name": "浏览器导出PDF：quotation",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/deliverables?code=quotation",
+      "at": "2026-10-16T19:00:55.667Z"
+    },
+    {
+      "name": "浏览器导出PDF：departure_notice",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/deliverables?code=departure_notice",
+      "at": "2026-10-16T19:00:57.552Z"
+    },
+    {
+      "name": "浏览器导出PDF：settlement",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/deliverables?code=settlement",
+      "at": "2026-10-16T19:00:59.559Z"
+    },
+    {
+      "name": "浏览器导出PDF：review",
+      "url": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/deliverables?code=review",
+      "at": "2026-10-16T19:01:01.646Z"
+    }
+  ],
+  "runs": [
+    {
+      "phase": "all",
+      "startedAt": "2026-10-16T18:54:41.749Z",
+      "errors": [],
+      "httpErrors": [
+        {
+          "url": "/api/",
+          "status": 500
+        },
+        {
+          "url": "/api/auth/register",
+          "status": 500
+        }
+      ],
+      "failure": "locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.home') to be visible\u001b[22m\n",
+      "failureUrl": "http://127.0.0.1:15181/#/register",
+      "body": "未连接\n司南礼客\nTRIPCRAFT\n定制师全流程实战训练系统\n注册新账号\n\n注册后直接进入你的训练，我们会先给你一条专属的初始派单。\n\nRequest failed with status code 500\n用户名 登录用，创建后不可改\n用户名是账号唯一标识\n显示名 可选\n密码\n密码只保存加密摘要，系统不保存明文\n确认密码\n两次输入一致\n注册并进入\n已经有账号？\n返回登录\n标准案例想先看看完整流程？注册后进入 标准案例演示， 页面内会醒目标识「标准案例 / 演示数据」，与你的真实训练数据分开记录、不混算。",
+      "finishedAt": "2026-10-16T18:55:02.910Z"
+    },
+    {
+      "phase": "all",
+      "startedAt": "2026-10-16T18:56:11.373Z",
+      "errors": [],
+      "httpErrors": [],
+      "failure": "page.waitForFunction: Timeout 20000ms exceeded.",
+      "failureUrl": "http://127.0.0.1:15181/#/practice/orders/9000000000000009/deliverables?code=itinerary",
+      "body": "司南礼客\nTRIPCRAFT\n学习中心\n学习地图\n标准案例\n对话实战\n消息中心\n订单管理\n聊天界面\n训练反馈\n评分复盘\n工具台\n返回首页\n产出与投递\n已连接\n林\n林晓\n返回订单\n产出与投递\n9000000000000009\n黄先生 · 香港 · 云南\n行后复盘 · 行后复盘\n行后复盘\n行后复盘\n2/2 已提交\n当前阶段 · 默认选中\n地接结算核对单\nV1\n回访与复盘记录\nV1\n行前1\n行前 1 · 需求确认单\n1/1 已提交\n需求确认单\nV1\n行前2\n行前 2 · 行程方案\n2/2 已提交\n资源询价记录\nV1\n行程方案\nV3\n行前3\n行前 3 · 报价与成交确认\n2/2 已提交\n分项报价单\nV1\n合同与保险\nV1\n行前4\n行前 4 · 出团通知书\n1/1 已提交\n出团通知书\nV1\n需求确认单\nS3\n行前1\n发给对方\n客户\n平台\n已提交 V1\n导出\nPDF\n提交并投递\n把客户口语需求整理成四分类并让客户确认，作为后续方案与报价的依据\n客人称呼*\n客源地\n出行人数*\n出行日期*\n目的地与城市\n必须满足*\n希望满足\n可替代\n明确不要\n预算范围*\n证件与入境\n饮食与宗教禁忌\n决策人\n其他备注\n补充说明（发给对方）\n这一段会随文档发给对方（客户 / 地接）：写注意事项、提醒、给对方的信息；成本、毛利这类只给自己看的内容请写到「内部核算说明」那一栏\n文档预览 · 客户看到的版本\n需求确认单\n\n订单 9000000000000009　客户 黄先生　客源地 香港　目的地 云南　发送对象 客户、平台\n\n把客户口语需求整理成四分类并让客户确认，作为后续方案与报价的依据\n\n客人称呼\n\n黄先生\n\n客源地\n\n香港\n\n出行人数\n\n3 大 1 小（含 1 位 68 岁长辈）\n\n出行日期\n\n2026-11-16 至 2026-11-20，5 天 4 晚\n\n目的地与城市\n\n昆明 / 大理\n\n必须满足\n\n日期不可改；2 间双床且要电梯房；含接送机；长辈可少走路；预算总价不超过 18000 元\n\n希望满足\n\n洱海与古城，节奏慢一些，亲子体验（花市/手工）\n\n可替代\n\n酒店可换同档次；动车可换班次但不要晚到\n\n明确不要\n\n不要早班机；不要辣菜；不安排长时间步行与购物店\n\n预算范围\n\n人均 4500 元（不含昆明往返大交通），总价上限 18000 元；由太太最终确认\n\n证件与入境\n\n港澳居民来往内地通行证（回乡证），有效期需覆盖行程 + 6 个月\n\n饮食与宗教禁忌\n\n不吃辣；长辈不吃牛羊肉\n\n决策人\n\n黄先生决策，太太管预算\n\n其他备注\n\n客户不用微信，用 WhatsApp；沟通时间以下午为主\n\n补充说明（发给对方）\n\n客户原话：「别太贵」经追问后明确为人均 4500、总价上限 18000（不含机票）。\n\n确认方式\n\n请客户逐项确认；有异议的条目在上方对应项里标注。\n\n（本文件由 TripCraft · 司南礼客 交付物工作台生成，可在工作台下载 PDF 留存）\n\n发送对象\n固定发给：客户（客户单聊，客户可直接阅读并回复） + 平台报备\n6/6\n流程进度",
+      "finishedAt": "2026-10-16T18:58:40.262Z"
+    },
+    {
+      "phase": "verify",
+      "startedAt": "2026-10-16T19:00:11.698Z",
+      "errors": [],
+      "httpErrors": [],
+      "finishedAt": "2026-10-16T19:00:17.293Z"
+    },
+    {
+      "phase": "after",
+      "startedAt": "2026-10-16T19:00:50.600Z",
+      "errors": [],
+      "httpErrors": [],
+      "finishedAt": "2026-10-16T19:01:02.392Z"
+    }
+  ],
+  "startedAt": "2026-10-16T18:54:40.695Z",
+  "assessment": [
+    {
+      "id": "Q1",
+      "dim": "C1",
+      "title": "和刚提交需求的陌生客户通电话，你通常怎么开场？",
+      "key": "a",
+      "text": {
+        "key": "a",
+        "label": "自报公司、姓名、定制师身份，确认称呼与是否方便，并约定下次联系时间"
+      }
+    },
+    {
+      "id": "Q2",
+      "dim": "C1",
+      "title": "客户语气很冲、上来就抱怨方案太贵，你第一反应是？",
+      "key": "a",
+      "text": {
+        "key": "a",
+        "label": "先接住情绪、把对方的顾虑复述一遍，再谈方案怎么调"
+      }
+    },
+    {
+      "id": "Q3",
+      "dim": "C2",
+      "title": "客户说「预算别太贵、住得好一点」。你怎么接？",
+      "key": "a",
+      "text": {
+        "key": "a",
+        "label": "追问人均预算区间、出行人数、日期、住宿档次口径，再复述确认"
+      }
+    },
+    {
+      "id": "Q4",
+      "dim": "C2",
+      "title": "需求谈完一轮，你通常怎么收口？",
+      "key": "a",
+      "text": {
+        "key": "a",
+        "label": "整理成必须满足 / 希望满足 / 可替代 / 明确不要，发给客户确认"
+      }
+    },
+    {
+      "id": "Q5",
+      "dim": "C3",
+      "title": "做一份 5 天行程，你最先确定什么？",
+      "key": "c",
+      "text": {
+        "key": "c",
+        "label": "参考同行现成线路改一下"
+      }
+    },
+    {
+      "id": "Q6",
+      "dim": "C3",
+      "title": "行程里出现「一天跑三个相距很远的景点」，你会怎么处理？",
+      "key": "c",
+      "text": {
+        "key": "c",
+        "label": "客户想去就排上，到了再说"
+      }
+    },
+    {
+      "id": "Q7",
+      "dim": "C4",
+      "title": "报价前，酒店、车、票、导游这些资源你会怎么处理？",
+      "key": "a",
+      "text": {
+        "key": "a",
+        "label": "逐项问清房态、车况、票务档期，确认过再写进报价"
+      }
+    },
+    {
+      "id": "Q8",
+      "dim": "C5",
+      "title": "客户问「这个价包含什么、你们的利润有多少」，你怎么答？",
+      "key": "a",
+      "text": {
+        "key": "a",
+        "label": "分项列清导游、用车、住宿、餐饮、门票、保险、服务费，说明口径与浮动空间"
+      }
+    },
+    {
+      "id": "Q9",
+      "dim": "C5",
+      "title": "一单做完，你一般怎么确认这单赚了多少？",
+      "key": "a",
+      "text": {
+        "key": "a",
+        "label": "拿地接结算单和报价逐项核对，算清实际成本、毛利与损失"
+      }
+    },
+    {
+      "id": "Q10",
+      "dim": "C6",
+      "title": "出发前一天车队说车坏了，你的处理顺序是？",
+      "key": "c",
+      "text": {
+        "key": "c",
+        "label": "先把情况告诉客户，等车队消息"
+      }
+    },
+    {
+      "id": "Q11",
+      "dim": "C7",
+      "title": "给客户报方案前，合规上你会先确认哪些？",
+      "key": "a",
+      "text": {
+        "key": "a",
+        "label": "保险是否必买、合同与定金节点、目的地是否可接、承诺口径是否越界"
+      }
+    },
+    {
+      "id": "Q12",
+      "dim": "C8",
+      "title": "接到一位沙特的客户，除了行程你还会额外确认什么？",
+      "key": "a",
+      "text": {
+        "key": "a",
+        "label": "签证免签与证件有效期、宗教饮食禁忌、礼仪隐私习惯、结算币种与汇率口径"
+      }
+    }
+  ],
+  "learning": [
+    {
+      "teach": 32,
+      "score": 92,
+      "correct": true
+    },
+    {
+      "teach": 39,
+      "score": 92,
+      "correct": true
+    },
+    {
+      "teach": 46,
+      "score": 92,
+      "correct": true
+    },
+    {
+      "teach": 53,
+      "score": 92,
+      "correct": true
+    },
+    {
+      "teach": 60,
+      "score": 92,
+      "correct": true
+    }
+  ],
+  "profileBeforePractice": "学习 77.2\n实战 0\n综合掌握度\n学习掌握度\n实战掌握度\n标准案例 / 演示数据\n基于你的初始测评、日常做题与实战评分实时更新；没有数据就如实显示为空，不用估算的数字填满界面。\n口径与计算说明\n61\n技能点\n16\n薄弱点\n45\n已熟练\n能力雷达 · 初始画像 vs 当前能力\n同一刻度 0–100\n初始画像\n2026-10-17 02:56\n来源：初始测评快照\n当前能力\n2026-10-17 02:56\n来源：初始画像报告\n维度\n初始画像\n当前能力\n变化\nC1\n沟通信任\n95.0\n95.0\n0.0\nC2\n需求洞察\n95.0\n95.0\n0.0\nC3\n方案能力\n25.0\n25.0\n0.0\nC4\n资源整合\n95.0\n95.0\n0.0\nC5\n报价利润\n95.0\n95.0\n0.0\nC6\n应急解决\n25.0\n30.0\n+5.0\nC7\n合规效率\n95.0\n95.0\n0.0\nC8\n跨文化入境游沟通\n95.0\n95.0\n0.0\n真实分数趋势\n标准案例 / 演示数据\n做题 · 准确率(%)\n92\n均分\n样本 5 题 · 正答 5 · 准确率 100%\n实战订单 · 订单评分(0-100)\n—\n均分\n样本 0 条评分 · 涉及 0 单\n两条线分别是「做题正确率」与「实战订单评分」，都可以看到样本数。\n折线怎么读\n画像记忆\n初始画像\n2026-10-17 02:56\n更新画像\n标准案例演示账号：需求挖掘与资源询价已有基础，行程设计（C3）与突发事件处置（C6）偏弱，建议从 C3.1 逐日行程六要素与 C6.1 止损顺序补起。\n学习建议\n方案能力\n逐日行程按体力分级\n为什么\n长辈同行时步行时长是硬约束，写进行程才能被核对。\n怎么练\n在行程方案里为每天补一行「步行时长/休息安排」。\nC3.1 去学习\n应急解决\n突发处理固定顺序\n为什么\n先止损、再沟通、后留证能避免现场失控。\n怎么练\n复述三段式：立刻联系备用资源 → 同步客户 → 群里留书面时间点。\nC6.1 去学习\n沟通信任\n先补 沟通信任\n为什么\n沟通信任在八个维度里排名靠后，是当前最拖后腿的一项。\n怎么练\n先去学习地图练 C1.1 对应的知识点，再进实战验证。\nC1.1 去学习\n能力维度明细\n8 个维度汇总\nC1\n沟通信任\n学习\n实战\n95 / 0\nC2\n需求洞察\n学习\n实战\n95 / 0\nC3\n方案能力\n学习\n实战\n25 / 0\nC4\n资源整合\n学习\n实战\n95 / 0\nC5\n报价利润\n学习\n实战\n95 / 0\nC6\n应急解决\n学习\n实战\n30 / 0\nC7\n合规效率\n学习\n实战\n95 / 0\nC8\n跨文化入境游沟通\n学习\n实战\n95 / 0",
+  "orderId": "9000000000000009",
+  "call": [
+    "黄先生方便，你说。",
+    "我黄先生您好，我是司南礼客定制游的定制师小李，您现在方便说两分钟吗？",
+    "黄先生我们 3 大 1 小，11 月中去云南，5 天吧。预算别太贵，你看着安排。",
+    "我想先跟您确认三件事：几位出行、大概哪几天、预算大概什么口径（人均还是总价、含不含机票）？",
+    "黄先生人均四千多可以，机票我们自己买。WhatsApp 可以，我不用微信。",
+    "我好的，我按您说的先出一版方案，今天 18 点前发您。另外您在香港，我用 WhatsApp 联系您方便吗？",
+    "黄先生人均四千多可以，机票我们自己买。WhatsApp 可以，我不用微信。"
+  ],
+  "planV1": "plan-9000000000000009-v1",
+  "planV2": "plan-9000000000000009-v2",
+  "incidents": [
+    {
+      "code": "INC-RESOURCE-VAGUE",
+      "channel": "地接资源信息群",
+      "reply": "请把车型、座位、日价、含不含司机与油费，以及今天几点前能给准信，一次发我。",
+      "reacted": [
+        "C4.4"
+      ]
+    },
+    {
+      "code": "INC-CUSTOMER-OBJECTION",
+      "channel": "客户服务群",
+      "reply": "明白，您先说是价格还是节奏问题；我按优先级给您两版取舍，今天 18 点前发您。",
+      "reacted": [
+        "C1.7",
+        "C5.5"
+      ]
+    },
+    {
+      "code": "INC-VEHICLE-BREAKDOWN",
+      "channel": "司导沟通群",
+      "reply": "赵师傅你先联系备用车，客人那边我来解释；更换车的差额由车队承担，你恢复后立刻给我时间点。",
+      "reacted": [
+        "C6.1",
+        "C8.3",
+        "C8.4"
+      ]
+    },
+    {
+      "code": "INC-PRE-TRIP-GAP",
+      "channel": "司导沟通群",
+      "reply": "长辈忌口与每日步行≤2 小时要求我已书面发给酒店与导游；接机按北京时间 10:30。请回复确认收到。",
+      "reacted": [
+        "C6.1",
+        "C8.3",
+        "C8.4"
+      ]
+    }
+  ],
+  "finance": {
+    "order_id": "9000000000000009",
+    "revenue": 12690,
+    "cost": 11030,
+    "loss": 0,
+    "profit": 1660,
+    "margin": 0.1308,
+    "grade": "达标",
+    "cost_source": "地接社组合报价",
+    "cost_items": [
+      {
+        "name": "住宿（地接组合）",
+        "qty": "2 间 × 4 晚",
+        "amount": 3680
+      },
+      {
+        "name": "用车（地接组合）",
+        "qty": "5 天",
+        "amount": 4250
+      },
+      {
+        "name": "导游（地接组合）",
+        "qty": "5 天",
+        "amount": 2500
+      },
+      {
+        "name": "门票（首道）",
+        "qty": "4 人",
+        "amount": 480
+      },
+      {
+        "name": "旅游意外保险（必选）",
+        "qty": "4 人",
+        "amount": 120
+      }
+    ],
+    "people": 4,
+    "days": 5,
+    "rooms": 2,
+    "cost_estimated": false,
+    "cost_note": "",
+    "entries": [
+      {
+        "entry_id": "fin-9000000000000009-COST-VEHICLE-BREAKDOWN-80851",
+        "order_id": "9000000000000009",
+        "code": "COST-VEHICLE-BREAKDOWN",
+        "label": "临时换车费",
+        "category": "loss",
+        "amount": 400,
+        "bearer": "资源方",
+        "ours": 0,
+        "supplier_kind": "车队",
+        "source": "incident",
+        "ref": "inc-9000000000000009-INC-VEHICLE-BREAKDOWN-80836",
+        "note": "行，这次是我们的问题，400 元我们认，结算单上直接扣。",
+        "status": "已定责",
+        "at": "2026-10-17T02:58:00"
+      }
+    ],
+    "pending": 0,
+    "gaps": [
+      {
+        "name": "自报成本 vs 资源口径",
+        "declared": 10850,
+        "actual": 11030,
+        "diff": 180
+      },
+      {
+        "name": "自报利润 vs 实际毛利",
+        "declared": 1660,
+        "actual": 1660,
+        "diff": 0
+      }
+    ],
+    "declared": {
+      "分项报价.total": 12690,
+      "分项报价.per_person": 3173,
+      "分项报价.cost": 10850,
+      "地接结算核对单.total_settle": 11030,
+      "地接结算核对单.total_ours": 12690,
+      "地接结算核对单.diff": -1660,
+      "地接结算核对单.actual_cost": 11030,
+      "地接结算核对单.actual_margin": 1660
+    }
+  },
+  "scoring": {
+    "ok": true,
+    "order_id": "9000000000000009",
+    "scored": 11,
+    "written": 0,
+    "dropped": [],
+    "escalated": [
+      {
+        "skill_point_id": "C1.7",
+        "score": 77,
+        "level": "M3",
+        "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C1.1",
+        "score": 84,
+        "level": "M4",
+        "comment": "首呼开场身份清楚、确认了通话方便（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C4.4",
+        "score": 82,
+        "level": "M4",
+        "comment": "询价问到含项与回复时限（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C3.1",
+        "score": 72,
+        "level": "M3",
+        "comment": "逐日行程六要素齐全，但体力分级未标注（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C5.5",
+        "score": 83,
+        "level": "M4",
+        "comment": "分项报价算术自洽并预留涨价空间（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C8.3",
+        "score": 80,
+        "level": "M4",
+        "comment": "饮食禁忌书面传给地接与酒店（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C5.1",
+        "score": 79,
+        "level": "M3",
+        "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C8.4",
+        "score": 81,
+        "level": "M4",
+        "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C2.1",
+        "score": 80,
+        "level": "M4",
+        "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C6.1",
+        "score": 79,
+        "level": "M3",
+        "comment": "突发事件先回应再确认时间点（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C4.1",
+        "score": 77,
+        "level": "M3",
+        "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      }
+    ],
+    "candidates": 11,
+    "coverage": {
+      "targets": 11,
+      "covered": 11,
+      "ratio": 1,
+      "threshold": 0.8,
+      "passed": true
+    },
+    "calibration": {
+      "baseline": false,
+      "passed": false,
+      "weight": 0,
+      "run_id": "",
+      "agreement": 0,
+      "evidence_accuracy": 0,
+      "samples": 0,
+      "reason": "尚未建立校准基线：评分 Agent 未经校准集验证，本次不写画像"
+    },
+    "thresholds": {
+      "confidence": 0.7,
+      "boundary_delta": 3,
+      "source": "经验默认值（未标定）",
+      "run_id": ""
+    },
+    "deferred": true,
+    "deferred_reason": "尚未建立校准基线：评分 Agent 未经校准集验证，本次不写画像，本次不写画像",
+    "skill_points": [
+      {
+        "skill_point_id": "C1.7",
+        "score": 77,
+        "level": "M3",
+        "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C1.1",
+        "score": 84,
+        "level": "M4",
+        "comment": "首呼开场身份清楚、确认了通话方便（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C4.4",
+        "score": 82,
+        "level": "M4",
+        "comment": "询价问到含项与回复时限（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C3.1",
+        "score": 72,
+        "level": "M3",
+        "comment": "逐日行程六要素齐全，但体力分级未标注（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C5.5",
+        "score": 83,
+        "level": "M4",
+        "comment": "分项报价算术自洽并预留涨价空间（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C8.3",
+        "score": 80,
+        "level": "M4",
+        "comment": "饮食禁忌书面传给地接与酒店（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C5.1",
+        "score": 79,
+        "level": "M3",
+        "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C8.4",
+        "score": 81,
+        "level": "M4",
+        "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C2.1",
+        "score": 80,
+        "level": "M4",
+        "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C6.1",
+        "score": 79,
+        "level": "M3",
+        "comment": "突发事件先回应再确认时间点（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      },
+      {
+        "skill_point_id": "C4.1",
+        "score": 77,
+        "level": "M3",
+        "comment": "标准案例确定性演示判定（未单独列出的技能点按固定规则计算）（离线确定性判定，演示数据）",
+        "confidence": 0.6,
+        "covered": true,
+        "status": "待复核",
+        "review_reason": "评分置信度 0.60 低于阈值 0.7（经验默认值（未标定））"
+      }
+    ],
+    "average": 79
+  },
+  "acceptedReviews": 11,
+  "profileAfter": "学习 77.2\n实战 14.3\n综合掌握度\n学习掌握度\n实战掌握度\n标准案例 / 演示数据\n基于你的初始测评、日常做题与实战评分实时更新；没有数据就如实显示为空，不用估算的数字填满界面。\n口径与计算说明\n61\n技能点\n14\n薄弱点\n36\n已熟练\n能力雷达 · 初始画像 vs 当前能力\n同一刻度 0–100\n初始画像\n2026-10-17 02:56\n来源：初始测评快照\n当前能力\n2026-10-17 02:56\n来源：初始画像报告\n维度\n初始画像\n当前能力\n变化\nC1\n沟通信任\n95.0\n91.4\n-3.6\nC2\n需求洞察\n95.0\n92.9\n-2.1\nC3\n方案能力\n25.0\n30.2\n+5.2\nC4\n资源整合\n95.0\n91.1\n-3.9\nC5\n报价利润\n95.0\n91.5\n-3.5\nC6\n应急解决\n25.0\n32.7\n+7.7\nC7\n合规效率\n95.0\n95.0\n0.0\nC8\n跨文化入境游沟通\n95.0\n90.9\n-4.1\n真实分数趋势\n标准案例 / 演示数据\n做题 · 准确率(%)\n92\n均分\n样本 5 题 · 正答 5 · 准确率 100%\n实战订单 · 订单评分(0-100)\n79.5\n均分\n样本 11 条评分 · 涉及 1 单\n两条线分别是「做题正确率」与「实战订单评分」，都可以看到样本数。\n折线怎么读\n画像记忆\n初始画像\n2026-10-17 02:56\n更新画像\n标准案例演示账号：需求挖掘与资源询价已有基础，行程设计（C3）与突发事件处置（C6）偏弱，建议从 C3.1 逐日行程六要素与 C6.1 止损顺序补起。\n学习建议\n方案能力\n逐日行程按体力分级\n为什么\n长辈同行时步行时长是硬约束，写进行程才能被核对。\n怎么练\n在行程方案里为每天补一行「步行时长/休息安排」。\nC3.1 去学习\n应急解决\n突发处理固定顺序\n为什么\n先止损、再沟通、后留证能避免现场失控。\n怎么练\n复述三段式：立刻联系备用资源 → 同步客户 → 群里留书面时间点。\nC6.1 去学习\n沟通信任\n先补 沟通信任\n为什么\n沟通信任在八个维度里排名靠后，是当前最拖后腿的一项。\n怎么练\n先去学习地图练 C1.1 对应的知识点，再进实战验证。\nC1.1 去学习\n能力维度明细\n8 个维度汇总\nC1\n沟通信任\n学习\n实战\n95 / 20.1\nC2\n需求洞察\n学习\n实战\n95 / 11.4\nC3\n方案能力\n学习\n实战\n25 / 8\nC4\n资源整合\n学习\n实战\n95 / 19.9\nC5\n报价利润\n学习\n实战\n95 / 20.2\nC6\n应急解决\n学习\n实战\n30 / 11.3\nC7\n合规效率\n学习\n实战\n95 / 0\nC8\n跨文化入境游沟通\n学习\n实战\n95 / 23",
+  "state": {
+    "order_id": "9000000000000009",
+    "scenario_id": "hk-huang-yunnan-5d",
+    "demo_label": "标准案例/演示数据",
+    "demo_data": true,
+    "status": "正常",
+    "stage_index": 7,
+    "stage_name": "订单完成",
+    "stage_id": "post_trip",
+    "stage_of_step_contract_version": 1,
+    "internal_step": "S12",
+    "gate": {
+      "order_id": "9000000000000009",
+      "stage_index": 7,
+      "stage_name": "订单完成",
+      "stage_hint": "本单已完成",
+      "step": "S12",
+      "step_evidence": "产出与投递 › 回访与复盘记录",
+      "checks": [],
+      "done": 0,
+      "total": 0,
+      "passed": true,
+      "next": null
+    },
+    "actions": [
+      "balance_paid",
+      "contract_signed",
+      "customer_confirmed_plan",
+      "customer_signed_contract",
+      "deliverable:出团通知书",
+      "deliverable:分项报价",
+      "deliverable:合同与保险",
+      "deliverable:回访与复盘记录",
+      "deliverable:地接结算核对单",
+      "deliverable:行程方案",
+      "deliverable:需求确认单",
+      "depart",
+      "deposit_paid",
+      "first_call",
+      "grab",
+      "guard_pass:分项报价",
+      "insurance_bought",
+      "pre_trip_notice",
+      "resources_locked",
+      "review_done",
+      "settlement_verified"
+    ],
+    "evidence_count": 21,
+    "deliverables": [
+      "需求确认单",
+      "资源询价记录",
+      "行程方案",
+      "分项报价",
+      "合同与保险",
+      "出团通知书",
+      "地接结算核对单",
+      "回访与复盘记录"
+    ],
+    "incidents": [
+      {
+        "code": "INC-RESOURCE-VAGUE",
+        "title": "资源方模糊回复",
+        "channel": "地接资源信息群"
+      },
+      {
+        "code": "INC-CUSTOMER-OBJECTION",
+        "title": "客户对方案有异议",
+        "channel": "客户服务群"
+      },
+      {
+        "code": "INC-VEHICLE-BREAKDOWN",
+        "title": "车辆故障",
+        "channel": "司导沟通群"
+      },
+      {
+        "code": "INC-PRE-TRIP-GAP",
+        "title": "行前要素缺失",
+        "channel": "司导沟通群"
+      }
+    ],
+    "scores": {
+      "evaluated": 11,
+      "pending_review": 0,
+      "average": 79
+    },
+    "ability_written": {
+      "C1.1": {
+        "real_v": 84,
+        "teach": 95
+      },
+      "C1.2": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C1.3": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C1.4": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C1.5": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C1.6": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C1.7": {
+        "real_v": 77,
+        "teach": 95
+      },
+      "C1.8": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C2.1": {
+        "real_v": 80,
+        "teach": 95
+      },
+      "C2.2": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C2.3": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C2.4": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C2.5": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C2.6": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C2.7": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C3.1": {
+        "real_v": 72,
+        "teach": 25
+      },
+      "C3.2": {
+        "real_v": 0,
+        "teach": 25
+      },
+      "C3.3": {
+        "real_v": 0,
+        "teach": 25
+      },
+      "C3.4": {
+        "real_v": 0,
+        "teach": 25
+      },
+      "C3.5": {
+        "real_v": 0,
+        "teach": 25
+      },
+      "C3.6": {
+        "real_v": 0,
+        "teach": 25
+      },
+      "C3.7": {
+        "real_v": 0,
+        "teach": 25
+      },
+      "C3.8": {
+        "real_v": 0,
+        "teach": 25
+      },
+      "C3.9": {
+        "real_v": 0,
+        "teach": 25
+      },
+      "C4.1": {
+        "real_v": 77,
+        "teach": 95
+      },
+      "C4.2": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C4.3": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C4.4": {
+        "real_v": 82,
+        "teach": 95
+      },
+      "C4.5": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C4.6": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C4.7": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C4.8": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C5.1": {
+        "real_v": 79,
+        "teach": 95
+      },
+      "C5.2": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C5.3": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C5.4": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C5.5": {
+        "real_v": 83,
+        "teach": 95
+      },
+      "C5.6": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C5.7": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C5.8": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C6.1": {
+        "real_v": 79,
+        "teach": 60
+      },
+      "C6.2": {
+        "real_v": 0,
+        "teach": 25
+      },
+      "C6.3": {
+        "real_v": 0,
+        "teach": 25
+      },
+      "C6.4": {
+        "real_v": 0,
+        "teach": 25
+      },
+      "C6.5": {
+        "real_v": 0,
+        "teach": 25
+      },
+      "C6.6": {
+        "real_v": 0,
+        "teach": 25
+      },
+      "C6.7": {
+        "real_v": 0,
+        "teach": 25
+      },
+      "C7.1": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C7.2": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C7.3": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C7.4": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C7.5": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C7.6": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C7.7": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C8.1": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C8.2": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C8.3": {
+        "real_v": 80,
+        "teach": 95
+      },
+      "C8.4": {
+        "real_v": 81,
+        "teach": 95
+      },
+      "C8.5": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C8.6": {
+        "real_v": 0,
+        "teach": 95
+      },
+      "C8.7": {
+        "real_v": 0,
+        "teach": 95
+      }
+    }
+  },
+  "finalRadar": {
+    "user_id": "u-1d1caa6af35c",
+    "scale": {
+      "min": 0,
+      "max": 100,
+      "unit": "维度值"
+    },
+    "assessed": true,
+    "initial": {
+      "label": "初始画像",
+      "at": "2026-10-17T02:56:26",
+      "source": "intake",
+      "dimensions": [
+        {
+          "id": "C1",
+          "name": "沟通信任",
+          "value": 95,
+          "assessed": true
+        },
+        {
+          "id": "C2",
+          "name": "需求洞察",
+          "value": 95,
+          "assessed": true
+        },
+        {
+          "id": "C3",
+          "name": "方案能力",
+          "value": 25,
+          "assessed": true
+        },
+        {
+          "id": "C4",
+          "name": "资源整合",
+          "value": 95,
+          "assessed": true
+        },
+        {
+          "id": "C5",
+          "name": "报价利润",
+          "value": 95,
+          "assessed": true
+        },
+        {
+          "id": "C6",
+          "name": "应急解决",
+          "value": 25,
+          "assessed": true
+        },
+        {
+          "id": "C7",
+          "name": "合规效率",
+          "value": 95,
+          "assessed": true
+        },
+        {
+          "id": "C8",
+          "name": "跨文化入境游沟通",
+          "value": 95,
+          "assessed": true
+        }
+      ]
+    },
+    "current": {
+      "label": "当前能力",
+      "at": "2026-10-17T02:56:26",
+      "source": "initial",
+      "dimensions": [
+        {
+          "id": "C1",
+          "name": "沟通信任",
+          "value": 91.4,
+          "assessed": true
+        },
+        {
+          "id": "C2",
+          "name": "需求洞察",
+          "value": 92.9,
+          "assessed": true
+        },
+        {
+          "id": "C3",
+          "name": "方案能力",
+          "value": 30.2,
+          "assessed": true
+        },
+        {
+          "id": "C4",
+          "name": "资源整合",
+          "value": 91.1,
+          "assessed": true
+        },
+        {
+          "id": "C5",
+          "name": "报价利润",
+          "value": 91.5,
+          "assessed": true
+        },
+        {
+          "id": "C6",
+          "name": "应急解决",
+          "value": 32.7,
+          "assessed": true
+        },
+        {
+          "id": "C7",
+          "name": "合规效率",
+          "value": 95,
+          "assessed": true
+        },
+        {
+          "id": "C8",
+          "name": "跨文化入境游沟通",
+          "value": 90.9,
+          "assessed": true
+        }
+      ]
+    },
+    "delta": [
+      {
+        "id": "C1",
+        "name": "沟通信任",
+        "value": -3.6,
+        "assessed": true
+      },
+      {
+        "id": "C2",
+        "name": "需求洞察",
+        "value": -2.1,
+        "assessed": true
+      },
+      {
+        "id": "C3",
+        "name": "方案能力",
+        "value": 5.2,
+        "assessed": true
+      },
+      {
+        "id": "C4",
+        "name": "资源整合",
+        "value": -3.9,
+        "assessed": true
+      },
+      {
+        "id": "C5",
+        "name": "报价利润",
+        "value": -3.5,
+        "assessed": true
+      },
+      {
+        "id": "C6",
+        "name": "应急解决",
+        "value": 7.7,
+        "assessed": true
+      },
+      {
+        "id": "C7",
+        "name": "合规效率",
+        "value": 0,
+        "assessed": true
+      },
+      {
+        "id": "C8",
+        "name": "跨文化入境游沟通",
+        "value": -4.1,
+        "assessed": true
+      }
+    ],
+    "note": ""
+  },
+  "finalCoverage": {
+    "order_id": "9000000000000009",
+    "targets": 11,
+    "covered": 11,
+    "ratio": 1,
+    "threshold": 0.8,
+    "passed": true,
+    "items": [
+      {
+        "skill_point_id": "C1.1",
+        "name": "开场与身份确认",
+        "checkpoint": "A",
+        "step": "S2",
+        "counted": true,
+        "covered": true,
+        "reason": "交付物已产出且可评分"
+      },
+      {
+        "skill_point_id": "C1.7",
+        "name": "倾听真实诉求",
+        "checkpoint": "B",
+        "step": "S7",
+        "counted": true,
+        "covered": true,
+        "reason": "触发已发生且学员有反应"
+      },
+      {
+        "skill_point_id": "C2.1",
+        "name": "信息挖掘（缺失字段识别）",
+        "checkpoint": "A",
+        "step": "S1",
+        "counted": true,
+        "covered": true,
+        "reason": "交付物已产出且可评分"
+      },
+      {
+        "skill_point_id": "C3.1",
+        "name": "逐日行程设计",
+        "checkpoint": "A",
+        "step": "S5",
+        "counted": true,
+        "covered": true,
+        "reason": "交付物已产出且可评分"
+      },
+      {
+        "skill_point_id": "C4.1",
+        "name": "询价发起",
+        "checkpoint": "A",
+        "step": "S4",
+        "counted": true,
+        "covered": true,
+        "reason": "交付物已产出且可评分"
+      },
+      {
+        "skill_point_id": "C4.4",
+        "name": "模糊口径追问",
+        "checkpoint": "B",
+        "step": "S4",
+        "counted": true,
+        "covered": true,
+        "reason": "触发已发生且学员有反应"
+      },
+      {
+        "skill_point_id": "C5.1",
+        "name": "分项报价完整",
+        "checkpoint": "A",
+        "step": "S6",
+        "counted": true,
+        "covered": true,
+        "reason": "交付物已产出且可评分"
+      },
+      {
+        "skill_point_id": "C5.5",
+        "name": "超预算解释",
+        "checkpoint": "B",
+        "step": "S7",
+        "counted": true,
+        "covered": true,
+        "reason": "触发已发生且学员有反应"
+      },
+      {
+        "skill_point_id": "C6.1",
+        "name": "快速响应安抚",
+        "checkpoint": "B",
+        "step": "S10",
+        "counted": true,
+        "covered": true,
+        "reason": "触发已发生且学员有反应"
+      },
+      {
+        "skill_point_id": "C6.2",
+        "name": "事实核实",
+        "checkpoint": "B",
+        "step": "S10",
+        "counted": false,
+        "covered": false,
+        "reason": "本单未注入该事件（技能点未解锁或未排到），不计入覆盖率"
+      },
+      {
+        "skill_point_id": "C8.3",
+        "name": "实操红线规避",
+        "checkpoint": "B",
+        "step": "S9",
+        "counted": true,
+        "covered": true,
+        "reason": "触发已发生且学员有反应"
+      },
+      {
+        "skill_point_id": "C8.4",
+        "name": "时差与通讯工具切换",
+        "checkpoint": "B",
+        "step": "S9",
+        "counted": true,
+        "covered": true,
+        "reason": "触发已发生且学员有反应"
+      }
+    ]
+  },
+  "finalPlanFeedback": "第四天换成翠湖短线加花市手工，这样老人轻松多了，这个版本可以，就按这版走；价格按之前的来，我没别的意见。",
+  "verified": true
+}

@@ -1,0 +1,135 @@
+TripCraft 司南礼客 · 02 开发交接（架构 / 模块 / 重要变更 / 已验与未验边界）
+================================================================================
+上游文档：docs\（PRD、开发计划、DECISIONS、携程改版说明、标准案例演示指南等文本）；
+根目录 README-历史*.md 是旧版说明（免注册、旧隧道、13 步旧 UI），**不要当现行说明**。
+本文件面向接手开发，聚焦"现在是什么样、从哪里改、哪些已经验过"。
+
+--------------------------------------------------------------------------------
+1. 技术栈与目录
+--------------------------------------------------------------------------------
+· 后端：Python 3.11+ / FastAPI / SQLite（自研 store 层）+ 确定性离线 provider（演示实例用）
+· 前端：Vue 3 + TypeScript + Pinia + Element Plus + Vite；桌面壳：Electron（frontend/electron/main.cjs）
+· 目录：
+    tripcraft\api\            路由装配（app.py 汇总 ROUTER_MODULES）与各域路由器
+    tripcraft\api\routers\    auth / practice / scenario / growth / deliverables / workbench 等
+    tripcraft\services\       业务服务：practice_service（订单/派单/阶段）、scenario_service、
+                              deliverable_service、plan_service、thread_service、tools_service 等
+    tripcraft\contracts\      冻结契约：stages.py（六阶段）、deliverables(_spec).py、skill_points.py、
+                              enums.py、rubric 等
+    tripcraft\agents\         Agent：scenario（固定案例 spec 与确定性响应）、profiler、scorer 等
+    tripcraft\storage\        数据库与 store（表结构、迁移、查询）
+    data\scenario\            固定案例（standard_case.json）与知识/评分锚点数据
+    frontend\src\views\       页面（vbooking / practice / learn / profile 等）
+    frontend\src\demo\        /demo 内部排查页的数据访问层（scenarioApi/http/guide）
+    frontend\electron\        桌面壳主进程（窗口、单实例锁、userData、开窗前置校验）
+    scripts\                  启动（desktop_launch.ps1、desktop_selfcheck.cjs）与验收脚本
+    tests\                    pytest 用例（隔离库，不碰真实历史库）
+
+--------------------------------------------------------------------------------
+2. 六阶段状态机（现行口径，唯一来源 tripcraft\contracts\stages.py）
+--------------------------------------------------------------------------------
+pre1_requirement（需求确认单）→ pre2_plan（行程方案+客户确认）→ pre3_quote（分项报价+合规闸门）
+→ pre4_notice（合同与保险、出团通知书）→ on_trip（行中事件）→ post_trip（结算/回访/评分/画像）
+· 阶段与门槛由服务端投影（journey）：`GET /practice/orders/{id}/journey|gates`；
+  前端不自己写动作表。
+· 内部步骤 S0–S12 与六阶段映射见 stages.py；本包 docs\携程改版说明.txt 有背景。
+
+--------------------------------------------------------------------------------
+3. 身份与权限（security v2）
+--------------------------------------------------------------------------------
+· 认证**始终强制**（没有 TRIPCRAFT_AUTH=off 旁路）；会话在服务端，HttpOnly cookie + Bearer token。
+· 越权统一 403/404：own_order / require_self；公开路径白名单在 security.py。
+· 账号 kind：username 以 demo- 前缀注册 → kind=demo（示例来源）；其它 → real。
+  **在内部演示实例里，任何用户名注册都按示例来源记账**（避免混进真实统计）。
+· 登录页 / 注册页 / 主导航 / 首页**没有**标准案例入口；内部排查页 /demo 只在演示实例可访问，
+  普通实例访问会回首页。
+
+--------------------------------------------------------------------------------
+4. 两种启动模式与「演示游客替换」（本次重要变更）
+--------------------------------------------------------------------------------
+· 单实现：scripts\desktop_launch.ps1
+    -Mode Normal（默认）→ 18020/5190、.dsh-run\normal\preview.sqlite、无演示开关
+    -Mode Demo          → 18930/15191、.dsh-run\codex-review\preview.sqlite、
+                           TRIPCRAFT_SCENARIO_MODE=offline + TRIPCRAFT_DEMO_TOURIST=on +
+                           TRIPCRAFT_BOOTSTRAP_ORDERS=1
+    两个薄入口：司南礼客桌面版.bat（Normal）/ 启动标准演示.ps1（Demo，命名参数转发）
+· 替换发生在**服务端两个入口**（不依赖账号名 / localStorage / 公开 UI）：
+    - 注册初始化：tripcraft\api\routers\auth.py::_bootstrap_new_account → 固定案例单；
+    - 主动派单：tripcraft\api\routers\practice.py::POST /practice/dispatch/generate。
+    实现：tripcraft\services\scenario_service.py::demo_instance() / demo_replacement()（幂等复用，
+    不重复建单；失败**如实报错**，绝不静默退回随机游客）。
+· 演示时效：maybe_renew_demo_window() + practice_service 的两个钩子（dispatch_info / available_orders）
+  —— 演示实例里**未接单**的固定单可续期（学习等待不丢单）；已抢单/已完成不回退；
+  普通实例的竞争规则（15 分钟窗口、竞争者 80%–93% 时点判「已派他人」）**保持原样**。
+· 普通实例防误切：/scenario 的导入 / 重置 / 校准在非演示实例一律 403；provider/offline|live 返回 409
+  （必须启动期声明）；/scenario/status 暴露 demo_instance 对象供前端门禁与运维核对。
+· 启动脚本身份校验：运行目录 instance.json + 真实进程（mode/port/pid/创建时间/库/演示开关）一致才复用；
+  端口/进程查询失败**硬报错**（不把"查询失败"当"没监听"）；新启动用 Start-Process -PassThru 的 PID
+  核对确实在监听；创建时间用带时区的 'o' 格式。**不要删除 instance.json。**
+
+--------------------------------------------------------------------------------
+5. 固定案例（唯一数据源）
+--------------------------------------------------------------------------------
+· data\scenario\standard_case.json（case_id = hk-huang-yunnan-5d）：
+  固定客人黄先生（香港/中文/回乡证）、2026-11-16~20 五天四晚、3 大 1 小含 68 岁长辈、
+  总预算上限 18000、四条资源约束（酒店/车队/票务/地接社）、8 份交付物字段、
+  plan（V1 与最终版两套逐日）、首呼/IM 固定台词、事件回复、结算与复盘固定值、评分与画像锚点。
+· 训练卡按技能点分派（training_cards：C2.2 / C6.1 专属；其它技能点显式标注"通用教案"）。
+· 行程方案客户反馈按**渲染内容**判定：D4 含"博物馆" → 要求修改；含"翠湖短线/花市手工" → 明确认可
+  （见 scenario_service._d4_verdict / _deliverable_feedback）。
+· 固定资料哈希：/scenario/cases 返回 digest，可与文件 SHA256 对照（防资料被改）。
+
+--------------------------------------------------------------------------------
+6. 已验与未验边界（交接时如实说明）
+--------------------------------------------------------------------------------
+已验（本轮最终复验，证据在 _交接文档\验收证据\）
+· 接口链路：scripts\acceptance_standard_case.py（30 步 / 366 断言 / blocked 0，独立库）。
+· 演示替换定向自检：**包内** _交接文档\演示脚本与说明\_verify_demo_replacement.py
+  （26 断言：普通随机 vs 演示固定、幂等、首呼不脱节、学习等待 40 分钟后仍可接、普通实例超期照旧判负）。
+  运行方式（在包根目录）：python -X utf8 "_交接文档\演示脚本与说明\_verify_demo_replacement.py"
+  说明：该脚本 ROOT=parents[2] 恰好是包根，可直接在包内跑；它写临时库到系统 Temp。
+  旧路径 output\demo-rehearsal-20261017\... 是**原机证据位置**，不是包内路径。
+· 其余 `_gen_copy_html.py` / `_check_cards.py` / 启动验收记录属于**原机制作脚本与记录**：
+  _gen_copy_html.py 会写到原机的 output\demo-rehearsal-20261017\，包内**不作为现行可运行工具**提供；
+  _check_cards.py 依赖包内 tripcraft 与 data，可读参考。
+· 两模式 UI：demo-substitution\ui-verification.json（normal 14 + demo 13 项）、
+  normal-desktop.json / demo-desktop.json（均 ok=true：真实 Electron 44.7.0、独立 profile、
+  登录页无标准入口、真实同源 API、原成品订单仍为订单完成）。
+· 生产构建：frontend-build.log（完成 22.57s；系统 Temp 首次删除失败已记录，改用项目独立 Temp 后成功）。
+· 浏览器全流程（此前档）：verified-browser\progress.json（注册→12 题→学习→四文档→行中→结算→
+  11 条采纳→画像，订单 9000000000000009）。
+未验 / 限制
+· 真实语音链路（需麦克风与语音密钥；文本脚本不能代替声学验收）。
+· 真实模型（live）档未在本包验证（需自备 DEEPSEEK_API_KEY / LLM_BASE_URL / LLM_MODEL）。
+· **换机环境未实机验收**：适配器/恢复器只做了静态与逻辑校验，未在另一台干净机器上实际安装。
+· 历史开发辅助：根目录 `一键启动.bat` / `停止服务.bat` 是旧 web 开发/停服流程，非桌面入口。
+· 真实模型（live）档只在有密钥时有意义；离线固定案例不依赖外部模型。
+· 本包内的库快照只含成品账号与订单 9000000000000009（其它账号未纳入；sessions 已清空）。
+
+--------------------------------------------------------------------------------
+7. 常用开发命令
+--------------------------------------------------------------------------------
+    # 后端（正常模式，手工起，仅供开发；正式演示请用两个入口）
+    python -X utf8 -m uvicorn tripcraft.api.app:create_app --factory --host 127.0.0.1 --port 18020
+    # 前端
+    cd frontend; npm ci; npm run dev        # 开发；npm run build 产出 dist
+    # 类型检查 / 构建
+    cd frontend; npx vue-tsc --noEmit; npm run build
+    # 验收（独立库，不碰真实历史库）
+    python -X utf8 scripts\acceptance_scenario_api.py
+    python -X utf8 scripts\acceptance_standard_case.py --output-dir <输出目录>
+    python -X utf8 "_交接文档\演示脚本与说明\_verify_demo_replacement.py"   # 包内路径；旧 output\... 为原机证据位置
+    # 单元测试（需先 pip install -e ".[dev]"：pytest / httpx）
+    python -m pytest -q
+
+--------------------------------------------------------------------------------
+8. 接手时最容易踩的坑
+--------------------------------------------------------------------------------
+1) 别把普通 bat 当演示入口（普通=随机游客）；演示必须用 启动标准演示.ps1。
+2) 换机先跑 _交接文档\首次安装与适配.ps1（脚本里的 python/node 路径是打包机的）。
+3) 演示实例的后端必须**由入口启动**（手工 uvicorn 不会有 instance.json，入口会拒绝复用）。
+4) 不要给"未验证也继续"开旁路：入口在身份无法核对时就是报错，这是设计。
+5) 改固定案例只改 data\scenario\standard_case.json；改完跑 acceptance_standard_case 看 diges/断言。
+6) 不要把演示固定数据做成真实统计：演示实例内注册一律 kind=demo，固定单带 demo_data/scenario_id。
+7) 前端样式令牌在 frontend\src\styles\tokens.scss（与 global.scss 一起，必须随源码带走，
+   它不是凭证文件）。

@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-17T04:25:59.515867",
+  "ok": true,
+  "ui_checks": 27,
+  "ui_modes": [
+    {
+      "mode": "normal",
+      "username": "audit-normal-82194327",
+      "kind": "real",
+      "customer": "客户 K",
+      "orderId": "9000000000000006"
+    },
+    {
+      "mode": "demo",
+      "username": "audit-demo-82194327",
+      "kind": "demo",
+      "customer": "黄先生",
+      "orderId": "9000000000000013"
+    }
+  ],
+  "desktop": {
+    "normal": true,
+    "demo": true,
+    "electron": "44.7.0",
+    "normal_userData": "D:\\CH3SH\\1.SJTU\\3.activities\\12.挑战杯\\tripcraft_lvyuan\\.dsh-run\\normal\\selfcheck-userdata",
+    "demo_userData": "D:\\CH3SH\\1.SJTU\\3.activities\\12.挑战杯\\tripcraft_lvyuan\\.dsh-run\\codex-review\\selfcheck-userdata"
+  },
+  "production_build": true,
+  "preservation": {
+    "order_id": "9000000000000009",
+    "stage_index": 7,
+    "status": "正常",
+    "order_sha256": "547c963313c9ae7ed2765962da46c3a82ec764fa6ec2cb785030ed66df5b090a",
+    "replay_accounts": 0
+  },
+  "scope": "This run verifies visitor substitution, ordinary UI entry, fixed text call, mode isolation, real Electron windows and existing data preservation. Prior 34-step business walkthrough remains separate evidence; live model and acoustic voice are not verified here."
+}

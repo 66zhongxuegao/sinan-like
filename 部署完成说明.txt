@@ -1,0 +1,41 @@
+司南礼客 · 本机部署说明
+部署日期：2026-10-17
+
+运行方式
+在本目录双击「司南礼客桌面版.bat」，进入普通训练模式。
+首次使用请在界面注册账号，再登录使用。
+后端端口：18020；前端端口：5190。
+用户数据：.dsh-run\normal\preview.sqlite。
+
+已部署内容
+Python 3.13（D:\python\python.exe），后端以 editable 方式安装到该解释器；包内 .venv 是旧机拷贝（基座解释器已不存在），不再使用。
+Node.js v22.20.0（D:\nodejs\node.exe），前端依赖与 Electron 44.7.0 已在 frontend\node_modules 中。
+scripts\desktop_launch.ps1 已适配本机路径（D:\python\python.exe / D:\nodejs\node.exe）。
+包内原有前端 dist 保留，桌面启动入口使用当前前端源代码。
+
+外部服务
+DeepSeek：deepseek-chat，https://api.deepseek.com。
+语音：qwen3.5-omni-flash-realtime，使用北京公共 WebSocket 地址：
+wss://dashscope.aliyuncs.com/api-ws/v1/realtime
+高德：使用用户提供的 Web 服务密钥。
+天气：Open-Meteo，https://api.open-meteo.com，无需密钥。
+服务密钥已写入根目录 local.env，该文件已在 .gitignore 中排除。
+项目资料未提供专属工作区地址；依据阿里云官方文档，Qwen 3.5 仍支持公共地址。
+文档：https://help.aliyun.com/en/model-studio/omni-realtime-python-sdk
+语音配置沿用项目北京地域；密钥地域、模型权限与额度由服务端判定。
+
+内部演示
+需要固定黄先生案例时，使用「启动标准演示.ps1」。（后端 18930 / 前端 15191）
+该模式使用独立演示数据库，与普通训练模式分开。
+
+运行提示
+依赖安装已完成，直接使用上述桌面入口即可。
+Electron 首次启动会按现有脚本建立本机运行时缓存。
+关闭软件窗口后，后端和前端服务按原设计保留。
+启动日志位于 .dsh-run\normal 中。
+现有「停止服务.bat」属于旧网页入口，不适用于此桌面模式。
+
+首次部署按用户要求未启动软件、未运行测试、未调用模型或地图天气 API。
+随后用户反馈窗口未弹出，已修复隐藏启动、窗口显示与唤起、服务等待逻辑，
+仅重新打开桌面进程，确认窗口存在且页面已加载；原后台服务与数据保留。
+故障处理期间未运行测试、未调用模型或地图天气 API。

@@ -1,0 +1,500 @@
+{
+  "run_id": "cal-1791531076",
+  "dataset": {
+    "samples": 50,
+    "skill_points": 21,
+    "per_skill_point": {
+      "C1.1": 4,
+      "C1.4": 2,
+      "C1.6": 3,
+      "C1.7": 2,
+      "C2.1": 2,
+      "C2.2": 4,
+      "C3.1": 2,
+      "C3.2": 2,
+      "C3.6": 2,
+      "C4.2": 2,
+      "C4.4": 2,
+      "C4.7": 2,
+      "C5.5": 2,
+      "C6.1": 2,
+      "C6.3": 2,
+      "C7.1": 2,
+      "C7.4": 2,
+      "C8.2": 2,
+      "C8.3": 4,
+      "C8.5": 3,
+      "C8.6": 2
+    },
+    "min_per_skill_point": 2,
+    "thin_skill_points": [],
+    "levels": {
+      "M1": 10,
+      "M2": 12,
+      "M3": 4,
+      "M4": 14,
+      "M5": 10
+    },
+    "missing_levels": [],
+    "markets": {
+      "香港": 13,
+      "新加坡": 12,
+      "澳门": 9,
+      "台湾": 7,
+      "美国": 4,
+      "英国": 2,
+      "印度": 1,
+      "沙特阿拉伯": 1,
+      "德国": 1
+    },
+    "languages": {
+      "中文": 41,
+      "English": 9
+    },
+    "hard_cases": 30,
+    "gaps": [],
+    "passed": true
+  },
+  "generated_at": "2026-10-09 15:31:16",
+  "samples": 50,
+  "repeats": 1,
+  "predictions": 50,
+  "agreement": 0.82,
+  "target_agreement": 0.85,
+  "evidence_accuracy": 1.0,
+  "target_evidence": 0.9,
+  "stability": 1.0,
+  "threshold": {
+    "confidence": 0.95,
+    "boundary_delta": 5,
+    "accuracy_at": 0.9,
+    "kept": 10,
+    "kept_ratio": 0.2,
+    "passed": true,
+    "note": "一致率达标但保留率下限不可满足，已放宽保留率约束"
+  },
+  "threshold_table": [
+    {
+      "confidence": 0.5,
+      "boundary_delta": 0,
+      "kept": 50,
+      "kept_ratio": 1.0,
+      "accuracy": 0.82
+    },
+    {
+      "confidence": 0.5,
+      "boundary_delta": 3,
+      "kept": 49,
+      "kept_ratio": 0.98,
+      "accuracy": 0.8163
+    },
+    {
+      "confidence": 0.5,
+      "boundary_delta": 5,
+      "kept": 12,
+      "kept_ratio": 0.24,
+      "accuracy": 0.8333
+    },
+    {
+      "confidence": 0.55,
+      "boundary_delta": 0,
+      "kept": 50,
+      "kept_ratio": 1.0,
+      "accuracy": 0.82
+    },
+    {
+      "confidence": 0.55,
+      "boundary_delta": 3,
+      "kept": 49,
+      "kept_ratio": 0.98,
+      "accuracy": 0.8163
+    },
+    {
+      "confidence": 0.55,
+      "boundary_delta": 5,
+      "kept": 12,
+      "kept_ratio": 0.24,
+      "accuracy": 0.8333
+    },
+    {
+      "confidence": 0.6,
+      "boundary_delta": 0,
+      "kept": 50,
+      "kept_ratio": 1.0,
+      "accuracy": 0.82
+    },
+    {
+      "confidence": 0.6,
+      "boundary_delta": 3,
+      "kept": 49,
+      "kept_ratio": 0.98,
+      "accuracy": 0.8163
+    },
+    {
+      "confidence": 0.6,
+      "boundary_delta": 5,
+      "kept": 12,
+      "kept_ratio": 0.24,
+      "accuracy": 0.8333
+    },
+    {
+      "confidence": 0.65,
+      "boundary_delta": 0,
+      "kept": 50,
+      "kept_ratio": 1.0,
+      "accuracy": 0.82
+    },
+    {
+      "confidence": 0.65,
+      "boundary_delta": 3,
+      "kept": 49,
+      "kept_ratio": 0.98,
+      "accuracy": 0.8163
+    },
+    {
+      "confidence": 0.65,
+      "boundary_delta": 5,
+      "kept": 12,
+      "kept_ratio": 0.24,
+      "accuracy": 0.8333
+    },
+    {
+      "confidence": 0.7,
+      "boundary_delta": 0,
+      "kept": 50,
+      "kept_ratio": 1.0,
+      "accuracy": 0.82
+    },
+    {
+      "confidence": 0.7,
+      "boundary_delta": 3,
+      "kept": 49,
+      "kept_ratio": 0.98,
+      "accuracy": 0.8163
+    },
+    {
+      "confidence": 0.7,
+      "boundary_delta": 5,
+      "kept": 12,
+      "kept_ratio": 0.24,
+      "accuracy": 0.8333
+    },
+    {
+      "confidence": 0.75,
+      "boundary_delta": 0,
+      "kept": 49,
+      "kept_ratio": 0.98,
+      "accuracy": 0.8367
+    },
+    {
+      "confidence": 0.75,
+      "boundary_delta": 3,
+      "kept": 48,
+      "kept_ratio": 0.96,
+      "accuracy": 0.8333
+    },
+    {
+      "confidence": 0.75,
+      "boundary_delta": 5,
+      "kept": 12,
+      "kept_ratio": 0.24,
+      "accuracy": 0.8333
+    },
+    {
+      "confidence": 0.8,
+      "boundary_delta": 0,
+      "kept": 49,
+      "kept_ratio": 0.98,
+      "accuracy": 0.8367
+    },
+    {
+      "confidence": 0.8,
+      "boundary_delta": 3,
+      "kept": 48,
+      "kept_ratio": 0.96,
+      "accuracy": 0.8333
+    },
+    {
+      "confidence": 0.8,
+      "boundary_delta": 5,
+      "kept": 12,
+      "kept_ratio": 0.24,
+      "accuracy": 0.8333
+    },
+    {
+      "confidence": 0.85,
+      "boundary_delta": 0,
+      "kept": 47,
+      "kept_ratio": 0.94,
+      "accuracy": 0.8298
+    },
+    {
+      "confidence": 0.85,
+      "boundary_delta": 3,
+      "kept": 46,
+      "kept_ratio": 0.92,
+      "accuracy": 0.8261
+    },
+    {
+      "confidence": 0.85,
+      "boundary_delta": 5,
+      "kept": 12,
+      "kept_ratio": 0.24,
+      "accuracy": 0.8333
+    },
+    {
+      "confidence": 0.9,
+      "boundary_delta": 0,
+      "kept": 44,
+      "kept_ratio": 0.88,
+      "accuracy": 0.8409
+    },
+    {
+      "confidence": 0.9,
+      "boundary_delta": 3,
+      "kept": 44,
+      "kept_ratio": 0.88,
+      "accuracy": 0.8409
+    },
+    {
+      "confidence": 0.9,
+      "boundary_delta": 5,
+      "kept": 12,
+      "kept_ratio": 0.24,
+      "accuracy": 0.8333
+    },
+    {
+      "confidence": 0.95,
+      "boundary_delta": 0,
+      "kept": 17,
+      "kept_ratio": 0.34,
+      "accuracy": 0.9412
+    },
+    {
+      "confidence": 0.95,
+      "boundary_delta": 3,
+      "kept": 17,
+      "kept_ratio": 0.34,
+      "accuracy": 0.9412
+    },
+    {
+      "confidence": 0.95,
+      "boundary_delta": 5,
+      "kept": 10,
+      "kept_ratio": 0.2,
+      "accuracy": 0.9
+    }
+  ],
+  "by_skill_point": {
+    "C1.1": {
+      "total": 4,
+      "hit": 4,
+      "agreement": 1.0
+    },
+    "C2.2": {
+      "total": 4,
+      "hit": 4,
+      "agreement": 1.0
+    },
+    "C1.6": {
+      "total": 3,
+      "hit": 3,
+      "agreement": 1.0
+    },
+    "C8.5": {
+      "total": 3,
+      "hit": 2,
+      "agreement": 0.6667
+    },
+    "C8.3": {
+      "total": 4,
+      "hit": 3,
+      "agreement": 0.75
+    },
+    "C3.2": {
+      "total": 2,
+      "hit": 1,
+      "agreement": 0.5
+    },
+    "C7.1": {
+      "total": 2,
+      "hit": 2,
+      "agreement": 1.0
+    },
+    "C4.4": {
+      "total": 2,
+      "hit": 2,
+      "agreement": 1.0
+    },
+    "C3.6": {
+      "total": 2,
+      "hit": 2,
+      "agreement": 1.0
+    },
+    "C6.3": {
+      "total": 2,
+      "hit": 2,
+      "agreement": 1.0
+    },
+    "C7.4": {
+      "total": 2,
+      "hit": 2,
+      "agreement": 1.0
+    },
+    "C1.4": {
+      "total": 2,
+      "hit": 1,
+      "agreement": 0.5
+    },
+    "C1.7": {
+      "total": 2,
+      "hit": 2,
+      "agreement": 1.0
+    },
+    "C2.1": {
+      "total": 2,
+      "hit": 1,
+      "agreement": 0.5
+    },
+    "C3.1": {
+      "total": 2,
+      "hit": 1,
+      "agreement": 0.5
+    },
+    "C4.2": {
+      "total": 2,
+      "hit": 1,
+      "agreement": 0.5
+    },
+    "C4.7": {
+      "total": 2,
+      "hit": 2,
+      "agreement": 1.0
+    },
+    "C5.5": {
+      "total": 2,
+      "hit": 1,
+      "agreement": 0.5
+    },
+    "C6.1": {
+      "total": 2,
+      "hit": 2,
+      "agreement": 1.0
+    },
+    "C8.2": {
+      "total": 2,
+      "hit": 1,
+      "agreement": 0.5
+    },
+    "C8.6": {
+      "total": 2,
+      "hit": 2,
+      "agreement": 1.0
+    }
+  },
+  "confusion": {
+    "M2->M2": 11,
+    "M1->M1": 10,
+    "M5->M5": 10,
+    "M4->M4": 9,
+    "M4->M3": 4,
+    "M3->M4": 2,
+    "M3->M3": 1,
+    "M2->M1": 1,
+    "M4->M5": 1,
+    "M3->M1": 1
+  },
+  "errors": [
+    {
+      "sample_id": "cal-C8.5-02",
+      "skill_point_id": "C8.5",
+      "human": "M4",
+      "predicted": "M3",
+      "confidence": 0.9,
+      "score": 75,
+      "human_quote": "您持美国护照，来华需要办理签证",
+      "predicted_quote": "您是美国国籍对吗？护照有效期到什么时候？"
+    },
+    {
+      "sample_id": "cal-C8.3-02",
+      "skill_point_id": "C8.3",
+      "human": "M4",
+      "predicted": "M3",
+      "confidence": 0.85,
+      "score": 75,
+      "human_quote": "有没有宗教或饮食禁忌",
+      "predicted_quote": "您和家人有没有宗教或饮食禁忌？比如清真、素食、忌酒？"
+    },
+    {
+      "sample_id": "cal-C3.2-02",
+      "skill_point_id": "C3.2",
+      "human": "M4",
+      "predicted": "M3",
+      "confidence": 0.7,
+      "score": 75,
+      "human_quote": "不安排折返",
+      "predicted_quote": "D1 昆明市区；D2 石林（昆明东线）；D3 高铁到大理，洱海环湖；D4 大理古城；D5 返程。"
+    },
+    {
+      "sample_id": "cal-C1.4-01",
+      "skill_point_id": "C1.4",
+      "human": "M2",
+      "predicted": "M1",
+      "confidence": 0.95,
+      "score": 30,
+      "human_quote": "那这个方案可以吗？",
+      "predicted_quote": "那这个方案可以吗？"
+    },
+    {
+      "sample_id": "cal-C2.1-02",
+      "skill_point_id": "C2.1",
+      "human": "M4",
+      "predicted": "M5",
+      "confidence": 0.9,
+      "score": 95,
+      "human_quote": "派单里缺了不少，我逐项跟您过",
+      "predicted_quote": "派单里缺了不少，我逐项跟您过：出行人是 3 大 1 小对吗？日期 10 月 20 到 24？想去云南哪几个城市？预算按人均还是总价？大交通含不含？住宿要几星、市区还是景区？有没有老人小孩或饮食禁忌？最后确认下决策人是您吗？"
+    },
+    {
+      "sample_id": "cal-C4.2-02",
+      "skill_point_id": "C4.2",
+      "human": "M3",
+      "predicted": "M4",
+      "confidence": 0.9,
+      "score": 85,
+      "human_quote": "两家的含项和价格我都列了",
+      "predicted_quote": "A 家四星 480 含双早、不可取消；B 家 520 含双早、可免费取消、评分 4.7。两家的含项和价格我都列了。"
+    },
+    {
+      "sample_id": "cal-C5.5-01",
+      "skill_point_id": "C5.5",
+      "human": "M3",
+      "predicted": "M4",
+      "confidence": 0.9,
+      "score": 85,
+      "human_quote": "超预算主要是酒店和用车两块",
+      "predicted_quote": "超预算主要是酒店和用车两块。给您一个方案：酒店降到同区域精品酒店，能省 260 一间。"
+    },
+    {
+      "sample_id": "cal-C8.2-01",
+      "skill_point_id": "C8.2",
+      "human": "M3",
+      "predicted": "M1",
+      "confidence": 0.9,
+      "score": 45,
+      "human_quote": "Day 1 arrive Chengdu 14:30, hotel check-in 16:00",
+      "predicted_quote": "Hello, thanks for waiting. Here is the plan."
+    },
+    {
+      "sample_id": "cal-C3.1-02",
+      "skill_point_id": "C3.1",
+      "human": "M4",
+      "predicted": "M3",
+      "confidence": 0.9,
+      "score": 75,
+      "human_quote": "方案我按天排好了，六要素都写进去了",
+      "predicted_quote": "D1 09:00 抵达昆明，10:30 商务车接机（约 40 分钟），12:00 午餐（过桥米线），14:00 石林（车程 1.5 小时，游览 3 小时），19:00 晚餐，20:30 入住昆明四星酒店。"
+    }
+  ],
+  "passed": false
+}

@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-16T20:23:14.328Z",
+  "modes": [
+    {
+      "mode": "normal",
+      "username": "audit-normal-82194327",
+      "checks": [
+        "login-no-demo-entry",
+        "home-no-demo-entry",
+        "instance-mode",
+        "account-data-scope",
+        "registration-one-order",
+        "refresh-no-duplicate",
+        "normal-live-provider",
+        "normal-tourist-not-fixed",
+        "normal-fixed-import-denied",
+        "normal-provider-toggle-denied",
+        "normal-diagnostic-route-blocked",
+        "normal-order-claimed-through-ordinary-ui",
+        "relogin-no-duplicate",
+        "no-page-errors"
+      ],
+      "pageErrors": [],
+      "providerMode": "live",
+      "kind": "real",
+      "orderId": "9000000000000006",
+      "customer": "客户 K",
+      "toggleStatus": 409
+    },
+    {
+      "mode": "demo",
+      "username": "audit-demo-82194327",
+      "checks": [
+        "login-no-demo-entry",
+        "home-no-demo-entry",
+        "instance-mode",
+        "account-data-scope",
+        "registration-one-order",
+        "refresh-no-duplicate",
+        "demo-fixed-tourist",
+        "ordinary-dispatch-card",
+        "dispatch-card-no-demo-advertisement",
+        "ordinary-dispatch-reuses-case",
+        "fixed-call-matches-customer",
+        "relogin-no-duplicate",
+        "no-page-errors"
+      ],
+      "pageErrors": [],
+      "providerMode": "offline",
+      "kind": "demo",
+      "orderId": "9000000000000013",
+      "customer": "黄先生",
+      "call": [
+        "黄先生方便，你说。",
+        "我黄先生您好，我是司南礼客定制游的定制师小李，您现在方便说两分钟吗？",
+        "黄先生我们 3 大 1 小，11 月中去云南，5 天吧。预算别太贵，你看着安排。",
+        "我想先跟您确认三件事：几位出行、大概哪几天、预算大概什么口径（人均还是总价、含不含机票）？",
+        "黄先生人均四千多可以，机票我们自己买。WhatsApp 可以，我不用微信。",
+        "我好的，我按您说的先出一版方案，今天 18 点前发您。另外您在香港，我用 WhatsApp 联系您方便吗？",
+        "黄先生人均四千多可以，机票我们自己买。WhatsApp 可以，我不用微信。"
+      ]
+    }
+  ],
+  "ok": true
+}

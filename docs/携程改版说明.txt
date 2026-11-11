@@ -1,0 +1,201 @@
+TripCraft 司南礼客 · 携程挑战赛重构与修复说明
+================================================================
+仓库：D:/CH3SH/1.SJTU/3.activities/12.挑战杯/tripcraft_lvyuan
+下载基线：b6535fd5dff9a074bd7999596628cdd363e1cc06（经监督者确认等于上游 HEAD）
+本次为「先重构、再修复」：先把巨石文件按业务域拆开并冻结共享契约，再在各自域内实现 R01–R17。
+PPT 全部排除：本次不生成、不修改任何 PPT，原需求中 PPT 展示内容不作为开发交付。
+
+本文件由 Lead 维护并汇总各域 owner 的实测证据；未完成/未验收项在第九章如实列出，不写「全部通过」。
+
+
+一、架构前后对照
+----------------------------------------------------------------
+
+【重构前】
+- tripcraft/api/app.py：1690 行，约 72 KB。**全部 90+ 条路由、36 个请求模型、全部服务单例
+  都塞在 create_app() 一个函数里**，用闭包互相引用（get_llm / get_tools / get_guard /
+  get_director / get_call / get_plans / get_deliverables 全是嵌套函数）。
+  后果：任何域改一条路由都要动同一个文件，多人并行必然互相踩；无法分工。
+- 请求 DTO 与路由混在一起；没有独立的安全边界层。
+- 前端 frontend/src/components/StepBar.vue 直接平铺渲染 S0–S12，作为一级导航。
+- frontend/src/stores/user.ts 默认 u-demo，靠 localStorage 切换用户；后端多处接受调用方
+  任意 user_id，**没有任何服务端认证**。
+- frontend/src/demo/{fixtures,beats,driver}.ts 拦截 axios 改写回复、遇错 optional 静默跳过。
+
+【重构后】
+- tripcraft/api/app.py：**收敛为约 40 行的组合根**，只做四件事：
+  构造 AppContext → 挂中间件 → 注册各域路由 → 托管前端产物。文件内已写明「不要再往本文件加路由」。
+- tripcraft/api/context.py【新增】：AppContext 取代 create_app 的闭包单例。
+  单例：runs / profiles / s2_sessions / store / practice / tools / guard / director /
+  call_svc / supplier_svc / finance_svc / deliverable_svc / plan_svc；
+  惰性 getter：get_llm / get_threads / get_deliverables / get_plans / get_tools / get_guard /
+  get_director / get_call / get_finance / get_supplier / get_auth。
+  构造顺序即依赖顺序，保证 director 与 practice 的绑定只有一份（避免同一 app 内两套状态）。
+- tripcraft/api/schemas.py【新增】：36 个公开请求 DTO 集中一处（由 app.py 机械拆出）。
+- tripcraft/api/routers/【新增】：按业务域拆成 7 个路由模块，每个暴露 build(ctx) -> APIRouter：
+    core.py         参考数据：健康检查、文化桥、翻译、公开契约（steps/dimensions/skill-points/rubric/markets）
+    runs.py         训练与评测：Run 状态机 + S2 垂直切片
+    practice.py     实战旅程：订单、派单、通关动作、完成条件、导演总线、覆盖与复核
+    deliverables.py 交付物：契约渲染、校验、PDF、按对象投递、方案版本与模板、附件
+    calls.py        通话与沟通：订单绑定通话、语音中继 WebSocket、IM 群聊与联系人
+    growth.py       身份与成长：学习地图、技能点线程、实战评分与画像、初始测评与刷新
+    platform.py     平台：工具台、拦截网、校准集、MCP 调试面
+  routers/__init__.py 的 ROUTER_MODULES 是唯一注册入口，并写明每个模块的 write scope 归属。
+- tripcraft/api/security.py【新增】：认证边界层，把「请求 → 可信 user_id」集中到一处。
+  HTTP 中间件默认 fail-closed（TRIPCRAFT_AUTH=on）；公开路径白名单（健康检查、/auth/*、
+  /contracts/*、/learn/culture-bridges、/deliverables/specs、/profile/quiz）；
+  另有 websocket_user()（WebSocket 无中间件覆盖，自行取 token）与 own_order()（订单归属校验）。
+- tripcraft/contracts/stages.py【新增】：**六阶段共享契约 v1**，成为唯一阶段口径来源。
+  六阶段 ← S0–S12 映射（13 个内部步骤保留为底层考核状态，只对用户收敛）：
+    行前1 需求确认单 ← S0 初始化/交底、S1 抢单、S2 首呼、S3 需求确认
+    行前2 行程方案   ← S4 询价与资源取舍、S5 逐日行程
+    行前3 报价与成交确认 ← S6 报价与利润、S7 反馈迭代、S8 成交与合同
+    行前4 出团通知书 ← S9 资源锁定与行前准备
+    行中服务         ← S10 执行与突发处理
+    行后复盘         ← S11 结算回访、S12 评分与能力更新
+  并把四份文档（及另外四份内部单据）的 code 绑定到阶段：
+    requirement_sheet→行前1；resource_quote/itinerary→行前2；quotation/contract→行前3；
+    departure_notice→行前4；settlement/review→行后复盘。
+- tripcraft/storage/db.py、services/*.py 保持业务实现不变，仅由上层拆分受益。
+
+【拆分方式的取舍】
+- app.py 的拆分由 Lead 用一次性脚本完成机械搬运（scripts/_split_api.py，交付前删除）：
+  按 tokenize 只改写 NAME token，不碰字符串与注释，因此路径字面量、提示词全量不受影响。
+- 拆分后立刻做装配检查：python -m compileall 通过；create_app().openapi() 注册 99 条路径、
+  无重复 operationId（修掉了一处 /contracts/markets 被两个域重复捕获的问题）。
+- **不做整站推倒重写**：所有既有业务服务（PracticeService、DeliverableService、PlanService、
+  FinanceService、SupplierService、CallService、DirectorService、GuardService、ToolsService、
+  ThreadService）与既有数据库表全部沿用。
+
+
+二、当前实际入口
+----------------------------------------------------------------
+后端（开发）：python -X utf8 -m uvicorn tripcraft.api.app:create_app --factory --host 127.0.0.1 --port 18011
+前端（开发）：cd frontend && npm run dev   （vite，127.0.0.1:5180）
+前端（生产构建）：cd frontend && npm run build   （= vue-tsc --noEmit && vite build）
+单容器模式：设 SERVE_WEB=1 后由后端托管 frontend/dist
+测试数据库：设 TRIPCRAFT_DB=<path>；pytest 下由 tests/conftest.py 自动指向独立临时库
+认证开关：TRIPCRAFT_AUTH 默认 on（强制）；仅自动演示/本地调试可显式设 off（会放宽为 X-User-Id 直通）
+MCP 调试面：默认隐藏（404），需显式 TRIPCRAFT_MCP_DEBUG=1 才可见；且从不接入真实预订
+
+
+三、R01–R17 对照
+----------------------------------------------------------------
+（状态口径：已完成=有可核查证据；进行中=已实现但仍有未闭合项；未验收=依赖非沙箱环境或实时依赖。
+ 本表在最终冻结时刷新；凡未实际执行的一律写「未执行」，不写「通过」。）
+
+R01 产出与投递按钮后移到相应阶段，改成语义明确的文档提交/继续；不在流程开始提供误导总入口
+    状态：已完成（接口级）。证据：contracts/stages.py v1 把四份文档 code 绑到阶段；
+    output/journey/evidence/workbench.md、api-check.json。遗留：390px 首页仍重复六阶段（见 R10）。
+R02 电话客户输出、基本信息、订单、人设、历史文字及语音转写一致；修复硬编码用户、跨单混用
+    状态：已完成。证据：output/acceptance/evidence/conv-channel-context.md（捕获三通道**实际喂给
+    模型**的 messages，逐字段 respected 矩阵 + 两客户不串）；conv-recourse-attribution.md；
+    Lead 复核 call_service/supplier_service 的 u-demo 兜底已清除。遗留：真实语音无密钥未验收。
+R03 每个主要完成操作进入合理下一页/下一小步；保留返回路径，失败停留原处可重试，不空跳过
+    状态：进行中。证据：output/journey/evidence/nav.md（next_action 唯一下一步与 route）、
+    workbench.md；浏览器级实际点击待非沙箱环境走查。
+R04 已投递状态有提交中动画、禁重复点击、成功回执与下一步提示；仅服务端成功后变为已投递
+    状态：已完成（接口级）。证据：output/journey/evidence/api-check.json 的 R04-1..7。
+    遗留：浏览器级动画/禁用态待走查。
+R05 去掉所有学员界面导出 Markdown 按钮，保留可用 PDF 下载
+    状态：已完成。证据：frontend/src/views/learn/ThreadView.vue 的「导出 .md」入口与 exportMd()
+    已删除；Lead 独立验收 POST .../export.pdf → 200 且响应头 %PDF-、3853 bytes
+    （output/acceptance/evidence/lead/isolation-and-leak-check.json）。
+R06 电话环节使用规范礼貌清楚的旅行定制客服话术；客户 Agent 仍扮演客户；不泄露评测规则
+    状态：进行中。证据：tripcraft/services/call_script.py（六段骨架/违规词/越权回避）、
+    scripts/verify_call_script.py exit 0。未验收：真实模型在越权提问下是否真的回避。
+R07 检查所有模型调用的上下文边界（user_id/order_id/role/scene），给出每类入口与改动清单
+    状态：已完成（清单）。证据：docs/context-boundaries.md（五类入口 + 硬编码整改清单）。
+R08 服务端登录、受保护 API、对象归属、公开 DTO；覆盖 REST/文件/PDF/WebSocket
+    状态：已完成并独立复验。证据：
+    - Lead scripts/lead_acceptance_checks.py 16/16：未登录 401、A 访问 B 的订单/文件/PDF/方案
+      10 项 403/404、画像 403、请求体冒用 user_id 403、8 接口无隐藏/密钥字段、PDF 真实字节、
+      语音 WebSocket 无 token 被拒、伪造 question_id 判分 404、缺 question_id 判分 400；
+    - identity：output/acceptance/identity/dto-fields.md（敏感字段命中 0）、check_quiz_answer_leak.py 8/8；
+    - Codex 独立 HTTP 隔离矩阵 39 项 38 通过（唯一失败=中文文件名下载 500，已派 journey）。
+    遗留：判分重复提交幂等（identity 收尾中）；中文文件名下载修复中。
+R09 六阶段共享契约与子步骤，强调客户沟通，以文档提交连接阶段
+    状态：已完成。证据：tripcraft/contracts/stages.py v1（唯一口径：S0–S12→六阶段 + 四文档绑定）；
+    tripcraft/services/journey_service.py 的平台 8 态→六阶段映射；journey api-check.json 的 stage 输出。
+R10 首页与实战页使用同一流程标准，简明、能看懂当前位置及下一动作
+    状态：进行中。证据：StageNav.vue 单一来源、首页与实战页共用。
+    未通过：390px 首页高 3450px 且六阶段描述重复两遍（.dsh-run/codex-review/home-mobile-v2.png），
+    已退回 journey 收敛为首屏「司南礼客 + 继续/开始初始训练 + 简单进度」、单份 StageNav、子步骤折叠。
+R11 新访客首先注册/登录；有效会话恢复、退出、错误反馈；密码只存安全哈希
+    状态：已完成。证据：identity p0-auth-http-check（register→login→session 200，清 cookie 后 401）、
+    verify_identity.py 82/82；AuthService 用 PBKDF2-HMAC-SHA256/16B 盐/200k 轮、token 只存 sha256 摘要；
+    浏览器侧登录页无 JS 错误、UI 注册成功、刷新后登录保持（Codex 实测）。
+R12 个人资料与能力画像在右上角；初始/当前同量纲雷达对比，缺失显示未评估，不假增分
+    状态：进行中。证据：App.vue 侧边栏「学情画像」入口已移除、右上角 UserMenu 挂载；
+    ProfileView 主流程去工程术语、技术口径进折叠（check_profile_copy.py 15/15）。
+    未完成：ProfileQuizView 同类清理；**Profile 截图未取得**（沙箱禁止浏览器）。
+R13 注册→训练→评测→学习→实战闭环，有首次引导及返回/继续入口
+    状态：进行中。证据：Lead 真实模型链路 v2 已验证「注册→发单→接单→训练老师→首呼→评分」；
+    标准案例 30 段链路 ok=true；首页首次引导与主动作待 R10 收敛后复验。
+R14 订单复盘及做题后可看近期分数趋势、均分、样本数；按实际记录计算并区分口径
+    状态：已完成。证据：identity trend 改为按 quiz_attempt（做题口径）与 order_score（订单口径）
+    真实记录计算，均分/样本数与 SQL 直查逐项一致；Lead 真实模型链路 v2：GET /scores 回读 4 个已评估点。
+R15 原 PPT 管理员统计要求本次排除；不做 PPT；不虚构平台真实规模
+    状态：满足。全程未生成/修改任何 PPT；首页与侧栏的平台规模指标（6/24/61/8 等）正在移除。
+R16 不接入 MCP 预订机酒；已有调试/系统 MCP 展示对学员隐藏或标为未接入
+    状态：已完成。证据：routers/platform.py 中 /mcp 与 /mcp/tools 默认 require_debug(TRIPCRAFT_DEBUG_MCP)
+    → 404，且 include_in_schema=False；Lead 复核 openapi 不含 /mcp；返回体标注
+    booking_enabled=false / not_connected=true。
+R17 清理返回首页、多余标题、无意义分隔符等；保证真实可点击按钮、加载/错误/空状态
+    状态：进行中。已做：HEADINGS 的「逐单推进13步」与多余 · 清理、侧边栏底部指标卡移除、
+    首页/实战页实现术语改为可行动语言。未完成：首页首屏收敛（R10）与窄屏复验。
+
+
+四、团队与写范围（防并发写冲突）
+----------------------------------------------------------------
+Lead（单写者）：tripcraft/api/app.py、context.py、security.py、schemas.py、
+               routers/__init__.py、routers/{core,runs,platform}.py、
+               contracts/stages.py、tests/conftest.py、output/acceptance/{progress,manifest}.json、
+               output/acceptance/DSH-交付报告.txt、docs/携程改版说明.txt
+identity  ：services/auth_service.py、routers/{auth,growth}.py、storage/db.py、
+           agents/profiler.py、frontend 登录/注册/用户菜单/画像视图、router/index.ts
+journey   ：routers/{practice,deliverables}.py、services/{practice,deliverable,plan,finance,pdf}_service.py、
+           contracts/deliverables_spec.py、frontend 首页/订单/文档工作台/阶段导航
+conversation：routers/calls.py、services/{call,supplier,thread}_service.py、voice/、agents/{customer,llm}.py、
+           frontend 通话/IM/线程视图
+scenario  ：services/scenario_service.py、routers/scenario.py、agents/scenario.py、data/scenario/、
+           scripts/acceptance_standard_case.py、output/acceptance/{logs,evidence}/、
+           docs/标准案例演示指南.txt、frontend 标准案例视图
+
+
+五、跨模块冻结契约（版本化）
+----------------------------------------------------------------
+- AppContext 契约 v1（context.py）：路由模块不得自行 new 服务；变更须升版并通知全部 owner。
+- 认证边界契约 v1（security.py）：AuthService 必须实现 register/login/logout/resolve/user；
+  HTTP 认证契约 register/login/logout/session 见 tests/conftest.py 顶部注释。
+- 六阶段契约 v1（contracts/stages.py）：唯一阶段口径来源；S↔阶段映射变更须升 v2 并知会全队。
+- 公开 DTO v1（schemas.py）：请求模型集中；响应侧的隐藏字段过滤由各域在 DTO 层落实。
+
+
+六、标准案例（核心交付）
+----------------------------------------------------------------
+见 docs/标准案例演示指南.txt。要求：固定客人/日期/需求/预算与资源约束，走同一后端服务、
+校验、存储、权限、状态机；用显式 scenario provider 注入固定资料；前端标识「标准案例/演示数据」；
+可从空白重置与重放，重置只影响当前示例用户/订单；正式训练与演示数据隔离。
+
+
+七、最终验收执行项
+----------------------------------------------------------------
+全部开发成型后集中运行（原始日志落 output/acceptance/logs，结论落 manifest.json）：
+1. 前端生产构建（vue-tsc + vite build）
+2. 后端全量测试（pytest，独立临时库；与新认证不兼容的旧测试按新认证迁移，不禁用安全控制）
+3. 干净数据下跑完整标准案例（每步断服务端状态，失败非零退出）
+4. 两账号隔离/越权/隐藏字段检查（A 访问 B 资源必须 403/404；未登录必须 401）
+5. 浏览器实际路径走查（注册→登录→首页→实战→文档→PDF→复盘）
+6. 刷新恢复、退出
+7. PDF 实际打开与内容核对
+
+
+八、遗留与风险
+----------------------------------------------------------------
+（最终验收后填写：失败项、未执行项、实时模型/真实语音的验收状态）
+
+
+九、未完成项 / 未验收项（诚实清单）
+----------------------------------------------------------------
+（本文件在最终验收时刷新；凡未实际执行的一律写「未执行」，不写「通过」）

@@ -1,0 +1,85 @@
+{
+  "source": "D:\\CH3SH\\1.SJTU\\3.activities\\12.挑战杯\\tripcraft_lvyuan\\.dsh-run\\codex-review\\preview.sqlite",
+  "snapshot_name": "preview-verified-snapshot.sqlite",
+  "scope": {
+    "user": "demo-linxiao-verified-20261017",
+    "user_id": "u-1d1caa6af35c",
+    "order": "9000000000000009",
+    "sessions": "全清",
+    "calibration_run": "全清",
+    "other_accounts": "不纳入"
+  },
+  "source_order_row_sha256": "c401aeb0407efb8b96e2a1ee2d7d085fc22fd29bc8e43166f3bdd03829320f75",
+  "deleted_rows": {
+    "ability": 366,
+    "asset": 2,
+    "biz_order": 12,
+    "call_line": 39,
+    "call_session": 9,
+    "contact": 8,
+    "deliverable_doc": 12,
+    "deliverable_file": 4,
+    "director_event": 63,
+    "finance_entry": 1,
+    "im_message": 55,
+    "im_session": 13,
+    "incident": 6,
+    "memory": 7,
+    "order_action": 34,
+    "order_contact": 6,
+    "order_evidence": 33,
+    "order_score": 11,
+    "order_settlement": 1,
+    "order_target": 14,
+    "plan_version": 2,
+    "profile": 6,
+    "profile_baseline": 48,
+    "quiz_attempt": 8,
+    "quiz_question": 9,
+    "sessions": 26,
+    "supplier_quote": 8,
+    "supplier_state": 41,
+    "thread": 2,
+    "thread_message": 30,
+    "users": 15
+  },
+  "checks": {
+    "users": [
+      [
+        "u-1d1caa6af35c",
+        "demo-linxiao-verified-20261017",
+        "demo"
+      ]
+    ],
+    "orders": [
+      [
+        "9000000000000009",
+        "u-1d1caa6af35c",
+        "正常",
+        7
+      ]
+    ],
+    "sessions": 0,
+    "calibration_run": 0,
+    "replay_account_rows": 0,
+    "ability_user_rows": 61,
+    "profile_baseline_rows": 8,
+    "order_score_rows": 11,
+    "evidence_rows": 21,
+    "deliverable_rows": 8,
+    "call_lines": 7,
+    "im_messages": 39,
+    "thread_messages": 17,
+    "call_line_orphans": 0,
+    "im_message_orphans": 0,
+    "thread_message_orphans": 0,
+    "order_row_sha256": "c401aeb0407efb8b96e2a1ee2d7d085fc22fd29bc8e43166f3bdd03829320f75",
+    "order_row_sha256_after_vacuum": "c401aeb0407efb8b96e2a1ee2d7d085fc22fd29bc8e43166f3bdd03829320f75"
+  },
+  "snapshot_ok": true,
+  "order_row_hash_matches_source": true,
+  "finished_order_present": true,
+  "only_verified_account": true,
+  "order_stage_index": 7,
+  "snapshot_bytes": 405504
+}

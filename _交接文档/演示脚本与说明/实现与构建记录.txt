@@ -1,0 +1,89 @@
+TripCraft 司南礼客 · 本轮「演示游客替换」实现记录与构建记录
+================================================================================
+状态：**产品代码已冻结**（2026-10-17 04:2x），交付：scenario 域（本实现由 scenario owner 独占）
+本轮范围：入口行为（服务端替换 + 公开 UI 收敛 + 统一启动入口 + 演示时效），不做外观/无关重构。
+
+一、改动文件
+--------------------------------------------------------------------------------
+后端
+· tripcraft/services/scenario_service.py
+    - demo_instance()：实例级开关（TRIPCRAFT_DEMO_TOURIST=on 且 TRIPCRAFT_SCENARIO_MODE=offline）；
+    - demo_replacement()：注册/派单两个入口共用的固定案例替换（幂等复用，不重复建单）；
+    - maybe_renew_demo_window()：演示实例的未接单固定单可续期（学习等待期不作废；已抢/已完成不动）；
+    - 训练卡按技能点分派（C2.2 / C6.1 专属，其它显式标注通用教案）；
+    - 行程方案反馈按渲染内容判定（V1 要求改 / V2 认可）。
+· tripcraft/api/routers/auth.py
+    - _bootstrap_new_account：演示实例内注册初始单=固定案例；失败**如实报错**，不静默退回随机；
+    - auth_register：演示实例内**任何用户名**都按示例来源记账（kind=demo，不混进真实统计）。
+· tripcraft/api/routers/practice.py
+    - POST /practice/dispatch/generate：演示实例内改派固定案例（其它实例行为不变）。
+· tripcraft/api/routers/scenario.py
+    - 导入/重置/校准在非演示实例一律 403；provider/offline|live 返回 409（须启动期声明）；
+    - /scenario/status 增加 demo_instance 对象（供前端门禁与运维核对）。
+· tripcraft/services/practice_service.py
+    - dispatch_info / available_orders 两个钩子调用 maybe_renew_demo_window（普通实例立即 None，规则不变）。
+· tripcraft/agents/scenario.py、data/scenario/standard_case.json
+    - 固定单卡片文案中性化（难度/理由不再出现「标准案例演示」），保留 demo_data/scenario_id 标记；
+    - 三账号口径（成品 verified / 现场 replay / 排查留存 show）、V1/V2 反馈、plan 两套逐日。
+
+前端
+· frontend/src/App.vue：主导航移除「标准案例」入口；标题映射改为内部排查口径。
+· frontend/src/views/LoginView.vue / RegisterView.vue：移除「标准案例演示」卡片与链接。
+· frontend/src/views/DemoCaseView.vue：内部排查页按实例开关门禁（普通实例访问 → 回首页）。
+· frontend/src/demo/scenarioApi.ts：ScenarioStatus.demo_instance 类型改为对象。
+
+启动入口（两条入口共用一份实现）
+· scripts/desktop_launch.ps1（新，ASCII 路径）：-Mode Normal（默认）/ -Mode Demo / -WebOnly / -SelfCheck；
+  端口/库/桌面会话/演示开关按模式区分；复用必须用 instance.json 核对真实进程身份
+  （mode/port/pid/创建时间±5s/库/演示开关）；查询失败硬报错；marker 只在本次新启动时写。
+· 启动标准演示.ps1（薄壳，命名参数转发 -Mode Demo）。
+· 司南礼客桌面版.bat：固定 ASCII 路径调用 scripts\desktop_launch.ps1 -Mode Normal（不再通配符挑 ps1）。
+· scripts/desktop_selfcheck.cjs：保留 demo 只读自检；新增 normal 自检（不要求任何已完成订单；
+  匿名模式把模式核验标为"未核验"，给了独立验收账号才按真实 status 断言 demo_instance.enabled=false
+  且 mode=live；普通订单取列表第一条，不认固定演示订单号）。
+
+脚本 / 文档
+· scripts/acceptance_standard_case.py：S01/S04/S05/S09/S27/S29 按新口径修正（注册即得固定单、
+  演示实例内示例来源、导入回执用对照账号验证、隔离看归属、重放后取仍存在的订单号）。
+· scripts/acceptance_scenario_api.py：演示账号常量同步。
+· output/demo-rehearsal-20261017/_verify_demo_replacement.py（新，定向自检）。
+· output/demo-rehearsal-20261017/完整演示脚本.txt、演示字段复制表.html、README.txt：
+  入口文案同步为「工作人员先开演示模式 → 现场普通注册/接单即得黄先生」，不再有 /demo 导入步骤。
+
+二、开关与默认值（只有启动期显式传入才生效）
+--------------------------------------------------------------------------------
+· TRIPCRAFT_SCENARIO_MODE：默认未设（=live，随机游客 + 真实模型链路）
+· TRIPCRAFT_DEMO_TOURIST：默认未设（=关）；仅在 -Mode Demo 时设为 on
+· TRIPCRAFT_DEMO_CASE：可选，默认取案例文件里的第一个案例
+· TRIPCRAFT_BOOTSTRAP_ORDERS：普通实例清空（默认 1）；演示实例置 1（注册即得固定单）
+· 判定不看账号名 / localStorage / 公开 UI 按钮；普通实例调用内部场景路由一律被拒。
+
+三、已验证（接口链路，独立库）
+--------------------------------------------------------------------------------
+· scripts/acceptance_standard_case.py --output-dir output/demo-rehearsal-20261017/acceptance-run
+  → **exit 0 · 30/30 步 · 366 断言 · HTTP 190 · blocked 0**
+  证据：output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/run.json
+· output/demo-rehearsal-20261017/_verify_demo_replacement.py → **exit 0 · 26 断言**
+  含：普通实例随机游客 + 内部路由 403/409；演示实例固定黄先生 + 四条资源约束 + 幂等复用 +
+  首呼/题卡不脱节；**模拟学习等待 40 分钟后固定单仍可接**；普通实例超期随机单照旧判负。
+· 构建/类型检查：`cd frontend; npx vue-tsc --noEmit` → **exit 0**（2026-10-17 04:2x）
+  说明：本机沙箱内 `vite build` 受 esbuild 限制（此前实测 spawn EPERM），未作为构建证据；
+  构建产物由 Codex 在可运行环境复验。
+
+四、未验证 / 失败（不得当作通过）
+--------------------------------------------------------------------------------
+· **启动与开窗**：失败/未验证。我的命令环境读不到端口表，旧脚本把「查询失败」当「无监听」，
+  跑出假 exit=0 + pid=null 伪 marker；已修正为硬报错 + 真实 PID 核对，伪 marker 已删除。
+  详见 launcher-demo-reuse.txt（第四节为修正后的守卫型运行：exit=1，未启动任何服务）与
+  launcher-normal-start.txt。
+· 真实桌面窗口 / preload / 登录页无标准入口 / normal 自检 JSON：交 Codex 复验。
+· 现场演示账号 demo-linxiao-replay-20261017 仍未注册（保持未创建）。
+
+五、给监督者重启时要注意的两点（操作要点，不是代码缺口）
+--------------------------------------------------------------------------------
+1. **18920 请用 `启动标准演示.ps1` 重启**：这样才会带上 TRIPCRAFT_DEMO_TOURIST=on 并写出
+   instance.json；若手工 uvicorn 重启，不会有 marker，本入口会拒绝复用并提示"请用本入口启动"。
+   旧 PID42564 只有 offline、没有替换开关，在它上面固定案例替换并未生效。
+2. 18010 上现有 Normal 后端 PID50700 是我那次失败运行留下的（无 marker，伪 marker 已删）：
+   若要用 `司南礼客桌面版.bat` 走 Normal 入口，需要先由你决定是否停掉 PID50700；否则入口会因
+   "身份无法核对"而报错退出（这是设计行为，不会去结束未知进程）。

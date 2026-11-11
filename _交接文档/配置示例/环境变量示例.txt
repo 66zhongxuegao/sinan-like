@@ -1,0 +1,45 @@
+# TripCraft 司南礼客 · 环境变量示例（占位；**本文件不含任何真实值**）
+# 变量名与代码实际读取位置一致（已核对 tripcraft/ 源码）：
+#   DEEPSEEK_API_KEY / DASHSCOPE_API_KEY   → tripcraft/services/scenario_service.py（密钥存在性判定）
+#   LLM_BASE_URL / LLM_MODEL               → tripcraft/agents/llm.py（真实模型客户端；默认
+#                                            https://api.deepseek.com 与 deepseek-chat）
+#   QWEN_OMNI_MODEL                        → tripcraft/voice/realtime_qwen.py（语音，未验收）
+#   其余 TRIPCRAFT_* 由 storage / api / visit_monitor 读取，或由两个启动入口按模式写入。
+# 用法：复制成你自己环境的 local.env 或直接在终端设置（PowerShell: $env:NAME = "..."）。
+# 重要：离线固定案例（内部演示模式）**不需要任何外部模型密钥**；只有普通模式 + 真实模型才需要。
+#       真实密钥不要放进交付包（包内也没有 local.env）。
+
+# ---- 真实模型（可选；普通模式需要）----
+DEEPSEEK_API_KEY=
+LLM_BASE_URL=
+LLM_MODEL=
+
+# ---- 语音链路（未验收：需麦克风与语音密钥）----
+DASHSCOPE_API_KEY=
+QWEN_OMNI_MODEL=
+
+# ---- 实例 / 数据（一般不用手设：两个启动入口会按模式设置）----
+# 由 启动标准演示.ps1（-Mode Demo）写入：
+TRIPCRAFT_SCENARIO_MODE=
+TRIPCRAFT_DEMO_TOURIST=
+TRIPCRAFT_DEMO_CASE=
+TRIPCRAFT_BOOTSTRAP_ORDERS=
+# 由入口/服务读取：
+TRIPCRAFT_DB=
+TRIPCRAFT_VISIT_LOG_DIR=
+VISIT_LOG_LOCAL=
+TRIPCRAFT_SEED_DEMO=
+SERVE_WEB=
+# 运行期模型开关（默认关；普通实例不应打开）：
+TRIPCRAFT_SCENARIO_TOGGLE=
+
+# ---- 前端开发（npm run dev 时用；桌面入口会自动传入）----
+VITE_PORT=
+VITE_API_PORT=
+
+# ---- 桌面壳（由启动入口设置，一般不需要手改）----
+TRIPCRAFT_FRONTEND_URL=
+TRIPCRAFT_BACKEND_URL=
+TRIPCRAFT_USER_DATA=
+TRIPCRAFT_DESKTOP_LOG_DIR=
+TRIPCRAFT_REUSE=

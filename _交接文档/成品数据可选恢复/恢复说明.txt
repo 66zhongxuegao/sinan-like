@@ -1,0 +1,57 @@
+TripCraft 司南礼客 · 交接包 · 成品演示库快照说明（可选恢复）
+================================================================================
+一、这是什么
+--------------------------------------------------------------------------------
+· 文件：preview-verified-snapshot.sqlite（本目录）
+· 来源：对打包机演示库 .dsh-run\codex-review\preview.sqlite 做 **SQLite 一致性 backup**
+  （不是复制活库文件），随后**只在包内副本**上清理。
+· 范围（成品账号专属裁剪）：
+    保留：成品账号 demo-linxiao-verified-20261017（user_id = u-1d1caa6af35c）与该账号的
+          用户级学习/画像记录（ability / profile / profile_baseline / quiz_attempt / quiz_question /
+          thread / asset / memory 等）；订单 **9000000000000009** 及其全部关联
+          （order_action / order_evidence / order_score / order_settlement / order_target /
+           deliverable_doc / deliverable_file / director_event / finance_entry / incident /
+           supplier_quote / plan_version / contact / supplier_state / notice 等），
+          以及经关联保留的子表 call_session→call_line、im_session→im_message、thread→thread_message。
+    清空：sessions（登录会话/令牌）**全部**；calibration_run **全部**。
+    不纳入：其它任何账号（含 replay / show / 审计号）及其数据。
+· 清理后已 VACUUM，并核对通过（详见 snapshot-info.json 的 checks）：
+    用户数 = 1；订单数 = 1（9000000000000009，stage_index = 7 = 订单完成）；sessions = 0；
+    calibration_run = 0；replay 账号 = 0；call_line / im_message / thread_message 孤儿 = 0；
+    订单行 SHA256 与源库一致。**不含任何密钥与登录凭证。**
+
+二、什么时候恢复（顺序很重要）
+--------------------------------------------------------------------------------
+· 恢复要在**首次启动演示模式之前**做：此时还没有任何进程打开目标库。
+· **不要**在服务运行中给库改名/替换：那会得到半截状态或让服务继续用旧文件。
+· 目标库已存在时脚本**拒绝覆盖**（`[System.IO.File]::Copy(..., overwrite:false)`），
+  请先自行备份/改名，再运行；它不会删除任何东西。
+
+三、恢复到固定位置 vs 只存备份（别混淆）
+--------------------------------------------------------------------------------
+· 标准入口 `启动标准演示.ps1` **只认固定位置**：`<包根>\.dsh-run\codex-review\preview.sqlite`。
+  想在演示里**直接看到成品订单 9000000000000009**，就必须恢复到那个固定位置
+  （并且那是首次启动前、目标不存在时）。
+      powershell -NoProfile -ExecutionPolicy Bypass -File .\_交接文档\成品数据可选恢复\恢复成品演示库.ps1
+· `-Target <其它路径>` 只是**另存一份备份**，标准入口**不会自动使用**这个路径 ——
+  不要以为换了 -Target 就能直接登录看到成品：
+      powershell -NoProfile -ExecutionPolicy Bypass -File .\_交接文档\成品数据可选恢复\恢复成品演示库.ps1 -Target backup\demo-preview-backup.sqlite
+  脚本会在这种情形下明确提示"这是备份位置，不是标准入口使用的位置"。
+· 不恢复也能演示：用未注册的 demo- 前缀账号现场注册（演示实例里注册初始单就是固定黄先生），
+  再走 12 题 → C6.1 学习 → 消息中心抢单 → 四文档 → 行中 → 行后（见 01-使用说明 第 3 节）。
+
+四、恢复后的核对（脚本会自动打印）
+--------------------------------------------------------------------------------
+· 打印快照与恢复后副本的 SHA256（应一致）。
+· 查询 users / orders / sessions / calibration_run / ability 行数（应为：1 个用户、1 张已完成订单、
+  sessions=0、calibration_run=0、ability>0）。
+· 手动核对（任一 SQLite 工具或）：
+    python -X utf8 -c "import sqlite3;con=sqlite3.connect(r'_交接文档\成品数据可选恢复\preview-verified-snapshot.sqlite');print(con.execute('select username,kind from users').fetchall());print(con.execute('select order_id,status,stage_index from biz_order').fetchall());print('sessions',con.execute('select count(*) from sessions').fetchone()[0])"
+
+五、注意事项
+--------------------------------------------------------------------------------
+1. 现场从零演示账号 **demo-linxiao-replay-20261017 未注册**：请勿在成品库里提前创建它，
+   否则现场"注册"这一步会变成"账号已存在"。
+2. 快照 sessions 已清空 → 恢复后需要**重新登录**（刻意不携带任何登录凭证）。
+3. 快照属于演示实例（kind=demo）；不要把它当作真实训练数据并入正式统计。
+4. 源库与运行中的原工程**保持不动**：本包只读原库做了一致性 backup，未做任何改名/替换。

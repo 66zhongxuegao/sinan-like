@@ -1,0 +1,149 @@
+TripCraft 司南礼客 · 标准案例演示指南（最小可用版）
+==================================================
+本文档对应交付：确定性标准案例「香港黄先生 云南 5 日亲子行」，以及可执行验收脚本。
+所有命令都在仓库根目录执行（Windows / PowerShell）。
+
+------------------------------------------------------------------
+1. 标准案例是什么
+------------------------------------------------------------------
+固定资料（唯一来源：data/scenario/standard_case.json，不可在前端另编一套）：
+  客人      黄先生（香港，中文，回乡证）
+  日期      2026-11-16 至 2026-11-20（5 天 4 晚）
+  人数      3 大 1 小（含 1 位 68 岁长辈，膝盖不好，忌辣，不用微信）
+  预算      人均 4500 元（不含往返大交通），总价上限 18000 元
+  资源约束  酒店只剩 4 间双床 540/间/晚；7 座商务 950/天（含司机油费）；
+            动车需提前锁票（一等座差价 180/人）；导游 560/天、门票 145/人
+  文档      需求确认单 / 行程方案 / 分项报价 / 合同与保险 / 出团通知书 /
+            地接结算核对单 / 回访与复盘记录（字段值全部写死在案例里）
+  行中事件  车辆故障（INC-VEHICLE-BREAKDOWN，临时换车费 400 元由车队承担）
+
+页面标识：/demo（标准案例页）顶部显著标「标准案例 / 演示数据」，并显示当前模式。
+
+------------------------------------------------------------------
+2. 从零启动（**唯一入口**：仓库根 启动标准演示.ps1）
+------------------------------------------------------------------
+    powershell -ExecutionPolicy Bypass -File .\启动标准演示.ps1
+
+这个入口固定了标准演示的全部运行条件：
+  · 前端 http://127.0.0.1:15191 ；后端 http://127.0.0.1:18930
+  · 演示库 .dsh-run\codex-review\preview.sqlite（不清库、不重置演示数据）
+  · 后端确定性离线：TRIPCRAFT_SCENARIO_MODE=offline、TRIPCRAFT_BOOTSTRAP_ORDERS=0
+  · 端口已就绪就复用；被他人占用则报错退出，**不停止任何他人进程**、不重启 DSH、不操作桌面
+  · 日志 .dsh-run\codex-review\demo-backend-*.log / demo-frontend-*.log
+
+请勿再用 TEMP 临时库或 scripts\start.ps1 等其它启动方式：多套启动会连到另一份数据，
+固定账号 / 订单 / 账目就会对不上。逐步演示脚本与字段复制表见：
+  output\demo-rehearsal-20261017\完整演示脚本.txt
+  output\demo-rehearsal-20261017\演示字段复制表.html
+
+（说明：scripts\start.ps1 / stop.ps1 仍然存在，作为"只停本项目记录进程"的安全启停工具，
+  仅用于常规开发；标准案例演示一律走上面这一个入口。）
+
+------------------------------------------------------------------
+3. 示例入口与注册
+------------------------------------------------------------------
+· **成品查看账号（最终交付用）**：用户名 **demo-linxiao-verified-20261017**，显示名 林晓，
+  口令 LvyuanDemo#2026；从零完整走通的成品订单/评分/画像**保留不清空**，讲解时直接登录查看。
+· **现场从零讲解账号**：**demo-linxiao-replay-20261017**（不预创建，现场注册演示"注册"这一步）。
+· **排查留存账号**：**demo-linxiao-show-20261017**（早前排查记录，保留不改；交付查看不用它）。
+  demo- 前缀 → users.kind=demo → 注册不会自动派单，固定单由案例注入。
+· 保留的修复排查账号：demo-linxiao-20261017（早期排查用，不用于最终演示）。
+· 常规账号：任意用户名（≥3 字符，字母数字_.-）注册即得 1 条自己的初始派单。
+· 前端入口：右上角用户菜单 / 直接访问 #/demo（标准案例页）；登录页 #/login。
+· 未登录时 /scenario/* 一律 401（后端强制认证，没有免登录旁路）。
+
+------------------------------------------------------------------
+4. 逐步操作与预期结果（六阶段口径来自 tripcraft/contracts/stages.py）
+------------------------------------------------------------------
+阶段 id 只有六个：pre1_requirement / pre2_plan / pre3_quote / pre4_notice / on_trip / post_trip
+
+① 打开 #/demo → 页面显示「标准案例 / 演示数据」；点「导入标准案例」
+   预期：POST /scenario/cases/hk-huang-yunnan-5d/import 返回 order_id + scenario_marker + 4 条资源约束
+② 注册/登录演示账号 → 显示当前会话与演示身份
+③ 阶段 pre1 需求确认单：消息中心抢单 → 订单详情拨打电话（首呼）→ 提交《需求确认单》
+   预期：动作 grab / first_call / deliverable:需求确认单 登记；首呼证据 kind=call 入库
+④ 阶段 pre2 行程方案：资源询价 → 创建方案 → 发送方案 → 客户已读 → 提交《行程方案》
+   预期：customer_confirmed_plan 登记；方案进入「已读 / 客户已确认」
+⑤ 阶段 pre3 报价与成交：提交《分项报价》（算术自洽 + 拦截网通过）→ 提交《合同与保险》
+   预期：guard_pass:分项报价 / contract_signed / insurance_bought /
+        customer_signed_contract / deposit_paid 登记
+⑥ 阶段 pre4 出团通知书：加导游/司机联系人 → 提交《出团通知书》
+   预期：resources_locked / pre_trip_notice 登记
+⑦ 阶段 on_trip 行中：触发事件（车辆故障）→ 在司导群回应
+   预期：incident 入库；B 型考点 trigger→reacted；成本台账出现 400 元（资源方承担）
+⑧ 阶段 post_trip 结算与评分：提交《地接结算核对单》→ 财务结账 → 提交《回访与复盘记录》
+   → 评分 → 人工复核采纳
+   预期：settlement_verified / review_done；order_score 入库；
+        离线判定置信度上限 0.6 → 全部转「待复核」→ 复核 accept 后 ability.real_v 写回
+⑨ 每步都可在页面看服务端状态：GET /scenario/orders/{order_id}/state
+   （stage_id 六阶段映射 / gate.checks 逐条 / actions / evidence_count /
+     deliverables / incidents / scores / ability_written）
+⑩ PDF：POST /practice/orders/{order_id}/deliverables/{did}/export.pdf
+   预期：%PDF 开头、内容与工作台渲染一致、可打开
+
+------------------------------------------------------------------
+5. 重置与重放
+------------------------------------------------------------------
+· 页面：标准案例页「重置标准案例」；接口：POST /scenario/cases/{case_id}/reset
+· 作用范围：**只删当前登录账号**名下（默认只限本案例）的订单与其从属数据；先子后父、
+  放在一个事务里，返回逐表删除清单 + residual（残留检查，应全为 0）；
+  其它账号数据一律不动（before/after 计数可核对）。
+· 重放：重置后再次 import 即从空白重放；固定字段逐字段一致，订单号为自增新号。
+· **重演不止是"再导入一次"**：重置会连该账号的初测与学习数据一起清掉，所以重演必须
+  ① 重做 12 题初测（基线回到 95/95/25/95/95/25/95/95）② 重新把 C6.1 练到 ≥60（否则行中换车事件
+  不解锁）③ 再导入案例。演示本身**不需要**重置：完成的订单留着讲解即可（重置属可选重演附录）。
+· 重置只作用于当前演示账号（demo-linxiao-show-20261017 / 保留排查号 demo-linxiao-20261017），
+  不触碰其它账号数据。
+· 隔离口径：标准案例数据只落在当前账号；演示账号 kind=demo，与正式训练账号（kind=real）分开。
+· 结算口径（本次修正）：报价单里的成本 10850 是**预估**；结算以资源方组合报价为准 = 11030
+  （住宿 3680 / 用车 4250 / 导游 2500 / 门票 480 / 保险 120）。两者差 180，必须在结算与复盘里写明。
+  《地接结算核对单》逐项口径：『地接结算』列 = 资源方成本金额，『我方报价』列 = 给客户的销售金额，
+  差异为负即该项毛利（合计 −1660 = 实际毛利）；客户侧尾款与供应商侧应付分行写清，不混写。
+
+------------------------------------------------------------------
+6. 可执行验收脚本（我的交付物，可自己跑）
+------------------------------------------------------------------
+python -X utf8 scripts/acceptance_standard_case.py          # 端到端全链路（默认离线确定性）
+python -X utf8 scripts/acceptance_standard_case.py --live   # 实时模型（如实标注未验收项）
+python -X utf8 scripts/acceptance_scenario_provider.py      # provider 自检（含并发会话隔离/残留检查）
+python -X utf8 scripts/acceptance_scenario_api.py           # 场景路由与权限边界
+powershell -ExecutionPolicy Bypass -File scripts\acceptance_launch_safety.ps1  # 启动/停止只影响自身
+node output\acceptance\logs\demo-view-compile.cjs           # /demo 页面用 Vue 官方编译器编译校验
+
+最近一次真实运行结果（本次审计目录 output/acceptance/output-audit-20261017/scenario/）：
+  python -X utf8 scripts/acceptance_standard_case.py --output-dir output/acceptance/output-audit-20261017/scenario
+  acceptance_standard_case.py：退出码 0 · 30/30 步 · 339 条断言 · 174 次真实 HTTP
+    · 模式 offline · 因接口契约缺陷无法达成 0 项（blocked 为空）· findings 1 项（订单号复用 warn）
+    · S22 结算：收入 12690 / 成本 11030（地接社组合报价口径）/ 毛利 1660 / 毛利率 13.08%
+    · 预估 vs 实际：报价成本 10850（预估）与资源口径 11030 差 180，已在结算/复盘写明；
+      台账 gaps = 自报成本 vs 资源口径 diff +180、自报利润 vs 实际毛利 diff 0（复盘实际利润 1660 = 台账毛利）
+    · 行中：车辆故障 INC-VEHICLE-BREAKDOWN 贯通，C6.1 变为 reacted，400 元计入车队成本台账（我方 loss 0）
+  证据：output/acceptance/output-audit-20261017/scenario/evidence/standard-case/run.json（+ 30 个逐步 JSON、4 份 PDF）
+  日志：output/acceptance/output-audit-20261017/scenario/logs/standard-case-run.log、standard-case-http.jsonl
+  独立库：output/acceptance/output-audit-20261017/scenario/logs/standard-case.sqlite（不碰 tripcraft.sqlite）
+  旧证据保留：output/acceptance/evidence/standard-case 与 output/acceptance/logs/standard-case*（本次未被覆盖）
+
+------------------------------------------------------------------
+7. 实时依赖的验收状态（不虚报）
+------------------------------------------------------------------
+· 真实模型：本机 local.env 有 DEEPSEEK_API_KEY 时 key_present=true；
+  但「有 key」不等于「已连通」——/scenario/status?probe=1 会真发一次最小请求核验，
+  字段为 llm_connectivity_verified / llm_not_verified_reason。离线确定性模式不算实时模型验收。
+· 真实语音：未验收。原因：需要浏览器麦克风与 DASHSCOPE_API_KEY，声学效果不能由文本脚本代替。
+· 模式不符时不要"重跑启动脚本"：启动入口对已在监听 18930 的服务只做复用，**不会把模式切回离线**
+  （mode 是启动期设定的）。若 /demo 显示「实时模型」，停止演示并核对 18930 上是否是由
+  .\启动标准演示.ps1 启动的**本项目离线实例**；不是就先停掉它再重新启动，不要带着 live 实例演示。
+  /scenario/status 返回 voice_connectivity_verified=false 与 voice_not_verified_reason。
+· /demo 页面的真实浏览器渲染：本机沙箱内 vite dev/build 因 esbuild 受限不可用；
+  已用 Vue 官方编译器校验模板/脚本编译与标签配对（demo-view-compile.json）；
+  **最终浏览器打开 #/demo 的确认需在正常环境执行**（见交付说明），未确认前不视为已验收。
+
+------------------------------------------------------------------
+8. 启动/停止的实际行为与边界（对应交付项 scenario-launch-safety）
+------------------------------------------------------------------
+· 运行态台账：<仓库根>\.runtime\pids.json（格式见 .runtime\README.txt）
+· start.ps1：只停自己台账里**身份核对通过**的旧进程；端口冲突不杀未知占用者；
+  uvicorn --reload 的子进程尽力登记（cim-parent / wmi-parent / port-owner / unavailable）
+· stop.ps1：只按台账停；身份不符（PID 不存在、启动时间不符、可执行路径不符、
+  命令行不含本仓库）→ 跳过并打印原因，且**把该记录原样保留**，不抹掉用户的服务记录
+· 两者都不按命令行模式或端口盲杀，也不含任何针对 DSH 的进程操作

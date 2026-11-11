@@ -1,0 +1,455 @@
+{
+  "script": "acceptance_standard_case.py",
+  "module_work": "scenario-30e85229 / work=scenario-acceptance",
+  "version": 1,
+  "ok": true,
+  "mode": "offline",
+  "case_id": "hk-huang-yunnan-5d",
+  "db": "D:\\CH3SH\\1.SJTU\\3.activities\\12.挑战杯\\tripcraft_lvyuan\\output\\demo-rehearsal-20261017\\acceptance-run\\logs\\standard-case.sqlite",
+  "real_db": "D:\\CH3SH\\1.SJTU\\3.activities\\12.挑战杯\\tripcraft_lvyuan\\tripcraft.sqlite",
+  "real_db_sha256_before": "03653466ac126a95e287ad79f43f3ab1039013e418c1a20d493dd4e55788c1e3",
+  "real_db_sha256_after": "03653466ac126a95e287ad79f43f3ab1039013e418c1a20d493dd4e55788c1e3",
+  "real_db_changed_during_run": false,
+  "real_db_note": "真实库可能与桌面应用/其它自检脚本并发写入；本脚本的写入隔离由 「本次运行的 user_id / order_id 在真实库里查不到」两条证据保证",
+  "started_at": "2026-10-17T04:10:31",
+  "finished_at": "2026-10-17T04:10:48",
+  "demo_user": {
+    "username": "demo-linxiao-verified-20261017",
+    "user_id": "u-ee21dfb17393"
+  },
+  "other_user": {
+    "username": "realcase-ab-01",
+    "user_id": "u-c65a5fbfa0ab"
+  },
+  "order_id": "9000000000000001",
+  "replay_order_id": "9000000000000005",
+  "steps": [
+    {
+      "index": 1,
+      "step": "S00",
+      "title": "环境与真实 ASGI 应用装配（独立库 / 认证 / 契约）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/01-S00.json",
+      "checks": 16,
+      "duration_ms": 643.2,
+      "chain": []
+    },
+    {
+      "index": 2,
+      "step": "S01",
+      "title": "注册（真实注册即登录 + 口令加盐哈希）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/02-S01.json",
+      "checks": 9,
+      "duration_ms": 207.9,
+      "chain": [
+        "register"
+      ]
+    },
+    {
+      "index": 3,
+      "step": "S02",
+      "title": "登录与会话（真实登录）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/03-S02.json",
+      "checks": 6,
+      "duration_ms": 94.6,
+      "chain": [
+        "login"
+      ]
+    },
+    {
+      "index": 4,
+      "step": "S03",
+      "title": "认证负例（口令规则 / 错误口令 / 重复用户名）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/04-S03.json",
+      "checks": 6,
+      "duration_ms": 331.2,
+      "chain": []
+    },
+    {
+      "index": 5,
+      "step": "S04",
+      "title": "A/B 对照账号（真实账号 + 初始派单）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/05-S04.json",
+      "checks": 6,
+      "duration_ms": 252.1,
+      "chain": []
+    },
+    {
+      "index": 6,
+      "step": "S05",
+      "title": "案例目录与离线 provider 开关（如实标注模式）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/06-S05.json",
+      "checks": 15,
+      "duration_ms": 35.9,
+      "chain": []
+    },
+    {
+      "index": 7,
+      "step": "S06",
+      "title": "初始画像测评（12 题 → 维度基线 → ability.teach）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/07-S06.json",
+      "checks": 25,
+      "duration_ms": 595.1,
+      "chain": [
+        "initial_assessment"
+      ]
+    },
+    {
+      "index": 8,
+      "step": "S07",
+      "title": "初始训练：向带教老师要讲义（六帽审查）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/08-S07.json",
+      "checks": 5,
+      "duration_ms": 244.6,
+      "chain": [
+        "initial_assessment"
+      ]
+    },
+    {
+      "index": 9,
+      "step": "S08",
+      "title": "学习：做题把 C6.1 练到解锁线（教→练→考）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/09-S08.json",
+      "checks": 13,
+      "duration_ms": 413.8,
+      "chain": [
+        "learning"
+      ]
+    },
+    {
+      "index": 10,
+      "step": "S09",
+      "title": "标准案例导入（固定资料落真实订单）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/10-S09.json",
+      "checks": 17,
+      "duration_ms": 134.1,
+      "chain": []
+    },
+    {
+      "index": 11,
+      "step": "S10",
+      "title": "抢单（阶段 0 门槛之一）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/11-S10.json",
+      "checks": 5,
+      "duration_ms": 96.5,
+      "chain": []
+    },
+    {
+      "index": 12,
+      "step": "S11",
+      "title": "首呼（真实客户 Agent + 通话证据）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/12-S11.json",
+      "checks": 8,
+      "duration_ms": 170.6,
+      "chain": [
+        "first_call"
+      ]
+    },
+    {
+      "index": 13,
+      "step": "S12",
+      "title": "加联系人（客户 / 地接社）与会话矩阵",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/13-S12.json",
+      "checks": 9,
+      "duration_ms": 226.5,
+      "chain": []
+    },
+    {
+      "index": 14,
+      "step": "S13",
+      "title": "需求确认单（投递 + 拦截网 + 门槛推进）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/14-S13.json",
+      "checks": 9,
+      "duration_ms": 163.1,
+      "chain": [
+        "requirement_sheet"
+      ]
+    },
+    {
+      "index": 15,
+      "step": "S14",
+      "title": "行中事件①：资源方模糊口径（S4 事件型考点）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/15-S14.json",
+      "checks": 5,
+      "duration_ms": 102.8,
+      "chain": []
+    },
+    {
+      "index": 16,
+      "step": "S15",
+      "title": "行程方案（创建 → 发送 → 客户已读反馈）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/16-S15.json",
+      "checks": 21,
+      "duration_ms": 9753.4,
+      "chain": [
+        "itinerary"
+      ]
+    },
+    {
+      "index": 17,
+      "step": "S16",
+      "title": "分项报价（算术拦截网 + S6 证据）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/17-S16.json",
+      "checks": 8,
+      "duration_ms": 142.4,
+      "chain": [
+        "quotation"
+      ]
+    },
+    {
+      "index": 18,
+      "step": "S17",
+      "title": "客户确认方案（门槛 + 异议事件）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/18-S17.json",
+      "checks": 7,
+      "duration_ms": 184.1,
+      "chain": [
+        "customer_confirm"
+      ]
+    },
+    {
+      "index": 19,
+      "step": "S18",
+      "title": "合同与保险（合同/投保/回签/定金四动作）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/19-S18.json",
+      "checks": 5,
+      "duration_ms": 209.0,
+      "chain": [
+        "contract"
+      ]
+    },
+    {
+      "index": 20,
+      "step": "S19",
+      "title": "行前加联系人（酒店/车队/导游，行中渠道就位）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/20-S19.json",
+      "checks": 5,
+      "duration_ms": 206.1,
+      "chain": []
+    },
+    {
+      "index": 21,
+      "step": "S20",
+      "title": "出团通知书（资源锁定 + 行前通知 + 注入事件）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/21-S20.json",
+      "checks": 8,
+      "duration_ms": 274.6,
+      "chain": [
+        "departure_notice"
+      ]
+    },
+    {
+      "index": 22,
+      "step": "S21",
+      "title": "行中事件（逐会话回应 + 覆盖校验 + 责任认定）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/22-S21.json",
+      "checks": 14,
+      "duration_ms": 460.4,
+      "chain": [
+        "on_trip_incident"
+      ]
+    },
+    {
+      "index": 23,
+      "step": "S22",
+      "title": "结算（成本/损失/毛利 + 结账留档 S11）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/23-S22.json",
+      "checks": 30,
+      "duration_ms": 194.8,
+      "chain": [
+        "settlement"
+      ]
+    },
+    {
+      "index": 24,
+      "step": "S23",
+      "title": "回访与复盘（订单完成 平台态 7）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/24-S23.json",
+      "checks": 10,
+      "duration_ms": 132.8,
+      "chain": []
+    },
+    {
+      "index": 25,
+      "step": "S24",
+      "title": "评分（覆盖校验 + 低置信度转人工）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/25-S24.json",
+      "checks": 14,
+      "duration_ms": 81.8,
+      "chain": [
+        "score"
+      ]
+    },
+    {
+      "index": 26,
+      "step": "S25",
+      "title": "画像写回（人工复核采纳 → ability.real_v）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/26-S25.json",
+      "checks": 25,
+      "duration_ms": 250.5,
+      "chain": [
+        "profile_writeback"
+      ]
+    },
+    {
+      "index": 27,
+      "step": "S26",
+      "title": "PDF 真实导出与核对（四份文档）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/27-S26.json",
+      "checks": 31,
+      "duration_ms": 866.2,
+      "chain": []
+    },
+    {
+      "index": 28,
+      "step": "S27",
+      "title": "重置验证（当前账号清零 + A/B 隔离）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/28-S27.json",
+      "checks": 16,
+      "duration_ms": 136.9,
+      "chain": []
+    },
+    {
+      "index": 29,
+      "step": "S28",
+      "title": "重放验证（固定资料一致 + 订单号自增）",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/29-S28.json",
+      "checks": 9,
+      "duration_ms": 102.9,
+      "chain": []
+    },
+    {
+      "index": 30,
+      "step": "S29",
+      "title": "自查：真实库未变 + 每步证据文件齐备",
+      "ok": true,
+      "file": "output/demo-rehearsal-20261017/acceptance-run/evidence/standard-case/30-S29.json",
+      "checks": 9,
+      "duration_ms": 76.0,
+      "chain": []
+    }
+  ],
+  "assertions_total": 366,
+  "chain_map": {
+    "register": "S01",
+    "login": "S02",
+    "initial_assessment": "S07",
+    "learning": "S08",
+    "first_call": "S11",
+    "requirement_sheet": "S13",
+    "itinerary": "S15",
+    "quotation": "S16",
+    "customer_confirm": "S17",
+    "contract": "S18",
+    "departure_notice": "S20",
+    "on_trip_incident": "S21",
+    "settlement": "S22",
+    "score": "S24",
+    "profile_writeback": "S25"
+  },
+  "findings": [],
+  "live_relaxed_checks": [],
+  "blocked_by_contract": [],
+  "http_calls": 191,
+  "revision": {
+    "python": "3.13.13",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "script": "scripts/acceptance_standard_case.py",
+    "script_sha256": "831eab9472368226307c8999dc8739fac6baba1ae89572c2116e5fbc64e0667b",
+    "git_head": "b6535fd5dff9a074bd7999596628cdd363e1cc06",
+    "git_dirty": true,
+    "newest_modules": [
+      {
+        "file": "tripcraft/services/practice_service.py",
+        "mtime": "2026-10-17T04:07:23",
+        "sha256": "22f3f0048c1b8ef2"
+      },
+      {
+        "file": "tripcraft/services/scenario_service.py",
+        "mtime": "2026-10-17T04:07:23",
+        "sha256": "beb6cec3fa485070"
+      },
+      {
+        "file": "tripcraft/api/routers/auth.py",
+        "mtime": "2026-10-17T04:02:32",
+        "sha256": "b08543f7c4a96aea"
+      },
+      {
+        "file": "tripcraft/api/routers/scenario.py",
+        "mtime": "2026-10-17T04:00:49",
+        "sha256": "42ee0607f222a599"
+      },
+      {
+        "file": "tripcraft/api/routers/practice.py",
+        "mtime": "2026-10-17T03:58:39",
+        "sha256": "92172988b81d4aa2"
+      },
+      {
+        "file": "tripcraft/storage/db.py",
+        "mtime": "2026-10-17T02:43:13",
+        "sha256": "0c331800eb2fbefd"
+      }
+    ],
+    "case_file_sha256": "8cfc6df39047cbeba7c6f8fab72d15ca59c555d1538a29b0d26817920b3d5146"
+  },
+  "unverified": [
+    {
+      "item": "实时语音链路（WebSocket /voice/realtime 的声学效果）",
+      "status": "未验收",
+      "why": "需要浏览器麦克风与 DASHSCOPE_API_KEY；文本首呼链路已在本脚本验收"
+    },
+    {
+      "item": "真实模型（DEEPSEEK）的对话/评分质量",
+      "status": "未验收",
+      "why": "离线确定性 provider（scenario-deterministic）不是实时模型；llm_key_present=True"
+    },
+    {
+      "item": "标准案例「固定资料一致性」断言（客户话术 / 客户反馈 / 事件清单 / 报价系数等）",
+      "status": "本次全部生效",
+      "why": "这些断言只在 --offline（确定性演示实例）成立；降级项逐条列在 live_relaxed_checks"
+    },
+    {
+      "item": "依赖上游接口行为的链路项（逐条列在 blocked_by_contract）",
+      "status": "全部达成",
+      "why": "例如题卡脱敏后交卷判分仍依赖客户端回传 answer，导致掌握度无法提升 → C6 类事件不解锁；脚本对这类项显式记 BLOCKED 并保留实测证据，不做静默跳过"
+    },
+    {
+      "item": "校准基线 /calibration/run 与 /scenario/.../calibrate",
+      "status": "本次未执行",
+      "why": "两个入口都会写 data/calibration/report.json，超出本任务写范围；因此评分响应如实出现 calibration.baseline=false，画像写回走人工复核路径"
+    },
+    {
+      "item": "前端 UI 交互与界面渲染",
+      "status": "未验收",
+      "why": "本脚本只驱动服务端接口（ASGI 进程内），不做浏览器端验收"
+    }
+  ]
+}

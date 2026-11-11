@@ -1,0 +1,10 @@
+﻿{
+    "mode":  "Demo",
+    "backend_port":  18920,
+    "frontend_port":  15181,
+    "db":  "D:\\CH3SH\\1.SJTU\\3.activities\\12.挑战杯\\tripcraft_lvyuan\\.dsh-run\\codex-review\\preview.sqlite",
+    "pid":  null,
+    "demo_tourist":  true,
+    "scenario_mode":  "offline",
+    "started_at":  "2026-10-16T20:10:58"
+}

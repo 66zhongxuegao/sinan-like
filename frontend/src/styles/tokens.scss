@@ -1,0 +1,79 @@
+/* ══════════════════════════════════════════════
+   TripCraft · 司南礼客 · 设计令牌（蓝白配色）
+   简洁蓝白：白底 + 主蓝 + 浅蓝分区，对齐真实 OTA 页面观感
+   ══════════════════════════════════════════════ */
+
+$color-primary: #2577e3;        // 携程蓝
+$color-primary-dark: #1a63c4;
+$color-primary-light: #4a94ec;
+$color-primary-soft: #eaf3fe;   // 浅蓝底
+$color-primary-softer: #f5f9ff;
+
+$color-bg: #f5f6f8;             // 页面底
+$color-surface: #FFFFFF;
+$color-border: #e8eaed;
+$color-border-strong: #d4dae0;
+
+$color-text: #16223a;
+$color-text-secondary: #6b7a90;
+$color-text-muted: #9aa8bb;
+
+$color-success: #12a76a;
+$color-warning: #e08a1e;
+$color-danger: #e04b4b;
+$color-info: #4a8ff0;
+
+$font-sans: 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
+$font-serif: 'Noto Serif SC', 'Songti SC', serif;
+
+$radius-sm: 6px;
+$radius-md: 10px;
+$radius-lg: 14px;
+$radius-xl: 18px;
+
+$shadow-card: 0 1px 3px rgba(22, 34, 58, 0.06), 0 6px 18px rgba(26, 106, 224, 0.05);
+$shadow-hover: 0 8px 26px rgba(26, 106, 224, 0.14);
+$shadow-deep: 0 20px 50px rgba(15, 79, 174, 0.18);
+
+$sidebar-width: 250px;
+
+/* ── 字号体系（字要大）──────────────────────────
+   规则：全站最小 13px；正文 16px；标题 ≥ 正文 × 1.3。
+   新增/调整字号一律引用这里的令牌，不要写裸数值。 */
+$fs-hero: 46px;         // 首页 hero 主标题
+$fs-page-title: 28px;   // 顶栏页面主标题（承载原本的副标题信息）
+$fs-section: 22px;      // 区块 / 卡片标题
+$fs-card-title: 19px;   // 次级卡片标题、弹窗标题
+$fs-list: 17px;         // 列表主行、订单号、会话名、技能点名
+$fs-body: 16px;         // 正文、聊天气泡、表格单元格、按钮
+$fs-meta: 14px;         // 次要说明（下限，不再往下）
+$fs-badge: 13px;        // 角标 / 徽标 / 标签（下限）
+$fs-num-xl: 46px;       // 首页统计大数字
+$fs-num-lg: 30px;       // 卡片内大数字、平均分
+
+:root {
+  --tc-fs-hero: #{$fs-hero};
+  --tc-fs-page-title: #{$fs-page-title};
+  --tc-fs-section: #{$fs-section};
+  --tc-fs-card-title: #{$fs-card-title};
+  --tc-fs-list: #{$fs-list};
+  --tc-fs-body: #{$fs-body};
+  --tc-fs-meta: #{$fs-meta};
+  --tc-fs-badge: #{$fs-badge};
+  --tc-fs-num-xl: #{$fs-num-xl};
+  --tc-fs-num-lg: #{$fs-num-lg};
+  --tc-primary: #{$color-primary};
+  --tc-primary-soft: #{$color-primary-soft};
+  --el-color-primary: #{$color-primary};
+  --el-color-primary-light-3: #{$color-primary-light};
+  --el-color-primary-light-9: #{$color-primary-soft};
+  --el-color-primary-dark-2: #{$color-primary-dark};
+  --el-border-radius-base: #{$radius-md};
+  --el-font-family: #{$font-sans};
+  --el-font-size-base: #{$fs-body};
+  --el-font-size-small: #{$fs-meta};
+  --el-text-color-primary: #{$color-text};
+  --el-text-color-regular: #{$color-text-secondary};
+  --el-border-color: #{$color-border};
+  --el-bg-color: #{$color-bg};
+}

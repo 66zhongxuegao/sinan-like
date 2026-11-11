@@ -1,0 +1,58 @@
+# Python
+.dsh-run/
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+*.egg-info/
+*.sqlite
+*.db
+*.log
+
+# 本地配置（密钥只写 local.env，不入库）
+local.env
+.env
+.env.*
+
+# 前端
+node_modules/
+dist/
+release/
+.npm-cache/
+
+# 编辑器
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 运行日志（一键启动器输出到这里）
+logs/
+
+# pytest 临时缓存目录（沙箱下可能落在仓库根，正常用户环境可删）
+pytest-cache-files-*/
+
+# 浏览器走查产物
+.playwright-cli/
+hero-deco-final.png
+
+# 演示视频工程（另一个窗口在做）：媒体产物很大（约 600MB），不入库
+video/
+*.mp4
+*.webm
+*.mov
+
+# 公开发布用的快照目录（脚本生成，不入库）
+_publish/
+
+# 录制动图的临时帧（scripts/record_demo.py 生成，不入库）
+output/demo-frames/
+output/gifframes/
+
+# 录屏与界面走查的临时产物（脚本生成，不入库）
+output/chk*/
+output/shots/
+output/steps13-*/
+
+# Local dependency download cache
+.deploy-cache/

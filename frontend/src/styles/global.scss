@@ -1,0 +1,68 @@
+@use './tokens.scss' as *;
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body, #app { height: 100%; }
+
+body {
+  font-family: $font-sans;
+  font-size: $fs-body;
+  color: $color-text;
+  background: $color-bg;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: $color-primary; text-decoration: none; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(26,106,224,0.18); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(26,106,224,0.32); }
+
+.text-primary { color: $color-primary; }
+.text-muted { color: $color-text-secondary; }
+.font-serif { font-family: $font-serif; }
+
+/* 卡片 */
+.card {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+}
+
+/* 浅蓝区块 */
+.soft-block { background: $color-primary-soft; border-radius: $radius-md; }
+
+/* 标题前蓝条 */
+.title-rule {
+  display: flex; align-items: center; gap: 9px;
+  &::before { content: ''; width: 6px; height: 20px; border-radius: 3px; background: $color-primary; }
+}
+
+@keyframes tc-rise { from { opacity: 0; } to { opacity: 1; } }
+.rise { animation: tc-rise .7s ease both; }
+
+@keyframes tc-pulse { 0%,100% { opacity: 1 } 50% { opacity: .45 } }
+.pulse { animation: tc-pulse 1.6s ease-in-out infinite; }
+
+/* 按钮 */
+.tc-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;
+  min-height: 42px; padding: 9px 20px; border-radius: $radius-md; border: 1px solid transparent;
+  font-size: $fs-body; font-weight: 600; line-height: 1.2; transition: all .16s ease;
+  background: $color-primary; color: #fff;
+  &:hover { background: $color-primary-dark; box-shadow: $shadow-hover; }
+  &:disabled { opacity: .5; cursor: not-allowed; }
+  &.ghost { background: #fff; color: $color-primary; border-color: $color-border-strong; }
+  &.ghost:hover { border-color: $color-primary; background: $color-primary-softer; }
+}
+
+/* 尊重系统「减少动态效果」：同时兜底掉持续动画带来的无谓重绘 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

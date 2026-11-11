@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>司南礼客 · 标准案例演示字段复制表（林晓 / 黄先生 云南 5 日）</title>
+<style>
+ body{font-family:system-ui,"Microsoft YaHei",sans-serif;margin:16px;line-height:1.5;color:#222}
+ h1{font-size:18px} h3{margin:18px 0 6px;font-size:15px;border-bottom:1px solid #ddd;padding-bottom:3px}
+ table{border-collapse:collapse;width:100%;margin:4px 0 10px}
+ th,td{border:1px solid #ccc;padding:3px 6px;font-size:13px;vertical-align:top;text-align:left}
+ table.kv th{width:230px;background:#f6f6f6}
+ table.grid th{background:#f6f6f6}
+ pre{white-space:pre-wrap;background:#fafafa;border:1px solid #ddd;padding:8px;font-size:13px}
+ .n{color:#555;font-size:13px}
+ .bar{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;padding:6px 0}
+ .hint{color:#777;font-size:12px}
+ button.cp{font-size:12px;padding:1px 6px;margin-left:6px;cursor:pointer}
+ td.cpc{white-space:nowrap;width:70px}
+ .flashed{background:#dff5df}
+</style>
+</head>
+<body>
+<div class="bar">
+  <h1>司南礼客 · 标准案例演示字段复制表（唯一数据源：data/scenario/standard_case.json）</h1>
+  <div class="hint">配套完整脚本（同目录）：<a href="./完整演示脚本.txt">完整演示脚本.txt</a>（逐步操作、预期、失败处理）。
+  每个字段/每行右侧有「复制」按钮（点一下就进剪贴板）；表头「复制本表」复制整张表。
+  不支持剪贴板 API 时（例如 file:// 直接打开）会自动回退为选中文本，按 Ctrl+C 即可。</div>
+</div>
+<h3>0. 演示身份（① 成品 verified / ② 现场 replay / ③ 排查留存 show） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="kv">
+<tr><th>成品学员</th><td><span class="v" contenteditable="true">林晓</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>① 成品查看账号（最终交付用，保留不清空）</th><td><span class="v" contenteditable="true">demo-linxiao-verified-20261017</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>② 现场从零账号（不预创建，现场注册演示“注册”）</th><td><span class="v" contenteditable="true">demo-linxiao-replay-20261017</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>③ 排查留存账号（早前记录，保留不改；交付查看不用）</th><td><span class="v" contenteditable="true">demo-linxiao-show-20261017</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>口令（三个账号相同）</th><td><span class="v" contenteditable="true">LvyuanDemo#2026</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>前端</th><td><span class="v" contenteditable="true">http://127.0.0.1:15181</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>后端</th><td><span class="v" contenteditable="true">http://127.0.0.1:18920</span><button class="cp" data-copy-target>复制</button></td></tr>
+</table>
+<h3>0b. 现场前置（工作人员）与 B0 步骤</h3>
+<ul><li><b>前置（工作人员做）</b>：运行 <code>启动标准演示.ps1</code> 启动内部演示实例：后端 18920 / 前端 15181 / 库 .dsh-run\codex-review\preview.sqlite，启动期声明 <code>TRIPCRAFT_SCENARIO_MODE=offline</code> + <code>TRIPCRAFT_DEMO_TOURIST=on</code> + <code>TRIPCRAFT_BOOTSTRAP_ORDERS=1</code>。只有这个入口会把随机游客替换成固定黄先生。</li><li>普通双击 <b>司南礼客桌面版.bat</b> = 正常模式（18010/5180，随机游客 + 真实模型链路），不做任何替换。</li><li><b>B0（现场）</b>：正常注册 → 「消息中心」待接单里客人应为 <b>黄先生 / 云南</b> → 点 <b>抢单</b>。<b>不再有 /demo 导入页</b>，也不需要任何导入步骤。</li><li>先做 12 题初测 + C6.1 学习不会丢单：演示实例里未接单的固定单可续期；已抢单 / 已完成不回退。</li><li>公开界面（登录/注册/首页/导航）不再有「标准案例」入口；内部排查页 /demo 仅演示实例可访问。</li></ul>
+<h3>1. 标准案例事实（黄先生 · 云南 5 日） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="kv">
+<tr><th>customer</th><td><span class="v" contenteditable="true">黄先生</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>source_market</th><td><span class="v" contenteditable="true">香港</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>language</th><td><span class="v" contenteditable="true">中文</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>documents</th><td><span class="v" contenteditable="true">港澳居民来往内地通行证（回乡证）</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>party</th><td><span class="v" contenteditable="true">3 大 1 小（含 1 位 68 岁长辈）</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>dates</th><td><span class="v" contenteditable="true">2026-11-16 至 2026-11-20（5 天 4 晚）</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>days</th><td><span class="v" contenteditable="true">5 天 4 晚</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>budget</th><td><span class="v" contenteditable="true">人均 4500 元（不含昆明往返大交通），总价上限 18000 元</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>transport</th><td><span class="v" contenteditable="true">7 座商务车含司机与油费，含接送机</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>hotel</th><td><span class="v" contenteditable="true">四星含早，2 间双床（要电梯房），可免费取消至 11-10</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>special</th><td><span class="v" contenteditable="true">长辈膝盖不好，忌辣；每天步行控制 2 小时内；不用微信，习惯 WhatsApp</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>decision</th><td><span class="v" contenteditable="true">黄先生本人决策，太太管预算</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>intent</th><td><span class="v" contenteditable="true">11 月中带爸妈和孩子去云南玩几天，你帮我看看怎么安排合适。</span><button class="cp" data-copy-target>复制</button></td></tr>
+</table>
+<h3>2. 初始画像测评 12 题（逐题按“点这个字母”选） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="grid"><thead><tr>
+<th>题号</th><th>维度</th><th>题干</th><th>点这个字母</th><th>选项文案（照抄点选）</th>
+<th>复制</th></tr></thead><tbody>
+<tr><td><span class="v" contenteditable="true">1</span></td><td><span class="v" contenteditable="true">C1</span></td><td><span class="v" contenteditable="true">和刚提交需求的陌生客户通电话，你通常怎么开场？</span></td><td><span class="v" contenteditable="true">A</span></td><td><span class="v" contenteditable="true">自报公司、姓名、定制师身份，确认称呼与是否方便，并约定下次联系时间</span></td><td class="cpc"><button class="cp" data-copy-value="1	C1	和刚提交需求的陌生客户通电话，你通常怎么开场？	A	自报公司、姓名、定制师身份，确认称呼与是否方便，并约定下次联系时间">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">2</span></td><td><span class="v" contenteditable="true">C1</span></td><td><span class="v" contenteditable="true">客户语气很冲、上来就抱怨方案太贵，你第一反应是？</span></td><td><span class="v" contenteditable="true">A</span></td><td><span class="v" contenteditable="true">先接住情绪、把对方的顾虑复述一遍，再谈方案怎么调</span></td><td class="cpc"><button class="cp" data-copy-value="2	C1	客户语气很冲、上来就抱怨方案太贵，你第一反应是？	A	先接住情绪、把对方的顾虑复述一遍，再谈方案怎么调">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">3</span></td><td><span class="v" contenteditable="true">C2</span></td><td><span class="v" contenteditable="true">客户说「预算别太贵、住得好一点」。你怎么接？</span></td><td><span class="v" contenteditable="true">A</span></td><td><span class="v" contenteditable="true">追问人均预算区间、出行人数、日期、住宿档次口径，再复述确认</span></td><td class="cpc"><button class="cp" data-copy-value="3	C2	客户说「预算别太贵、住得好一点」。你怎么接？	A	追问人均预算区间、出行人数、日期、住宿档次口径，再复述确认">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">4</span></td><td><span class="v" contenteditable="true">C2</span></td><td><span class="v" contenteditable="true">需求谈完一轮，你通常怎么收口？</span></td><td><span class="v" contenteditable="true">A</span></td><td><span class="v" contenteditable="true">整理成必须满足 / 希望满足 / 可替代 / 明确不要，发给客户确认</span></td><td class="cpc"><button class="cp" data-copy-value="4	C2	需求谈完一轮，你通常怎么收口？	A	整理成必须满足 / 希望满足 / 可替代 / 明确不要，发给客户确认">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">5</span></td><td><span class="v" contenteditable="true">C3</span></td><td><span class="v" contenteditable="true">做一份 5 天行程，你最先确定什么？</span></td><td><span class="v" contenteditable="true">C</span></td><td><span class="v" contenteditable="true">参考同行现成线路改一下</span></td><td class="cpc"><button class="cp" data-copy-value="5	C3	做一份 5 天行程，你最先确定什么？	C	参考同行现成线路改一下">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">6</span></td><td><span class="v" contenteditable="true">C3</span></td><td><span class="v" contenteditable="true">行程里出现「一天跑三个相距很远的景点」，你会怎么处理？</span></td><td><span class="v" contenteditable="true">C</span></td><td><span class="v" contenteditable="true">客户想去就排上，到了再说</span></td><td class="cpc"><button class="cp" data-copy-value="6	C3	行程里出现「一天跑三个相距很远的景点」，你会怎么处理？	C	客户想去就排上，到了再说">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">7</span></td><td><span class="v" contenteditable="true">C4</span></td><td><span class="v" contenteditable="true">报价前，酒店、车、票、导游这些资源你会怎么处理？</span></td><td><span class="v" contenteditable="true">A</span></td><td><span class="v" contenteditable="true">逐项问清房态、车况、票务档期，确认过再写进报价</span></td><td class="cpc"><button class="cp" data-copy-value="7	C4	报价前，酒店、车、票、导游这些资源你会怎么处理？	A	逐项问清房态、车况、票务档期，确认过再写进报价">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">8</span></td><td><span class="v" contenteditable="true">C5</span></td><td><span class="v" contenteditable="true">客户问「这个价包含什么、你们的利润有多少」，你怎么答？</span></td><td><span class="v" contenteditable="true">A</span></td><td><span class="v" contenteditable="true">分项列清导游、用车、住宿、餐饮、门票、保险、服务费，说明口径与浮动空间</span></td><td class="cpc"><button class="cp" data-copy-value="8	C5	客户问「这个价包含什么、你们的利润有多少」，你怎么答？	A	分项列清导游、用车、住宿、餐饮、门票、保险、服务费，说明口径与浮动空间">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">9</span></td><td><span class="v" contenteditable="true">C5</span></td><td><span class="v" contenteditable="true">一单做完，你一般怎么确认这单赚了多少？</span></td><td><span class="v" contenteditable="true">A</span></td><td><span class="v" contenteditable="true">拿地接结算单和报价逐项核对，算清实际成本、毛利与损失</span></td><td class="cpc"><button class="cp" data-copy-value="9	C5	一单做完，你一般怎么确认这单赚了多少？	A	拿地接结算单和报价逐项核对，算清实际成本、毛利与损失">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">10</span></td><td><span class="v" contenteditable="true">C6</span></td><td><span class="v" contenteditable="true">出发前一天车队说车坏了，你的处理顺序是？</span></td><td><span class="v" contenteditable="true">C</span></td><td><span class="v" contenteditable="true">先把情况告诉客户，等车队消息</span></td><td class="cpc"><button class="cp" data-copy-value="10	C6	出发前一天车队说车坏了，你的处理顺序是？	C	先把情况告诉客户，等车队消息">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">11</span></td><td><span class="v" contenteditable="true">C7</span></td><td><span class="v" contenteditable="true">给客户报方案前，合规上你会先确认哪些？</span></td><td><span class="v" contenteditable="true">A</span></td><td><span class="v" contenteditable="true">保险是否必买、合同与定金节点、目的地是否可接、承诺口径是否越界</span></td><td class="cpc"><button class="cp" data-copy-value="11	C7	给客户报方案前，合规上你会先确认哪些？	A	保险是否必买、合同与定金节点、目的地是否可接、承诺口径是否越界">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">12</span></td><td><span class="v" contenteditable="true">C8</span></td><td><span class="v" contenteditable="true">接到一位沙特的客户，除了行程你还会额外确认什么？</span></td><td><span class="v" contenteditable="true">A</span></td><td><span class="v" contenteditable="true">签证免签与证件有效期、宗教饮食禁忌、礼仪隐私习惯、结算币种与汇率口径</span></td><td class="cpc"><button class="cp" data-copy-value="12	C8	接到一位沙特的客户，除了行程你还会额外确认什么？	A	签证免签与证件有效期、宗教饮食禁忌、礼仪隐私习惯、结算币种与汇率口径">复制本行</button></td></tr>
+</tbody></table>
+<p class='n'>提交后期望维度基线：C1 95 · C2 95 · C3 25 · C4 95 · C5 95 · C6 25 · C7 95 · C8 95</p>
+<h3>3. 学习卡 C2.2（需求挖掘 · 预算口径识别）</h3>
+<pre contenteditable='true'># C2.2 讲义 · 预算口径的追问
+
+客户说「别太贵」时，这不是预算口径，只是态度。
+
+专业追问三件事：
+1. 人均还是总价？
+2. 含不含往返大交通？
+3. 能接受的区间是多少，谁最终拍板？
+
+拿到口径后，才能决定资源档位（酒店星标、车型、餐标）。本案例中客户经追问后给出：人均 4500 元（不含机票），总价上限 18000 元，由太太最终确认。</pre>
+<h3>C2.2 题卡 <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="grid"><thead><tr>
+<th>项</th><th>值</th>
+<th>复制</th></tr></thead><tbody>
+<tr><td><span class="v" contenteditable="true">题干</span></td><td><span class="v" contenteditable="true">客户只说「预算别太贵」时，下列做法最专业的是？</span></td><td class="cpc"><button class="cp" data-copy-value="题干	客户只说「预算别太贵」时，下列做法最专业的是？">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">正确选项</span></td><td><span class="v" contenteditable="true">B</span></td><td class="cpc"><button class="cp" data-copy-value="正确选项	B">复制本行</button></td></tr>
+</tbody></table>
+<ul><li contenteditable='true'>A. 直接按最低价出一版方案，先锁客户</li><li contenteditable='true'>B. 追问预算口径：人均还是总价、含不含大交通、可接受区间</li><li contenteditable='true'>C. 按同行平均水平报价，不做追问</li><li contenteditable='true'>D. 先不谈钱，等客户自己提</li></ul>
+<h3>3. 学习卡 C6.1（突发事件处置 · 快速响应安抚）</h3>
+<pre contenteditable='true'># C6.1 讲义 · 快速响应安抚
+
+突发事件被客户告知（或自己发现）后，**第一时间回应**是第一位的：官方锚点建议 ≤10 分钟先回应客户。
+
+## 三步止损顺序
+1. **先接住情绪、表明负责态度**：第一句先安抚与表态（「我在，这事我来处理」），不解释、不推给地接或资源方。
+2. **给明确的时间点**：告诉客户什么时候给下一个准信（例如「20 分钟内给你替代方案」）。
+3. **再谈方案与差额承担**：情绪落地后给 2 个可选方案；涉及加钱/赔偿的，走自己的流程确认，同时并联压资源方处置。
+
+## 反例（会被判低档）
+- 等资源方确认完再回复客户；
+- 先追责、先问费用，再决定怎么跟客户说；
+- 直接告诉客户是资源方的问题，让客户自己找对方。
+
+## 本案例对照（车辆故障）
+司导群报「车坏了、可能赶不上 8 点出发」→ 先给客户一句话安抚 + 明确时间点；同时压车队当日内换车；换车差额 400 元由车队承担（我方损失 0）；全过程在群里留书面时间点与回复时间。</pre>
+<h3>C6.1 题卡 <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="grid"><thead><tr>
+<th>项</th><th>值</th>
+<th>复制</th></tr></thead><tbody>
+<tr><td><span class="v" contenteditable="true">题干</span></td><td><span class="v" contenteditable="true">行中客户在群里说「车坏了，我们是不是赶不上出发了？」——你第一时间的动作是？</span></td><td class="cpc"><button class="cp" data-copy-value="题干	行中客户在群里说「车坏了，我们是不是赶不上出发了？」——你第一时间的动作是？">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">正确选项</span></td><td><span class="v" contenteditable="true">B</span></td><td class="cpc"><button class="cp" data-copy-value="正确选项	B">复制本行</button></td></tr>
+</tbody></table>
+<ul><li contenteditable='true'>A. 先等车队确认能不能换车，确定了再回复客户</li><li contenteditable='true'>B. 先回客户一句话安抚并表明负责、给出下一次回复的明确时间点，同时并联压车队换车</li><li contenteditable='true'>C. 先在司导群里问清责任和费用，再决定怎么跟客户说</li><li contenteditable='true'>D. 直接告诉客户是车队的问题，让客户自己找车队</li></ul>
+<p class='n'>学习说明：<b>C6.1 是主路径必需</b>（做题练到教学掌握度 ≥60 才能解锁行中换车事件：每轮 点「做题」→ 点「发送」→ 选 B → 交卷，共 5 轮）；C2.2 讲义/题卡为<b>可选</b>展示（不影响解锁）。</p>
+<h3>4. 首呼逐句（实测顺序：opening 先，之后你每发一句客户回下一句，末句后保持） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="grid"><thead><tr>
+<th>顺序</th><th>我（学员）说</th><th>客户固定回复</th>
+<th>复制</th></tr></thead><tbody>
+<tr><td><span class="v" contenteditable="true">opening（你还没说话）</span></td><td><span class="v" contenteditable="true">（点「点击拨打」后客户先开口）</span></td><td><span class="v" contenteditable="true">方便，你说。</span></td><td class="cpc"><button class="cp" data-copy-value="opening（你还没说话）	（点「点击拨打」后客户先开口）	方便，你说。">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">你的第 1 句</span></td><td><span class="v" contenteditable="true">黄先生您好，我是司南礼客定制游的定制师小李，您现在方便说两分钟吗？</span></td><td><span class="v" contenteditable="true">我们 3 大 1 小，11 月中去云南，5 天吧。预算别太贵，你看着安排。</span></td><td class="cpc"><button class="cp" data-copy-value="你的第 1 句	黄先生您好，我是司南礼客定制游的定制师小李，您现在方便说两分钟吗？	我们 3 大 1 小，11 月中去云南，5 天吧。预算别太贵，你看着安排。">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">你的第 2 句</span></td><td><span class="v" contenteditable="true">想先跟您确认三件事：几位出行、大概哪几天、预算大概什么口径（人均还是总价、含不含机票）？</span></td><td><span class="v" contenteditable="true">人均四千多可以，机票我们自己买。WhatsApp 可以，我不用微信。</span></td><td class="cpc"><button class="cp" data-copy-value="你的第 2 句	想先跟您确认三件事：几位出行、大概哪几天、预算大概什么口径（人均还是总价、含不含机票）？	人均四千多可以，机票我们自己买。WhatsApp 可以，我不用微信。">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">你的第 3 句</span></td><td><span class="v" contenteditable="true">好的，我按您说的先出一版方案，今天 18 点前发您。另外您在香港，我用 WhatsApp 联系您方便吗？</span></td><td><span class="v" contenteditable="true">人均四千多可以，机票我们自己买。WhatsApp 可以，我不用微信。（末句之后保持上一句）</span></td><td class="cpc"><button class="cp" data-copy-value="你的第 3 句	好的，我按您说的先出一版方案，今天 18 点前发您。另外您在香港，我用 WhatsApp 联系您方便吗？	人均四千多可以，机票我们自己买。WhatsApp 可以，我不用微信。（末句之后保持上一句）">复制本行</button></td></tr>
+</tbody></table>
+<h3>5. IM 固定话术 <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="grid"><thead><tr>
+<th>场景</th><th>我方发送 / 客户固定回复</th>
+<th>复制</th></tr></thead><tbody>
+<tr><td><span class="v" contenteditable="true">客户服务群（客户）</span></td><td><span class="v" contenteditable="true">客户群里我们确认一下：11 月 16 号到，住两间双床电梯房，全程不要辣，对吧？</span></td><td class="cpc"><button class="cp" data-copy-value="客户服务群（客户）	客户群里我们确认一下：11 月 16 号到，住两间双床电梯房，全程不要辣，对吧？">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">资源对接群（地接）</span></td><td><span class="v" contenteditable="true"></span></td><td class="cpc"><button class="cp" data-copy-value="资源对接群（地接）	">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">司导沟通群（导游）</span></td><td><span class="v" contenteditable="true"></span></td><td class="cpc"><button class="cp" data-copy-value="司导沟通群（导游）	">复制本行</button></td></tr>
+</tbody></table>
+<h3>6. 《需求确认单》字段 <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="kv">
+<tr><th>guest</th><td><span class="v" contenteditable="true">黄先生</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>source</th><td><span class="v" contenteditable="true">香港</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>people</th><td><span class="v" contenteditable="true">3 大 1 小（含 1 位 68 岁长辈）</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>dates</th><td><span class="v" contenteditable="true">2026-11-16 至 2026-11-20，5 天 4 晚</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>route</th><td><span class="v" contenteditable="true">昆明 / 大理</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>must</th><td><span class="v" contenteditable="true">日期不可改；2 间双床且要电梯房；含接送机；长辈可少走路；预算总价不超过 18000 元</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>want</th><td><span class="v" contenteditable="true">洱海与古城，节奏慢一些，亲子体验（花市/手工）</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>alternative</th><td><span class="v" contenteditable="true">酒店可换同档次；动车可换班次但不要晚到</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>refuse</th><td><span class="v" contenteditable="true">不要早班机；不要辣菜；不安排长时间步行与购物店</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>budget</th><td><span class="v" contenteditable="true">人均 4500 元（不含昆明往返大交通），总价上限 18000 元；由太太最终确认</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>docs</th><td><span class="v" contenteditable="true">港澳居民来往内地通行证（回乡证），有效期需覆盖行程 + 6 个月</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>taboo</th><td><span class="v" contenteditable="true">不吃辣；长辈不吃牛羊肉</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>decision</th><td><span class="v" contenteditable="true">黄先生决策，太太管预算</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>note</th><td><span class="v" contenteditable="true">客户不用微信，用 WhatsApp；沟通时间以下午为主</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>freeform</th><td><span class="v" contenteditable="true">客户原话：「别太贵」经追问后明确为人均 4500、总价上限 18000（不含机票）。</span><button class="cp" data-copy-target>复制</button></td></tr>
+</table>
+<h3>7. 《资源询价记录》字段 <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="kv">
+<tr><th>supplier</th><td><span class="v" contenteditable="true">云南滇行地接 · 张经理</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>kind</th><td><span class="v" contenteditable="true">组合</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>quote</th><td><span class="v" contenteditable="true">四星双床 540 元/间/晚；7 座商务 950 元/天（含司机油费）；普通话导游 560 元/天；首道门票 145 元/人</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>availability</th><td><span class="v" contenteditable="true">紧张</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>included</th><td><span class="v" contenteditable="true">酒店含早；用车含司机、油费、过路费；导游含讲解与陪同；不含机票、个人消费与单房差</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>deadline</th><td><span class="v" contenteditable="true">今天 18 点前确认锁位（11 月旺季房源紧张）</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>backup</th><td><span class="v" contenteditable="true">主选滇行；若 11-14 前仍未锁到双床，则换云途（贵 460 元，免费取消早 2 天）</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>note</th><td><span class="v" contenteditable="true">长辈同行：确认电梯房与每日步行时长；地接同意午餐避开辣菜</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>freeform</th><td><span class="v" contenteditable="true">本记录为内部台账：优先保留可免费取消的房源，锁位前不向客户报死价。</span><button class="cp" data-copy-target>复制</button></td></tr>
+</table>
+<h3>《资源询价记录》· 比价（≥2 家） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="grid"><thead><tr>
+<th>supplier</th><th>price</th><th>included</th><th>cancel</th><th>reputation</th>
+<th>复制</th></tr></thead><tbody>
+<tr><td><span class="v" contenteditable="true">滇行地接（首选）</span></td><td><span class="v" contenteditable="true">10120</span></td><td><span class="v" contenteditable="true">含早/含司机油费/含讲解</span></td><td><span class="v" contenteditable="true">免费取消至 11-10</span></td><td><span class="v" contenteditable="true">长期合作，长辈团经验足</span></td><td class="cpc"><button class="cp" data-copy-value="滇行地接（首选）	10120	含早/含司机油费/含讲解	免费取消至 11-10	长期合作，长辈团经验足">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">云途地接（备选）</span></td><td><span class="v" contenteditable="true">10580</span></td><td><span class="v" contenteditable="true">含早/含司机油费</span></td><td><span class="v" contenteditable="true">免费取消至 11-08</span></td><td><span class="v" contenteditable="true">响应快，导游较年轻</span></td><td class="cpc"><button class="cp" data-copy-value="云途地接（备选）	10580	含早/含司机油费	免费取消至 11-08	响应快，导游较年轻">复制本行</button></td></tr>
+</tbody></table>
+<h3>8. 《行程方案》V1（客户会反馈的版本：D4 = 博物馆）</h3>
+<h3>《行程方案》· 契约字段（V1 与 V2 相同部分） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="kv">
+<tr><th>title</th><td><span class="v" contenteditable="true">云南 5 日亲子行程（长辈同行版）</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>dates</th><td><span class="v" contenteditable="true">2026-11-16 至 2026-11-20</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>people</th><td><span class="v" contenteditable="true">3 大 1 小</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>vehicle</th><td><span class="v" contenteditable="true">7 座商务车，含司机与油费；每天 8:30 出发，最长单程 2 小时</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>hotel</th><td><span class="v" contenteditable="true">昆明滇池四星 2 间双床（电梯房，含早）×2 晚；大理洱海边四星 2 间双床 ×2 晚</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>insurance</th><td><span class="v" contenteditable="true">旅游意外险 30 万，60 元/人，随合同一并购买</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>entry</th><td><span class="v" contenteditable="true">港澳居民来往内地通行证（回乡证）有效期需覆盖行程 + 6 个月；提醒客户随身携带</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>backup</th><td><span class="v" contenteditable="true">主选滇行地接；若 11-14 前未锁到双床则换云途地接（贵 460 元）</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>note</th><td><span class="v" contenteditable="true">长辈膝盖不好：每天步行 ≤2 小时，午后留 1 小时休息；全程避开辣菜</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>freeform</th><td><span class="v" contenteditable="true">方案按「不赶、不换酒店太频繁」的原则排，动车段都安排在上午。</span><button class="cp" data-copy-target>复制</button></td></tr>
+</table>
+<h3>《行程方案》V1 · 逐日（D4=云南省博物馆·翠湖） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="grid"><thead><tr>
+<th>day</th><th>time</th><th>transport</th><th>spot</th><th>meal</th><th>hotel</th><th>guide</th>
+<th>复制</th></tr></thead><tbody>
+<tr><td><span class="v" contenteditable="true">D1</span></td><td><span class="v" contenteditable="true">14:00</span></td><td><span class="v" contenteditable="true">专车 50 分</span></td><td><span class="v" contenteditable="true">滇池·海埂大坝</span></td><td><span class="v" contenteditable="true">晚 云南菜（不辣）</span></td><td><span class="v" contenteditable="true">昆明滇池四星·电梯双床</span></td><td><span class="v" contenteditable="true">导游·周</span></td><td class="cpc"><button class="cp" data-copy-value="D1	14:00	专车 50 分	滇池·海埂大坝	晚 云南菜（不辣）	昆明滇池四星·电梯双床	导游·周">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">D2</span></td><td><span class="v" contenteditable="true">09:30</span></td><td><span class="v" contenteditable="true">动车 2 小时 + 专车 30 分</span></td><td><span class="v" contenteditable="true">大理古城·洱海生态廊道</span></td><td><span class="v" contenteditable="true">午 白族菜 / 晚 客栈餐</span></td><td><span class="v" contenteditable="true">大理洱海边四星</span></td><td><span class="v" contenteditable="true">导游·周</span></td><td class="cpc"><button class="cp" data-copy-value="D2	09:30	动车 2 小时 + 专车 30 分	大理古城·洱海生态廊道	午 白族菜 / 晚 客栈餐	大理洱海边四星	导游·周">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">D3</span></td><td><span class="v" contenteditable="true">09:00</span></td><td><span class="v" contenteditable="true">专车 40 分</span></td><td><span class="v" contenteditable="true">喜洲古镇·海舌公园</span></td><td><span class="v" contenteditable="true">午 简餐 / 晚 不辣家常菜</span></td><td><span class="v" contenteditable="true">大理洱海边四星</span></td><td><span class="v" contenteditable="true">导游·周</span></td><td class="cpc"><button class="cp" data-copy-value="D3	09:00	专车 40 分	喜洲古镇·海舌公园	午 简餐 / 晚 不辣家常菜	大理洱海边四星	导游·周">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">D4</span></td><td><span class="v" contenteditable="true">08:30</span></td><td><span class="v" contenteditable="true">动车 2 小时</span></td><td><span class="v" contenteditable="true">云南省博物馆·翠湖</span></td><td><span class="v" contenteditable="true">午 汽锅鸡 / 晚 自由</span></td><td><span class="v" contenteditable="true">昆明滇池四星·电梯双床</span></td><td><span class="v" contenteditable="true">导游·周</span></td><td class="cpc"><button class="cp" data-copy-value="D4	08:30	动车 2 小时	云南省博物馆·翠湖	午 汽锅鸡 / 晚 自由	昆明滇池四星·电梯双床	导游·周">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">D5</span></td><td><span class="v" contenteditable="true">10:00</span></td><td><span class="v" contenteditable="true">专车 40 分</span></td><td><span class="v" contenteditable="true">斗南花市</span></td><td><span class="v" contenteditable="true">午 简餐</span></td><td><span class="v" contenteditable="true">返程</span></td><td><span class="v" contenteditable="true">导游·周</span></td><td class="cpc"><button class="cp" data-copy-value="D5	10:00	专车 40 分	斗南花市	午 简餐	返程	导游·周">复制本行</button></td></tr>
+</tbody></table>
+<h3>《行程方案》V2 · 逐日（D4 已按客户反馈改为翠湖短线 + 花市手工） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="grid"><thead><tr>
+<th>day</th><th>time</th><th>transport</th><th>spot</th><th>meal</th><th>hotel</th><th>guide</th>
+<th>复制</th></tr></thead><tbody>
+<tr><td><span class="v" contenteditable="true">D1</span></td><td><span class="v" contenteditable="true">14:00</span></td><td><span class="v" contenteditable="true">专车 50 分</span></td><td><span class="v" contenteditable="true">滇池·海埂大坝</span></td><td><span class="v" contenteditable="true">晚 云南菜（不辣）</span></td><td><span class="v" contenteditable="true">昆明滇池四星·电梯双床</span></td><td><span class="v" contenteditable="true">导游·周</span></td><td class="cpc"><button class="cp" data-copy-value="D1	14:00	专车 50 分	滇池·海埂大坝	晚 云南菜（不辣）	昆明滇池四星·电梯双床	导游·周">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">D2</span></td><td><span class="v" contenteditable="true">09:30</span></td><td><span class="v" contenteditable="true">动车 2 小时 + 专车 30 分</span></td><td><span class="v" contenteditable="true">大理古城·洱海生态廊道</span></td><td><span class="v" contenteditable="true">午 白族菜 / 晚 客栈餐</span></td><td><span class="v" contenteditable="true">大理洱海边四星</span></td><td><span class="v" contenteditable="true">导游·周</span></td><td class="cpc"><button class="cp" data-copy-value="D2	09:30	动车 2 小时 + 专车 30 分	大理古城·洱海生态廊道	午 白族菜 / 晚 客栈餐	大理洱海边四星	导游·周">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">D3</span></td><td><span class="v" contenteditable="true">09:00</span></td><td><span class="v" contenteditable="true">专车 40 分</span></td><td><span class="v" contenteditable="true">喜洲古镇·海舌公园</span></td><td><span class="v" contenteditable="true">午 简餐 / 晚 不辣家常菜</span></td><td><span class="v" contenteditable="true">大理洱海边四星</span></td><td><span class="v" contenteditable="true">导游·周</span></td><td class="cpc"><button class="cp" data-copy-value="D3	09:00	专车 40 分	喜洲古镇·海舌公园	午 简餐 / 晚 不辣家常菜	大理洱海边四星	导游·周">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">D4</span></td><td><span class="v" contenteditable="true">09:00</span></td><td><span class="v" contenteditable="true">动车 2 小时 + 专车 30 分</span></td><td><span class="v" contenteditable="true">翠湖短线·斗南花市手工体验</span></td><td><span class="v" contenteditable="true">午 汽锅鸡 / 晚 自由</span></td><td><span class="v" contenteditable="true">昆明滇池四星·电梯双床</span></td><td><span class="v" contenteditable="true">导游·周</span></td><td class="cpc"><button class="cp" data-copy-value="D4	09:00	动车 2 小时 + 专车 30 分	翠湖短线·斗南花市手工体验	午 汽锅鸡 / 晚 自由	昆明滇池四星·电梯双床	导游·周">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">D5</span></td><td><span class="v" contenteditable="true">10:00</span></td><td><span class="v" contenteditable="true">专车 40 分</span></td><td><span class="v" contenteditable="true">斗南花市</span></td><td><span class="v" contenteditable="true">午 简餐</span></td><td><span class="v" contenteditable="true">返程</span></td><td><span class="v" contenteditable="true">导游·周</span></td><td class="cpc"><button class="cp" data-copy-value="D5	10:00	专车 40 分	斗南花市	午 简餐	返程	导游·周">复制本行</button></td></tr>
+</tbody></table>
+<h3>《行程方案》· 方案小节（创建方案页点“添加小节”逐条填） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="grid"><thead><tr>
+<th>title</th><th>body</th>
+<th>复制</th></tr></thead><tbody>
+<tr><td><span class="v" contenteditable="true">交通与用车</span></td><td><span class="v" contenteditable="true">7 座商务车含司机与油费；动车票提前锁，避免一等座差价</span></td><td class="cpc"><button class="cp" data-copy-value="交通与用车	7 座商务车含司机与油费；动车票提前锁，避免一等座差价">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">给长辈的安排</span></td><td><span class="v" contenteditable="true">每天步行不超过 2 小时，酒店必须电梯房，午餐避开辣菜</span></td><td class="cpc"><button class="cp" data-copy-value="给长辈的安排	每天步行不超过 2 小时，酒店必须电梯房，午餐避开辣菜">复制本行</button></td></tr>
+</tbody></table>
+<h3>8b. 行程方案客户反馈（按实际渲染内容给：D4 未改→要求修改；已改→明确认可） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="grid"><thead><tr>
+<th>版本</th><th>客户固定反馈</th>
+<th>复制</th></tr></thead><tbody>
+<tr><td><span class="v" contenteditable="true">V1（D4=云南省博物馆·翠湖）</span></td><td><span class="v" contenteditable="true">方案我看了，整体挺合适的。就是第四天能不能别安排博物馆，老人走不动，换成轻松点的？</span></td><td class="cpc"><button class="cp" data-copy-value="V1（D4=云南省博物馆·翠湖）	方案我看了，整体挺合适的。就是第四天能不能别安排博物馆，老人走不动，换成轻松点的？">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">V2（D4=翠湖短线·斗南花市手工体验）</span></td><td><span class="v" contenteditable="true">第四天换成翠湖短线加花市手工，这样老人轻松多了，这个版本可以，就按这版走；价格按之前的来，我没别的意见。</span></td><td class="cpc"><button class="cp" data-copy-value="V2（D4=翠湖短线·斗南花市手工体验）	第四天换成翠湖短线加花市手工，这样老人轻松多了，这个版本可以，就按这版走；价格按之前的来，我没别的意见。">复制本行</button></td></tr>
+</tbody></table>
+<h3>9. 《分项报价》字段（成本 10850 是预估，写进“内部核算说明”） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="kv">
+<tr><th>people</th><td><span class="v" contenteditable="true">3 大 1 小</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>dates</th><td><span class="v" contenteditable="true">2026-11-16 至 2026-11-20，5 天 4 晚</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>total</th><td><span class="v" contenteditable="true">12690</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>per_person</th><td><span class="v" contenteditable="true">3173</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>cost</th><td><span class="v" contenteditable="true">10850</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>insurance</th><td><span class="v" contenteditable="true">旅游意外保险 30 万，60 元/人，共 4 人</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>pending</th><td><span class="v" contenteditable="true">动车票需 48 小时内锁定；旺季酒店涨价需按实结算（预留 5% 空间）</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>fx</th><td><span class="v" contenteditable="true">港元 1:0.92 参考；客户刷信用卡，按出行前一日汇率结算，手续费我方承担</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>note</th><td><span class="v" contenteditable="true">报价有效 48 小时；不含昆明往返大交通与个人消费。</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>freeform</th><td><span class="v" contenteditable="true">报价已含行程所列首道门票与旅游意外险；旺季房源与动车票需在 48 小时内锁定，锁位后出具确认单。</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>internal_note</th><td><span class="v" contenteditable="true">内部核算说明（不发给客户）：报价成本 10850 元与毛利 1840 元（14.5%）均为报价时的**预估**；结算以资源方组合报价为准，实际成本 11030 元、实际毛利 1660 元、毛利率 13.08%，差额 180 元（预估与资源方组合报价的口径差）。客户报价 12690 元不因此变更。</span><button class="cp" data-copy-target>复制</button></td></tr>
+</table><h3>9. 《分项报价》字段（成本 10850 是预估，写进“内部核算说明”） · items（逐行） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="grid"><thead><tr>
+<th>name</th><th>desc</th><th>qty</th><th>price</th><th>amount</th>
+<th>复制</th></tr></thead><tbody>
+<tr><td><span class="v" contenteditable="true">用车</span></td><td><span class="v" contenteditable="true">7 座商务含司机与油费 5 天</span></td><td><span class="v" contenteditable="true">5</span></td><td><span class="v" contenteditable="true">950</span></td><td><span class="v" contenteditable="true">4750</span></td><td class="cpc"><button class="cp" data-copy-value="用车	7 座商务含司机与油费 5 天	5	950	4750">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">住宿</span></td><td><span class="v" contenteditable="true">四星双床 2 间 × 4 晚（含早）</span></td><td><span class="v" contenteditable="true">8</span></td><td><span class="v" contenteditable="true">540</span></td><td><span class="v" contenteditable="true">4320</span></td><td class="cpc"><button class="cp" data-copy-value="住宿	四星双床 2 间 × 4 晚（含早）	8	540	4320">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">导游</span></td><td><span class="v" contenteditable="true">普通话导游 5 天（慢节奏）</span></td><td><span class="v" contenteditable="true">5</span></td><td><span class="v" contenteditable="true">560</span></td><td><span class="v" contenteditable="true">2800</span></td><td class="cpc"><button class="cp" data-copy-value="导游	普通话导游 5 天（慢节奏）	5	560	2800">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">门票</span></td><td><span class="v" contenteditable="true">首道门票 4 人</span></td><td><span class="v" contenteditable="true">4</span></td><td><span class="v" contenteditable="true">145</span></td><td><span class="v" contenteditable="true">580</span></td><td class="cpc"><button class="cp" data-copy-value="门票	首道门票 4 人	4	145	580">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">保险</span></td><td><span class="v" contenteditable="true">旅游意外险 30 万 4 人</span></td><td><span class="v" contenteditable="true">4</span></td><td><span class="v" contenteditable="true">60</span></td><td><span class="v" contenteditable="true">240</span></td><td class="cpc"><button class="cp" data-copy-value="保险	旅游意外险 30 万 4 人	4	60	240">复制本行</button></td></tr>
+</tbody></table>
+<h3>10. 《合同与保险》字段 <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="kv">
+<tr><th>contract_no</th><td><span class="v" contenteditable="true">HT-20261116-031</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>sign_date</th><td><span class="v" contenteditable="true">2026-11-01</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>sign_way</th><td><span class="v" contenteditable="true">线上电子签</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>policy_no</th><td><span class="v" contenteditable="true">PL-8842-2026</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>insurer</th><td><span class="v" contenteditable="true">中国平安</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>insure_date</th><td><span class="v" contenteditable="true">2026-11-01</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>coverage</th><td><span class="v" contenteditable="true">意外 30 万 / 医疗 5 万</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>deposit</th><td><span class="v" contenteditable="true">3000</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>deposit_at</th><td><span class="v" contenteditable="true">2026-11-01 15:20</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>customer_signed</th><td><span class="v" contenteditable="true">已签署</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>deposit_state</th><td><span class="v" contenteditable="true">已到账</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>pay_way</th><td><span class="v" contenteditable="true">线上支付</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>order_note</th><td><span class="v" contenteditable="true">顺序合规：先合同 → 再保险 → 后收款；保单号与合同号已互相引用</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>freeform</th><td><span class="v" contenteditable="true">特殊约定：长辈同行，酒店须电梯房，行程节奏以舒适为先。</span><button class="cp" data-copy-target>复制</button></td></tr>
+</table>
+<h3>11. 《出团通知书》字段 <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="kv">
+<tr><th>gather</th><td><span class="v" contenteditable="true">2026-11-16 10:30 昆明长水机场 T1 到达层 3 号门</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>guide</th><td><span class="v" contenteditable="true">导游 周导 138****6621 / 司机 赵师傅 139****3308</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>contact</th><td><span class="v" contenteditable="true">定制师 小李 137****0099（24 小时）</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>daily</th><td><span class="v" contenteditable="true">每天 8:30 出发；D2/D4 动车段提前 40 分钟到站；每天午后留 1 小时休息</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>docs</th><td><span class="v" contenteditable="true">回乡证、常备药、雨具、充电宝；证件有效期已核对</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>taboo</th><td><span class="v" contenteditable="true">全程不辣；长辈不吃牛羊肉；已与酒店和餐厅书面确认</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>weather</th><td><span class="v" contenteditable="true">11 月云南 8—20℃，早晚温差大，建议薄羽绒 + 长袖</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>confirm</th><td><span class="v" contenteditable="true">文件已发客户服务群与司导群，请客户回复「收到」</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>freeform</th><td><span class="v" contenteditable="true">导游提前一天核对房间（电梯房）与动车票；司机确认 7 座车车况。</span><button class="cp" data-copy-target>复制</button></td></tr>
+</table>
+<h3>12. 《地接结算核对单》字段（『地接结算』=资源方成本，『我方报价』=销售价，差异为负=毛利） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="kv">
+<tr><th>settle_no</th><td><span class="v" contenteditable="true">JS-20261120-07</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>total_settle</th><td><span class="v" contenteditable="true">11030</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>total_ours</th><td><span class="v" contenteditable="true">12690</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>diff</th><td><span class="v" contenteditable="true">-1660</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>actual_cost</th><td><span class="v" contenteditable="true">11030</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>actual_margin</th><td><span class="v" contenteditable="true">1660</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>reason</th><td><span class="v" contenteditable="true">资源方组合报价（住宿 3680 + 用车 4250 + 导游 2500 + 门票 480 + 保险 120）合计 11030，比报价时的预估成本 10850 高 180（约 1.6%，是预估成本与资源方组合报价的口径差）；临时换车 400 元由车队承担，不计入我方成本。</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>decision</th><td><span class="v" contenteditable="true">客户侧：报价 12690，已收定金 3000，尾款 9690 待收；供应商侧：资源方结算 11030（临时换车 400 由车队承担，我方不承担），应付资源方 11030。最终实际毛利 = 12690 − 11030 = 1660。</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>freeform</th><td><span class="v" contenteditable="true">逐项核对口径：『地接结算』列是资源方开出的成本金额，『我方报价』列是给客户的销售金额，差异为负数即该项毛利；合计差异 −1660 与最终实际毛利一致。</span><button class="cp" data-copy-target>复制</button></td></tr>
+</table><h3>12. 《地接结算核对单》字段（『地接结算』=资源方成本，『我方报价』=销售价，差异为负=毛利） · items（逐行） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="grid"><thead><tr>
+<th>item</th><th>supplier</th><th>ours</th><th>diff</th><th>note</th>
+<th>复制</th></tr></thead><tbody>
+<tr><td><span class="v" contenteditable="true">住宿</span></td><td><span class="v" contenteditable="true">3680</span></td><td><span class="v" contenteditable="true">4320</span></td><td><span class="v" contenteditable="true">-640</span></td><td><span class="v" contenteditable="true">资源方组合报价 460/间晚×8 间晚；我方售价 540/间晚×8，差异即该项毛利</span></td><td class="cpc"><button class="cp" data-copy-value="住宿	3680	4320	-640	资源方组合报价 460/间晚×8 间晚；我方售价 540/间晚×8，差异即该项毛利">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">用车</span></td><td><span class="v" contenteditable="true">4250</span></td><td><span class="v" contenteditable="true">4750</span></td><td><span class="v" contenteditable="true">-500</span></td><td><span class="v" contenteditable="true">资源方组合报价 850/天×5 天；我方售价 950/天×5</span></td><td class="cpc"><button class="cp" data-copy-value="用车	4250	4750	-500	资源方组合报价 850/天×5 天；我方售价 950/天×5">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">导游</span></td><td><span class="v" contenteditable="true">2500</span></td><td><span class="v" contenteditable="true">2800</span></td><td><span class="v" contenteditable="true">-300</span></td><td><span class="v" contenteditable="true">资源方组合报价 500/天×5 天；我方售价 560/天×5</span></td><td class="cpc"><button class="cp" data-copy-value="导游	2500	2800	-300	资源方组合报价 500/天×5 天；我方售价 560/天×5">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">门票</span></td><td><span class="v" contenteditable="true">480</span></td><td><span class="v" contenteditable="true">580</span></td><td><span class="v" contenteditable="true">-100</span></td><td><span class="v" contenteditable="true">资源方组合报价 120/人×4；我方售价 145/人×4</span></td><td class="cpc"><button class="cp" data-copy-value="门票	480	580	-100	资源方组合报价 120/人×4；我方售价 145/人×4">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">保险</span></td><td><span class="v" contenteditable="true">120</span></td><td><span class="v" contenteditable="true">240</span></td><td><span class="v" contenteditable="true">-120</span></td><td><span class="v" contenteditable="true">资源方必选保险 30 元/人×4；我方售价 60 元/人×4</span></td><td class="cpc"><button class="cp" data-copy-value="保险	120	240	-120	资源方必选保险 30 元/人×4；我方售价 60 元/人×4">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">临时换车</span></td><td><span class="v" contenteditable="true">0</span></td><td><span class="v" contenteditable="true">0</span></td><td><span class="v" contenteditable="true">0</span></td><td><span class="v" contenteditable="true">实际发生临时换车 400 元，全部由车队承担，不入我方应付、也不与报价对账；我方应付 0</span></td><td class="cpc"><button class="cp" data-copy-value="临时换车	0	0	0	实际发生临时换车 400 元，全部由车队承担，不入我方应付、也不与报价对账；我方应付 0">复制本行</button></td></tr>
+</tbody></table>
+<h3>13. 《回访与复盘记录》字段 <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="kv">
+<tr><th>time</th><td><span class="v" contenteditable="true">2026-11-21 20:00 WhatsApp 语音 12 分钟</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>satisfaction</th><td><span class="v" contenteditable="true">满意</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>quote</th><td><span class="v" contenteditable="true">整体挺顺，导游照顾老人，换车处理得也快，就是第四天博物馆老人走不动。</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>issue</th><td><span class="v" contenteditable="true">方案 V1 的第 4 天排了云南省博物馆·翠湖，步行偏多，与「长辈少走路」的约定不符（客户已读反馈时提出）</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>remedy</th><td><span class="v" contenteditable="true">按客户反馈把 D4 真实改为「翠湖短线·斗南花市手工体验」，另存方案 V2 并重新发送，客户确认 V2（不是当天临时改）</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>balance_state</th><td><span class="v" contenteditable="true">已结清</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>profit</th><td><span class="v" contenteditable="true">1660</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>good</th><td><span class="v" contenteditable="true">需求挖掘细（预算口径问清）、资源可免费取消、突发换车 30 分钟内给了方案</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>improve</th><td><span class="v" contenteditable="true">报价成本要按资源方组合报价核实、别用估算（本单预估成本 10850 / 资源口径实际 11030，差 180）；行程初稿要按年龄结构排，别把博物馆这类长步行的点排进长辈同行日（本单客户已读后要求把 D4 改为翠湖短线 + 花市手工）</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>next</th><td><span class="v" contenteditable="true">下一单补练 C3.1：逐日行程按体力分级标注</span><button class="cp" data-copy-target>复制</button></td></tr>
+<tr><th>freeform</th><td><span class="v" contenteditable="true">实际毛利按资源口径复核为 1660 元（收入 12690 − 资源方结算 11030）；比报价时的预估毛利 1840 元少 180，原因是资源方组合报价（11030）高于报价时的预估成本（10850），差额已在《地接结算核对单》写明。</span><button class="cp" data-copy-target>复制</button></td></tr>
+</table>
+<h3>14. 行中事件固定回话（4 起，按会话逐条发） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="grid"><thead><tr>
+<th>事件</th><th>会话</th><th>我方发送（固定）</th>
+<th>复制</th></tr></thead><tbody>
+<tr><td><span class="v" contenteditable="true">INC-RESOURCE-VAGUE</span></td><td><span class="v" contenteditable="true">资源对接群</span></td><td><span class="v" contenteditable="true">请把车型、座位、日价、含不含司机与油费，以及今天几点前能给准信，一次发我。</span></td><td class="cpc"><button class="cp" data-copy-value="INC-RESOURCE-VAGUE	资源对接群	请把车型、座位、日价、含不含司机与油费，以及今天几点前能给准信，一次发我。">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">INC-CUSTOMER-OBJECTION</span></td><td><span class="v" contenteditable="true">客户（客户服务群）</span></td><td><span class="v" contenteditable="true">明白，您先说是价格还是节奏问题；我按优先级给您两版取舍，今天 18 点前发您。</span></td><td class="cpc"><button class="cp" data-copy-value="INC-CUSTOMER-OBJECTION	客户（客户服务群）	明白，您先说是价格还是节奏问题；我按优先级给您两版取舍，今天 18 点前发您。">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">INC-VEHICLE-BREAKDOWN</span></td><td><span class="v" contenteditable="true">司导沟通群</span></td><td><span class="v" contenteditable="true">赵师傅你先联系备用车，客人那边我来解释；更换车的差额由车队承担，你恢复后立刻给我时间点。</span></td><td class="cpc"><button class="cp" data-copy-value="INC-VEHICLE-BREAKDOWN	司导沟通群	赵师傅你先联系备用车，客人那边我来解释；更换车的差额由车队承担，你恢复后立刻给我时间点。">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">INC-PRE-TRIP-GAP</span></td><td><span class="v" contenteditable="true">司导沟通群</span></td><td><span class="v" contenteditable="true">长辈忌口与每日步行≤2 小时要求我已书面发给酒店与导游；接机按北京时间 10:30。请回复确认收到。</span></td><td class="cpc"><button class="cp" data-copy-value="INC-PRE-TRIP-GAP	司导沟通群	长辈忌口与每日步行≤2 小时要求我已书面发给酒店与导游；接机按北京时间 10:30。请回复确认收到。">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">INC-HOTEL-OVERBOOK</span></td><td><span class="v" contenteditable="true"></span></td><td><span class="v" contenteditable="true">先别动客人：同一晚给我两个替代方案（离景区 20 分钟内的同档次 + 价格），压价到不超原价，今天 18 点前回我。</span></td><td class="cpc"><button class="cp" data-copy-value="INC-HOTEL-OVERBOOK		先别动客人：同一晚给我两个替代方案（离景区 20 分钟内的同档次 + 价格），压价到不超原价，今天 18 点前回我。">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">INC-SETTLEMENT-DISPUTE</span></td><td><span class="v" contenteditable="true"></span></td><td><span class="v" contenteditable="true">结算单我核了：多出的两项请按合同口径重算并写明依据；对不上的部分请你们承担核减，核减后我按结算单结尾款。</span></td><td class="cpc"><button class="cp" data-copy-value="INC-SETTLEMENT-DISPUTE		结算单我核了：多出的两项请按合同口径重算并写明依据；对不上的部分请你们承担核减，核减后我按结算单结尾款。">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">INC-TICKET-FAIL</span></td><td><span class="v" contenteditable="true"></span></td><td><span class="v" contenteditable="true">先按一等座锁票保住行程，差价今天群里对账；换班次晚到 2 小时我不接受，30 分钟内给我准信。</span></td><td class="cpc"><button class="cp" data-copy-value="INC-TICKET-FAIL		先按一等座锁票保住行程，差价今天群里对账；换班次晚到 2 小时我不接受，30 分钟内给我准信。">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">INC-BAD-REVIEW</span></td><td><span class="v" contenteditable="true"></span></td><td><span class="v" contenteditable="true">您反馈的换酒店沟通问题我认，今天先给补救方案再约一次回访；这条差评我来跟平台解释。</span></td><td class="cpc"><button class="cp" data-copy-value="INC-BAD-REVIEW		您反馈的换酒店沟通问题我认，今天先给补救方案再约一次回访；这条差评我来跟平台解释。">复制本行</button></td></tr>
+</tbody></table>
+<h3>15. 评分待复核 11 条（逐条点“采纳”；verified 实测 11 条已采纳） <button class='cp' data-copy-table>复制本表</button></h3>
+<table class="grid"><thead><tr>
+<th>技能点</th><th>采纳分数</th>
+<th>复制</th></tr></thead><tbody>
+<tr><td><span class="v" contenteditable="true">C1.1</span></td><td><span class="v" contenteditable="true">84</span></td><td class="cpc"><button class="cp" data-copy-value="C1.1	84">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">C1.7</span></td><td><span class="v" contenteditable="true">77</span></td><td class="cpc"><button class="cp" data-copy-value="C1.7	77">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">C2.1</span></td><td><span class="v" contenteditable="true">80</span></td><td class="cpc"><button class="cp" data-copy-value="C2.1	80">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">C3.1</span></td><td><span class="v" contenteditable="true">72</span></td><td class="cpc"><button class="cp" data-copy-value="C3.1	72">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">C4.1</span></td><td><span class="v" contenteditable="true">77</span></td><td class="cpc"><button class="cp" data-copy-value="C4.1	77">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">C4.4</span></td><td><span class="v" contenteditable="true">82</span></td><td class="cpc"><button class="cp" data-copy-value="C4.4	82">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">C5.1</span></td><td><span class="v" contenteditable="true">79</span></td><td class="cpc"><button class="cp" data-copy-value="C5.1	79">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">C5.5</span></td><td><span class="v" contenteditable="true">83</span></td><td class="cpc"><button class="cp" data-copy-value="C5.5	83">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">C6.1</span></td><td><span class="v" contenteditable="true">79</span></td><td class="cpc"><button class="cp" data-copy-value="C6.1	79">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">C8.3</span></td><td><span class="v" contenteditable="true">80</span></td><td class="cpc"><button class="cp" data-copy-value="C8.3	80">复制本行</button></td></tr>
+<tr><td><span class="v" contenteditable="true">C8.4</span></td><td><span class="v" contenteditable="true">81</span></td><td class="cpc"><button class="cp" data-copy-value="C8.4	81">复制本行</button></td></tr>
+</tbody></table>
+<p class='n'><b>以下为 verified 账号真实页面实测值</b>（订单 9000000000000009 已结清；证据 output/demo-rehearsal-20261017/verified-browser/progress.json）。<br>画像对比：初始 C1 95 / C2 95 / C3 25 / C4 95 / C5 95 / C6 25 / C7 95 / C8 95；当前 C1 91.4 / C2 92.9 / C3 30.2 / C4 91.1 / C5 91.5 / C6 32.7 / C7 95.0 / C8 90.9。<br>真实分数趋势：做题 5 题 · 正确 5 · 准确率 100% · 均分 92；实战 11 条评分 · 均分 79.5。</p>
+<p class='n'>账目：客户收入 12690 · 资源口径成本 11030 · 实际毛利 1660（13.08%）· 损失 0 · 客户尾款 9690 · 临时换车 400 由车队承担（我方应付 0 / 我方承担 0，已自动定责）。</p>
+<p class='n'>财务页按钮口径：群里回复「差额由车队承担」后财务已自动定责，所以<b>首次进入财务页也可能直接显示「重新结账留档」</b>（不代表已经结过账）；首次若显示「结账并留档」同理。点顶部这个按钮，<b>直到出现「已结账留档」回执</b>（含实际毛利/毛利率）即完成。</p>
+<script>
+// 复制：优先 navigator.clipboard；失败回退到"选中文本 + execCommand('copy')"，file:// 也能用。
+function tcFlash(el) {
+  el.classList.add('flashed');
+  setTimeout(function () { el.classList.remove('flashed') }, 600);
+}
+function tcFallbackCopy(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.left = '-9999px';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  var ok = false;
+  try { ok = document.execCommand('copy') } catch (e) { ok = false }
+  document.body.removeChild(ta);
+  return ok;
+}
+function tcCopy(text) {
+  if (!text) return false;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).catch(function () { tcFallbackCopy(text) });
+    return true;
+  }
+  return tcFallbackCopy(text);
+}
+document.addEventListener('click', function (ev) {
+  var btn = ev.target.closest('button.cp');
+  if (!btn) return;
+  var text = '';
+  if (btn.hasAttribute('data-copy-value')) {
+    text = btn.getAttribute('data-copy-value');
+  } else if (btn.hasAttribute('data-copy-target')) {
+    var span = btn.parentElement.querySelector('.v');
+    text = span ? (span.innerText || span.textContent || '') : '';
+  } else if (btn.hasAttribute('data-copy-table')) {
+    var tb = btn.closest('h3') ? btn.closest('h3').nextElementSibling : null;
+    if (tb && tb.tagName === 'TABLE') {
+      var lines = [];
+      tb.querySelectorAll('tr').forEach(function (tr) {
+        var cells = [];
+        tr.querySelectorAll('th,td').forEach(function (c) {
+          if (c.classList.contains('cpc')) return;
+          var sp = c.querySelector('.v');
+          cells.push((sp ? (sp.innerText || sp.textContent) : (c.innerText || c.textContent) || '').trim());
+        });
+        if (cells.length) lines.push(cells.join('\t'));
+      });
+      text = lines.join('\n');
+    }
+  }
+  var ok = tcCopy(text);
+  var old = btn.textContent;
+  btn.textContent = ok ? '已复制' : '请 Ctrl+C';
+  tcFlash(btn);
+  setTimeout(function () { btn.textContent = old }, 900);
+});
+</script>
+</body>
+</html>

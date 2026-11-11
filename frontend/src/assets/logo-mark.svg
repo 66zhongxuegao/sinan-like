@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="sinan-mark" data-name="图层 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-3 -3 412 408">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        letter-spacing: .18em;
+      }
+
+      .cls-2, .cls-3, .cls-4, .cls-5, .cls-6 {
+        fill: #133450;
+      }
+
+      .cls-2, .cls-4, .cls-5 {
+        font-family: SourceHanSerifSC-Heavy, 'Source Han Serif SC';
+        font-weight: 800;
+      }
+
+      .cls-2, .cls-5 {
+        font-size: 30px;
+      }
+
+      .cls-4 {
+        font-size: 60px;
+        letter-spacing: .3em;
+      }
+
+      .cls-5 {
+        letter-spacing: .18em;
+      }
+
+      .cls-7 {
+        fill: url(#_未命名的渐变_540);
+      }
+
+      .cls-6 {
+        stroke: #fff;
+        stroke-miterlimit: 10;
+        stroke-width: 6px;
+      }
+
+      /* 深色底适配：菱形衬底提亮 + 金色细外框，保证在深蓝侧栏上完整可见 */
+      .cls-3 {
+        fill: #235080;
+        stroke: #c6a96f;
+        stroke-width: 7px;
+      }
+    </style>
+    <linearGradient id="_未命名的渐变_540" data-name="未命名的渐变 540" x1="103.75" y1="201.23" x2="405.53" y2="201.23" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#c6a96f"/>
+      <stop offset=".24" stop-color="#c8ac72"/>
+      <stop offset=".43" stop-color="#d0b57b"/>
+      <stop offset=".6" stop-color="#ddc68b"/>
+      <stop offset=".62" stop-color="#e0c98e"/>
+      <stop offset=".71" stop-color="#d4bc83"/>
+      <stop offset=".88" stop-color="#c4ab75"/>
+      <stop offset="1" stop-color="#bfa570"/>
+    </linearGradient>
+  </defs>
+  <rect class="cls-3" x="58.73" y="59.4" width="283.46" height="283.46" transform="translate(-83.51 200.66) rotate(-45)"/>
+  <rect class="cls-3" x="58.73" y="59.4" width="283.46" height="283.46" transform="translate(-83.51 200.66) rotate(-45)"/>
+  <rect class="cls-3" x="58.73" y="59.4" width="283.46" height="283.46" transform="translate(200.94 -82.84) rotate(45)"/>
+  <path class="cls-6" d="M.02,201.13c32.98-.22,65.96-.45,98.94-.67"/>
+  <path class="cls-6" d="M200.8,100.31c-.22-33.43-.45-66.86-.67-100.29"/>
+  <line class="cls-6" x1="100.24" y1="100.91" x2="200.46" y2="201.13"/>
+  <line class="cls-6" x1="199.59" y1="201.68" x2="99.37" y2="301.9"/>
+  <path class="cls-6" d="M99.28,301.9c-.22-67.38-.45-134.76-.67-202.14"/>
+  <path class="cls-6" d="M301.52,301.36c-.22-67.38-.45-134.76-.67-202.14"/>
+  <path class="cls-6" d="M99.11,100.62c67.38-.22,134.76-.45,202.14-.67"/>
+  <path class="cls-6" d="M99.11,301.62c67.38-.22,134.76-.45,202.14-.67"/>
+  <line class="cls-6" x1="200.18" y1="99.95" x2="149.73" y2="150.4"/>
+  <line class="cls-6" x1="148.01" y1="251.16" x2="198.46" y2="301.61"/>
+  <path class="cls-6" d="M200.57,401.53c-.22-33.43-.45-66.86-.67-100.29"/>
+  <path class="cls-1" d="M222.93,201c0,19.57-25.38,35.43-56.69,35.43s-56.69-15.86-56.69-35.43c0-15.2,15.32-28.17,36.83-33.2,6.18-1.44,12.87-2.23,19.86-2.23,31.31,0,56.69,15.86,56.69,35.43Z"/>
+  <polygon class="cls-1" points="378.53 223.73 225.53 218.73 225.53 183.73 377.53 177.73 378.53 223.73"/>
+  <polyline class="cls-1" points="377.53 177.73 387.53 186.73 386.82 215.4 378.53 223.73"/>
+  <path class="cls-7" d="M390.53,180.73l-84.84,8.7c-24.03,2.46-48.29,1.58-72.05-2.74-3.27-.59-5.45-1.06-5.74-1.29-15.55-12.25-33.25-26.69-60.36-26.69-35.22,0-63.78,19.04-63.78,42.52s28.56,42.52,63.78,42.52c26.46,0,42.9-10.59,59.32-26.07,1.57-1.48,3.65-2.28,5.8-2.28l1.71-.32c25.96-4.87,52.51-5.76,78.73-2.62l77.43,9.27c8.05,0,15.37-13.05,14.98-21.19-.36-7.62-7.35-19.81-14.98-19.81Z"/>
+  <path class="cls-1" d="M242.53,200.73c0,1.22-1.82,4.36-3,5-22.8,12.37-46.74,30.93-75.46,30.93-19.16,0-36.04-13.85-46.01-24.23-6.06-6.31-6.16-16.27-.28-22.75,9.95-10.97,27.02-25.56,46.3-23.89,27.77,2.41,52.98,21.12,75.46,29.93,1.47.58,3,3.59,3,5Z"/>
+  <line class="cls-6" x1="198.12" y1="301.38" x2="248.84" y2="223.73"/>
+  <line class="cls-6" x1="304.11" y1="302.38" x2="248.84" y2="223.73"/>
+  <line class="cls-6" x1="198.31" y1="99.05" x2="249.24" y2="179.86"/>
+  <line class="cls-6" x1="304.31" y1="99.05" x2="249.24" y2="179.86"/>
+  <rect class="cls-3" x="229.53" y="172.73" width="42" height="9"/>
+  <rect class="cls-3" x="229.53" y="221.73" width="42" height="9"/>
+</svg>

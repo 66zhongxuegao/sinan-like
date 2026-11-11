@@ -1,0 +1,27 @@
+[project]
+name = "tripcraft"
+version = "0.1.0"
+description = "TripCraft 司南礼客 —— 定制师全流程模拟实战系统"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115",
+  "pydantic>=2.8",
+  "uvicorn>=0.30",
+  "websocket-client>=1.8",
+  "websockets>=12.0",
+  "reportlab>=4.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.2", "httpx>=0.27"]
+
+[tool.setuptools.packages.find]
+include = ["tripcraft*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"

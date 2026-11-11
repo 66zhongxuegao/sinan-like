@@ -1,0 +1,22 @@
+﻿[
+    {
+        "LocalPort":  19387,
+        "OwningProcess":  30484
+    },
+    {
+        "LocalPort":  18920,
+        "OwningProcess":  53308
+    },
+    {
+        "LocalPort":  18010,
+        "OwningProcess":  49852
+    },
+    {
+        "LocalPort":  15181,
+        "OwningProcess":  43056
+    },
+    {
+        "LocalPort":  5180,
+        "OwningProcess":  15620
+    }
+]

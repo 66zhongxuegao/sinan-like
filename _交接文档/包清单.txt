@@ -1,0 +1,27 @@
+TripCraft 司南礼客 交接包 · 目录清单
+====================================================================
+包名：司南礼客-交接包-20261017
+生成时间：2026-10-17T05:18:03
+文件数：688（含本清单与 MANIFEST，不含内部草稿）
+未压缩大小：25578174 字节（24.4 MB）
+
+顶层条目（文件数）：
+  (根文件)                              10
+  _交接文档                              48
+  data                               74
+  docs                               10
+  frontend                           379
+  scripts                            53
+  tests                              26
+  tools                              7
+  tripcraft                          81
+
+明确排除（不进包）：node_modules、.git、.dsh-run 全部、.runtime、logs、tmp、
+  pytest-cache-files-*、sub_*、output 历史（只挑选定证据）、local.env 与任何
+  凭证文件（*secret* / *credential* / *apikey* / *.pem / *.key / .env*）、
+  根目录散落 sqlite、运行 profile/缓存、*.pyc、视频与 PPT。
+
+成品库快照：_交接文档/成品数据可选恢复/preview-verified-snapshot.sqlite
+  只含成品账号 demo-linxiao-verified-20261017 与订单 9000000000000009；sessions 已清空。
+换机注意：源码不含 node_modules —— 先跑 _交接文档/首次安装与适配.ps1
+  （Python>=3.11、Node>=22.12.0；npm ci + pip install -e .）；前端 dist 为最新构建产物。

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" fill="none">
+  <defs>
+    <linearGradient id="mist" x1="360" y1="45" x2="360" y2="245" gradientUnits="userSpaceOnUse"><stop stop-color="#A4CCEE" stop-opacity=".72"/><stop offset="1" stop-color="#E6F2FC" stop-opacity=".2"/></linearGradient>
+    <linearGradient id="near" x1="160" y1="130" x2="200" y2="260" gradientUnits="userSpaceOnUse"><stop stop-color="#77ACD6" stop-opacity=".46"/><stop offset="1" stop-color="#C7E2F7" stop-opacity=".1"/></linearGradient>
+  </defs>
+  <!-- 青蓝远山、层叠岫色与留白水面。 -->
+  <circle cx="512" cy="61" r="32" fill="#C3E1F7" opacity=".52"/>
+  <path d="M28 197 97 137 121 152 187 66 211 91 234 80 307 169 350 138 398 172 453 103 480 127 517 76 542 97 613 170 675 135 720 182V245H0Z" fill="url(#mist)"/>
+  <path d="m136 142 51-76 24 25 23-11 73 89-65-34-21 9-31-36-20 44Z" fill="#E7F2FC" opacity=".8"/>
+  <path d="m432 149 21-46 27 24 37-51 25 21 39 58-44-21-22-35-27 49-15-11Z" fill="#F4F9FD" opacity=".8"/>
+  <path d="M0 212 58 180 94 187 139 122 157 151 177 144 230 210 281 184 350 213 409 200 460 215 529 162 557 178 588 154 647 205 690 189 720 214V260H0Z" fill="url(#near)"/>
+  <g stroke="#7CAAD0" stroke-linecap="round" opacity=".42">
+    <path d="m141 131 9 33 15 15m-70 13 40 22m393-43-19 42m66-47-19 39"/>
+    <path d="M281 228h132m35 0h121M219 242h97m52 0h103m21 0h171M94 251h143m24 0h45m250-5h98"/>
+    <path d="M198 187c23-7 39-7 54-1m34 6c27-7 52-7 68-2m179 13c18-5 36-5 53-1" opacity=".6"/>
+  </g>
+  <!-- 临水亭阁：飞檐、栏杆与桥拱。 -->
+  <g stroke="#5D91BC" stroke-width="1.5" stroke-linejoin="round">
+    <path d="M417 175h88m-72-9h56m-27-45v17m-1-17 2-5 2 5"/>
+    <path d="M431 166q18-4 31-28 13 24 31 28l12 9q-23-1-43-10-20 9-43 10Z" fill="#8FB9DC" fill-opacity=".22"/>
+    <path d="M439 176v32m46-32v32m-39-30v26m32-26v26m-41 0h50m-44-10h38m-29-1v11m11-11v11m-28 4h60m-64 5h68"/>
+    <path d="M385 225q41-26 82-2m-71 0q27-14 54-1m-60-5v7m13-13v7m15-12v6m15-5v6m15-2v7m13-1v6" opacity=".62"/>
+  </g>
+  <!-- 松枝与飞鸟，与中国旅行和学识主题呼应。 -->
+  <g stroke="#5E92BB" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M104 237q-8-37-5-77m1 38-23-13m23-7 21-13m-20 43 24-9m-25 27-30-10" stroke-width="2.8" opacity=".8"/>
+    <path d="m75 184-21-2 12-5-16-2 22-5 19 5-10 3 12 4Zm44-23-14-4 15-5 15 1 14 8-19-2 13 6-18-1Zm1 39-12-6 20-3 17 4 6 5-19-1 7 4Zm-51 14-22-4 20-5 15 3 9 9-17-2 5 3Z" fill="#77A8CF" fill-opacity=".5" stroke-opacity=".25"/>
+    <path d="M315 64q8-8 16 0 8-8 16 0m29 23q6-6 12 0 6-6 12 0m-80 16q5-5 10 0 5-5 10 0" stroke-width="1.6" opacity=".7"/>
+  </g>
+  <g stroke="#84B3D8" stroke-width="1.3" opacity=".52" stroke-linecap="round">
+    <path d="M48 69h46q10 0 10-7t-10-7h-5q0-13-12-13-10 0-13 10h-5q-9 0-9 8h-8m18 18h39M581 41h38q9 0 9-7t-9-7q-3-14-14-14t-15 12h-7q-8 0-8 8m21 17h40"/>
+  </g>
+</svg>

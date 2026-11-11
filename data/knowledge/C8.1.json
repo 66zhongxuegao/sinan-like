@@ -1,0 +1,145 @@
+{
+  "skill_point_id": "C8.1",
+  "name": "外籍客户多语种首呼",
+  "dimension": "C8",
+  "explain": "外籍客户多语种首呼，是指在接到派单后 1 小时内，用客户母语或其可理解的语言（通常为英文）完成第一次电话联系。其核心目的是在客户对行程仍处于高关注、高期待的时间窗口内，建立专业信任、确认身份、说明来意，并把派单中缺失的关键信息补齐。为什么必须做？因为入境游客户往往跨时区、跨语言，延迟或语言不通会直接导致客户挂断、转投他社，甚至误判为骚扰电话。怎么做？第一，1 小时内发起，先报姓名、公司、身份（your China trip customizer）；第二，说明来意，如已收到其关于某目的地、某天数的咨询；第三，用简短、封闭式问题补问缺失信息（出行人数、日期、预算、偏好等）；第四，主动确认后续沟通语言与渠道，例如询问继续用英文还是改用 WhatsApp 中文沟通。整个过程要语速适中、用词简单、留出回应时间，避免一次性抛出过多问题。",
+  "key_points": [
+    "首呼必须在派单后 1 小时内发起，超时即触碰 M1 红线。",
+    "开场必须完成自我介绍、身份确认、来意说明三件事，缺一不可。",
+    "语言选择以客户母语或英文为底线，全程中文会导致客户无法理解而丢单。",
+    "首呼要补问派单中缺失的关键信息，如人数、日期、预算、偏好等。",
+    "结束前必须确认客户后续沟通语言与渠道偏好，这是 M5 与 M4 的分水岭。",
+    "沟通中保持语速适中、用词简单，给客户留出回应与提问空间。"
+  ],
+  "examples": [
+    {
+      "scene": "派单后 2 小时才联系，客户为英语母语者。",
+      "bad": "派单后 2 小时才打电话，全程中文说「您好我是您的定制师」，客户听不懂直接挂断，丢单。",
+      "good": "派单后 30 分钟内致电，用英文开场：Hello, this is [姓名] from [公司名], your China trip customizer. I received your inquiry about a [天数]-day trip to [目的地]. May I ask a few quick questions to fill in some missing details?"
+    },
+    {
+      "scene": "1 小时内已致电，但只用中文夹杂少量英文单词，且未确认客户母语。",
+      "bad": "Hi 您好，我是定制师，那个 trip 的事情……客户困惑，无法判断来意。",
+      "good": "Hello, this is [姓名] from [公司名], your China trip customizer. I received your inquiry about a [天数]-day trip to [目的地]. May I ask a few quick questions to fill in some missing details? Also, would you prefer I communicate in English or another language going forward?"
+    },
+    {
+      "scene": "1 小时内已用英文开场并自我介绍，但未说明来意、未补问缺失信息。",
+      "bad": "Hello, this is [姓名]. 然后直接沉默或闲聊，客户不知道这通电话要做什么。",
+      "good": "Hello, this is [姓名] from [公司名], your China trip customizer. I received your inquiry about a [天数]-day trip to [目的地]. May I ask a few quick questions to fill in some missing details? Also, would you prefer I communicate in English or another language going forward?"
+    }
+  ],
+  "resources": [
+    {
+      "difficulty": "L1",
+      "title": "外籍首呼 1 小时行动清单",
+      "format": "清单",
+      "content": "本清单用于帮助新手定制师在派单后 1 小时内完成外籍客户首呼。第一步：确认客户母语或可理解语言，优先英文。第二步：准备开场三句话——自我介绍、身份确认、来意说明。第三步：列出派单中缺失的信息，如出行人数、日期、预算、目的地偏好、饮食禁忌等。第四步：准备语言偏好确认句，例如 Shall I continue in English or would you prefer WhatsApp in Chinese? 第五步：致电后记录客户回应，标注后续沟通语言与渠道。注意：全程避免只用中文，语速放慢，一次只问一到两个问题。"
+    },
+    {
+      "difficulty": "L2",
+      "title": "外籍首呼英文话术脚本",
+      "format": "话术脚本",
+      "content": "Hello, this is [姓名] from [公司名], your China trip customizer. I received your inquiry about a [天数]-day trip to [目的地]. May I ask a few quick questions to fill in some missing details? 接着补问：How many people are traveling? What dates are you considering? Do you have a budget range in mind? Any specific places or experiences you want to include? 最后确认语言偏好：Also, would you prefer I communicate in English or another language going forward? Would WhatsApp or email be easier for you? 若客户母语非英文，可先问：Would you prefer English, or is there another language you are more comfortable with? 全程保持语速适中，给客户回应时间。"
+    },
+    {
+      "difficulty": "L3",
+      "title": "跨文化首呼案例复盘：从丢单到成单",
+      "format": "案例",
+      "content": "案例背景：一位英语母语客户在派单后 2 小时才被联系，定制师全程中文开场，客户直接挂断并转投他社。复盘要点：第一，超时触碰 M1 红线，客户高关注窗口已过；第二，全程中文导致客户无法理解，触碰 M1 语言红线；第三，开场无自我介绍与来意说明，客户误判为骚扰电话。改进方案：派单后 30 分钟内致电，用英文完成自我介绍、身份确认、来意说明，补问人数、日期、预算、偏好，并确认后续沟通语言与渠道。结果：客户感受到专业与尊重，愿意继续沟通并进入方案设计阶段。"
+    }
+  ],
+  "exercises": [
+    {
+      "type": "choice",
+      "stem": "派单后，外籍客户首呼最晚应在多长时间内发起？",
+      "options": [
+        "A. 30 分钟内",
+        "B. 1 小时内",
+        "C. 2 小时内",
+        "D. 当天内"
+      ],
+      "answer": "B",
+      "explain": "锚点 M1 明确要求超过 1 小时未发起首呼即触碰红线，因此最晚应在 1 小时内发起，B 正确。A 是更优做法但非硬性底线，C、D 均超时。"
+    },
+    {
+      "type": "choice",
+      "stem": "以下哪项最符合 M5 满分锚点的首呼做法？",
+      "options": [
+        "A. 1 小时内致电，全程中文夹杂少量英文单词",
+        "B. 1 小时内致电，用英文开场并自我介绍，但未说明来意",
+        "C. 1 小时内致电，用客户母语或英文开场，完成自我介绍+身份确认+来意说明，补问全部缺失信息，并确认后续沟通语言偏好",
+        "D. 2 小时后致电，用英文开场并自我介绍"
+      ],
+      "answer": "C",
+      "explain": "M5 要求 1 小时内、用客户母语或英文开场、完成自我介绍+身份确认+来意说明、补问全部缺失信息，并明确确认后续沟通语言偏好，C 完全符合。A 触碰 M2，B 触碰 M3，D 触碰 M1 超时红线。"
+    },
+    {
+      "type": "short",
+      "stem": "请写出一段外籍客户首呼的开场话术，要求包含自我介绍、身份确认、来意说明，并确认后续沟通语言偏好。",
+      "reference": "Hello, this is [姓名] from [公司名], your China trip customizer. I received your inquiry about a [天数]-day trip to [目的地]. May I ask a few quick questions to fill in some missing details? Also, would you prefer I communicate in English or another language going forward?",
+      "rubric_points": [
+        "包含自我介绍（姓名+公司）",
+        "包含身份确认（your China trip customizer）",
+        "包含来意说明（已收到某目的地、某天数的咨询）",
+        "包含补问缺失信息的引导句",
+        "包含后续沟通语言偏好的确认句"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "依据：PRD 硬规则",
+      "url": ""
+    },
+    {
+      "title": "外籍_百度百科",
+      "url": "https://baike.baidu.com/item/外籍"
+    },
+    {
+      "title": "外籍华人？华裔？华侨？别再傻傻分不清啦！ - 知乎",
+      "url": "https://zhuanlan.zhihu.com/p/477000000"
+    },
+    {
+      "title": "国家政务服务平台 出境入境",
+      "url": "https://www.gjzwfw.gov.cn/"
+    },
+    {
+      "title": "国家移民管理局政务服务平台",
+      "url": "https://www.nia.gov.cn/"
+    }
+  ],
+  "dimension_name": "跨文化入境游沟通",
+  "checkpoint": "A",
+  "generated_at": "2026-10-07T22:52:15",
+  "_queries": [
+    "入境游 外籍客户 首次电话沟通 多语种服务 标准流程",
+    "定制游 外籍客户 首呼 语言偏好确认 沟通规范",
+    "入境中国 外籍游客 电话沟通 跨文化服务 案例"
+  ],
+  "_search_hits": [
+    {
+      "title": "外籍_百度百科",
+      "url": "https://baike.baidu.com/item/%E5%A4%96%E7%B1%8D/6989787"
+    },
+    {
+      "title": "外籍华人？华裔？华侨？别再傻傻分不清啦！ - 知乎",
+      "url": "https://zhuanlan.zhihu.com/p/478783820"
+    },
+    {
+      "title": "国家政务服务平台 出境入境",
+      "url": "https://gjzwfw.www.gov.cn/col/col1121/"
+    },
+    {
+      "title": "国家移民管理局政务服务平台",
+      "url": "https://s.nia.gov.cn/mps/main.html"
+    },
+    {
+      "title": "中国定制： 国潮审美的“高定”之路 -中国金融新闻网",
+      "url": "https://www.financialnews.com.cn/2024-09/13/content_408271.html"
+    },
+    {
+      "title": "2026年中国全屋定制家具公司综合选型指南：十家主流 全屋 ...",
+      "url": "https://www.bjnews.com.cn/detail/1770864566129265.html"
+    }
+  ]
+}
