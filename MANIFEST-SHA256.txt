@@ -1,6 +1,6 @@
 TripCraft 司南礼客 交接包 SHA256 清单（格式：sha256  字节数  相对路径）
 说明：本清单不包含自身；覆盖 Git 跟踪文件。
-生成时间：2026-11-16  条目数：607
+生成时间：2026-11-16  条目数：608
 ====================================================================================================
 9d08c127fcdabd32ef03217949dd800bb0193d993981266873cb1d719c965187          1041  .gitignore
 45e053f1de5090f94ebdbaa688d45284b1f1471b4a52fd0374f81445fe244c3d          8561  00先读我.txt
@@ -143,6 +143,7 @@ ac347f1306cb99f0c2fee2d2d95e3a19fbd1507c7be81f426636eb28485cf23c         10714  
 e8582ba4d4ad9446020cf87eadbe60e200ae0b0b6e0265bb0c0e821f139e787a          6381  data/rubrics_raw/s2_inbound.json
 3641af77823e79b468966937b4156c0203520700168a552126038f929a13ffd9         37655  data/scenario/standard_case.json
 dbacb21a6b55debddeb32649fb47aee8448a1ac9c6826143200db6ea2e6e1cea          4978  docs/benchmark页面设计与占位数据_20261103.md
+117503953e6db9d2bd959a3ddd0931c96dd996b406f47e5d4b05153ba39961f9          1275  docs/CLOUDFLARE_DEPLOYMENT.md
 3aef574b361ceb00b120d836d867210fe10fdd570bf7ba8478e108e01eede541         10995  docs/context-boundaries.md
 4325c8fac40c428600d12a258ed06a73789d4ad2b31e5708ce8a46d21681e6a3         81474  docs/DECISIONS.md
 3939817bc03be61bea3ac39fe50668ec26a861334cfa7e4a8d1a290ba7836b1b          4060  docs/Multi-Agent-Orchestra-架构.md
@@ -381,10 +382,10 @@ edc13949e309f1e29600ef4ebdd88c49d3043c087f55623f207a82b3a4c96252         27219  
 9455a4acc5ef36e342362aaf5db006e823e58bc2692ad6e910b1a883ec4eb0dd           191  frontend/src/views/vbooking/OrdersView.vue
 80f610932cfc34e4b623a1e36e6b92b241ca256bfd15f73828d9253dfbbab741         34276  frontend/src/views/vbooking/PlanNewView.vue
 b0afe878fa5666a8d2aec8c8a6cbf7ea024b187327acb714d760986b3acd939e           520  frontend/tsconfig.json
-fac6b612bd2fe91300e5a20153884e44b4a67e7d836b881e619e160acc5811be          1481  frontend/vite.config.ts
+5825f32f03e8bc021a839e6d4fba08556b112901161c0153e07e58ecb0c9d426          1555  frontend/vite.config.ts
 837871a7ac5b539501f63c3d10f40abbba82c4bcf744de7dab3b757a41e227c8           636  pyproject.toml
 6369059fda454931698c52919bb63adbcedd754488b00914fdb3c348afe19a66         21393  README-历史（免注册或旧隧道或13步旧UI，非现行使用说明）.md
-c29680fafc3cdd786b1d72d686e818ecc004d47598159a6d35ea28c4c5eeb942          1487  README.md
+808e302b6a1f95a2063ba221b141458d303bb8ba2e636140af8116ce6dbffece          1595  README.md
 853bdb9e4c430bb46f05289d0d2c37d6b99128f78ab80d4fa929c50af733be90            15  scripts/.gitignore
 30b1185a429bd5487c088dcdc961175501e24c4f7f0b969c46520dc2a56602ac          2108  scripts/_probe_itinerary.py
 d794826c7fa879b956da69d83e8dfb58c9483a8d90ccaf6d1543b83351452a67          5206  scripts/acceptance_all.ps1

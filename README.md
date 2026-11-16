@@ -37,3 +37,9 @@
    ```
 
 更完整的启动说明、演示流程与限制说明见 `00先读我.txt` 和 `_交接文档/`。
+
+## 公网地址
+
+- 正式入口：https://sinanlike.com
+- 部署说明：`docs/CLOUDFLARE_DEPLOYMENT.md`
+

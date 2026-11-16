@@ -5,8 +5,8 @@ import { resolve } from 'path'
 // 开发/预览/录屏共用同一套配置：
 //   端口与后端由环境变量覆盖（VITE_PORT / VITE_API_PORT），默认 25190 → 28020。
 //   录屏沙箱用 5182 → 18011，跑的是同一份前端代码，避免出现"录屏版和产品版不一致"。
-// 允许通过 Cloudflare 隧道（*.trycloudflare.com）访问，用于把本地演示共享给评委。
-const TUNNEL_HOSTS = ['.trycloudflare.com']
+// 允许通过 Cloudflare 隧道（*.trycloudflare.com）访问，用于把本地演示共享给评委，并支持 sinanlike.com 正式域名。
+const TUNNEL_HOSTS = ['sinanlike.com', '.sinanlike.com', '.trycloudflare.com']
 
 export default defineConfig(({ mode }) => {
   const fileEnv = loadEnv(mode, __dirname, '')
