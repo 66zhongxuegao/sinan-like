@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="dheat">
     <div class="dheat-body">
       <div class="dheat-hours">
@@ -31,9 +31,9 @@ defineProps<{
 
 function bg(v: number): string {
   const t = Math.max(0, Math.min(1, v / 100))
-  if (t > 0.72) return `rgba(16, 169, 154, ${(0.16 + t * 0.72).toFixed(2)})`
-  if (t > 0.42) return `rgba(47, 127, 232, ${(0.12 + t * 0.62).toFixed(2)})`
-  return `rgba(47, 127, 232, ${(0.05 + t * 0.30).toFixed(2)})`
+  if (t > 0.72) return `rgba(16,169,154, ${(0.16 + t * 0.72).toFixed(2)})`
+  if (t > 0.42) return `rgba(36,87,126, ${(0.12 + t * 0.62).toFixed(2)})`
+  return `rgba(36,87,126, ${(0.05 + t * 0.30).toFixed(2)})`
 }
 </script>
 

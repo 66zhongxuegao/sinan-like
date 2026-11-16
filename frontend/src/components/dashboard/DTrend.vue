@@ -187,15 +187,15 @@ const tipStyle = computed(() => {
 <style scoped>
 .dtrend { position: relative; width: 100%; }
 .dtrend-svg { width: 100%; height: auto; display: block; overflow: visible; }
-.dtrend-grid line { stroke: #e8eef7; stroke-width: 1; stroke-dasharray: 3 6; }
+.dtrend-grid line { stroke: #e5ebf1; stroke-width: 1; stroke-dasharray: 3 6; }
 .dtrend-grid text, .dtrend-axis text { fill: #8a9bb2; font-size: 11.5px; font-family: 'Bahnschrift', 'Microsoft YaHei', sans-serif; }
 .dtrend-grid text.dtrend-right-label { fill: #9aabc2; font-size: 10.5px; }
 .dtrend-line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: trendDraw 1.5s cubic-bezier(.22, 1, .36, 1) forwards; }
 .dtrend-area { opacity: 0; animation: trendArea .9s ease .4s forwards; }
-.dtrend-hover line { stroke: rgba(37, 119, 227, .28); stroke-width: 1; stroke-dasharray: 4 4; }
+.dtrend-hover line { stroke: rgba(19,52,80, .28); stroke-width: 1; stroke-dasharray: 4 4; }
 .dtrend-tip { position: absolute; pointer-events: none; z-index: 3; min-width: 132px; padding: 9px 11px;
-  border-radius: 10px; background: #ffffff; border: 1px solid #e2ebf7;
-  box-shadow: 0 14px 30px rgba(20, 70, 140, .16); backdrop-filter: blur(10px); }
+  border-radius: 10px; background: #ffffff; border: 1px solid #d9e4ec;
+  box-shadow: 0 14px 30px rgba(36,87,126, .16); backdrop-filter: blur(10px); }
 .dtrend-tip-label { font-size: 11.5px; color: #8a9bb2; margin-bottom: 5px; letter-spacing: .4px; }
 .dtrend-tip-row { display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: #5c6f8a; line-height: 1.8; }
 .dtrend-tip-row i { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }

@@ -382,7 +382,7 @@ const invitable = computed(() => active.value.code === 'ticket' ? [] : addedCont
   .filter((c) => !(active.value.members || []).includes(c.name))
   .filter((c) => !(active.value.conversation_type === 'hub' && c.kind === '客户')))
 
-const PALETTE = ['#2577e3', '#12a76a', '#7a5af8', '#e08a1e', '#e0567a', '#0ea5b7']
+const PALETTE = ['#133450', '#12a76a', '#7a5af8', '#e08a1e', '#e0567a', '#0ea5b7']
 function avatarColor(key: string) {
   let h = 0
   for (const ch of key || ' ') h = (h * 31 + ch.charCodeAt(0)) % 997
@@ -908,12 +908,12 @@ onUnmounted(() => { if (voiceListening.value || voiceProcessing.value) stopVoice
 .tag { font-size: 13px; color: $color-text-secondary; background: #f1f4f8; border-radius: 4px; padding: 1px 6px; font-weight: 500; }
 .ri-order { font-size: 14.5px; color: $color-text-muted; white-space: nowrap; }
 .av.unread { box-shadow: 0 0 0 2px #fff, 0 0 0 4px $color-primary; }
-.dot-av { position: absolute; top: -2px; right: -2px; width: 9px; height: 9px; border-radius: 50%; background: #2577e3; border: 1.5px solid #fff; }
-.dot-new { width: 8px; height: 8px; border-radius: 50%; background: #2577e3; flex-shrink: 0; }
+.dot-av { position: absolute; top: -2px; right: -2px; width: 9px; height: 9px; border-radius: 50%; background: #133450; border: 1.5px solid #fff; }
+.dot-new { width: 8px; height: 8px; border-radius: 50%; background: #133450; flex-shrink: 0; }
 .hidden-file { display: none; }
 .clickable { cursor: pointer; }
 .mem.clickable:hover { background: $color-primary-softer; border-radius: 6px; }
-.avatar-card { margin: 10px 16px 0; border: 1px solid $color-primary; border-radius: 10px; background: #fff; padding: 10px 12px; box-shadow: 0 10px 26px rgba(37,119,227,0.16); }
+.avatar-card { margin: 10px 16px 0; border: 1px solid $color-primary; border-radius: 10px; background: #fff; padding: 10px 12px; box-shadow: 0 10px 26px rgba(19,52,80,0.16); }
 .ac-head { display: flex; align-items: center; gap: 9px; }
 .ac-mid { display: flex; flex-direction: column; }
 .ac-name { font-size: 15px; font-weight: 700; }
@@ -926,7 +926,7 @@ onUnmounted(() => { if (voiceListening.value || voiceProcessing.value) stopVoice
 .mh-name { font-size: 19px; font-weight: 700; }
 .mh-kind { font-size: 14.5px; color: $color-primary; background: $color-primary-soft; border-radius: 4px; padding: 1px 7px; }
 .mh-kind { font-size: 14.5px; color: $color-primary; background: $color-primary-soft; border-radius: 4px; padding: 1px 7px; }
-.mh-type { font-size: 13.5px; color: $color-text-secondary; background: #f1f5fa; border-radius: 4px; padding: 1px 7px; }
+.mh-type { font-size: 13.5px; color: $color-text-secondary; background: #edf2f6; border-radius: 4px; padding: 1px 7px; }
 .mh-order.link { cursor: pointer; color: $color-primary; text-decoration: underline; text-underline-offset: 3px; }
 .target-row { display: flex; align-items: center; gap: 9px; font-size: 14px; color: $color-text-secondary; }
 .target-label { flex: 0 0 auto; font-weight: 600; }
@@ -938,7 +938,7 @@ onUnmounted(() => { if (voiceListening.value || voiceProcessing.value) stopVoice
 .mh-r { display: flex; gap: 6px; }
 
 .lock-bar { display: flex; align-items: center; gap: 8px; font-size: 15px; color: $color-warning; background: #fdf7ee; padding: 9px 16px; }
-.lock-bar.soft { color: $color-text-secondary; background: #f7f9fc; }
+.lock-bar.soft { color: $color-text-secondary; background: #d9e4ec; }
 .lock-bar .mini { margin-left: auto; }
 
 .msgs { flex: 1; overflow-y: auto; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
@@ -996,7 +996,7 @@ onUnmounted(() => { if (voiceListening.value || voiceProcessing.value) stopVoice
 .mini:disabled { opacity: .5; cursor: default; }
 .mini.wide { width: 100%; margin-top: 8px; }
 
-.mask { position: fixed; inset: 0; background: rgba(16, 26, 42, 0.45); display: flex; align-items: center; justify-content: center; z-index: 60; padding: 24px; }
+.mask { position: fixed; inset: 0; background: rgba(16,26,42, 0.45); display: flex; align-items: center; justify-content: center; z-index: 60; padding: 24px; }
 .dlg { width: 400px; padding: 20px 22px; max-height: 86vh; overflow-y: auto; }
 .dlg-title { font-size: 16.5px; font-weight: 800; margin-bottom: 14px; }
 .dlg-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }

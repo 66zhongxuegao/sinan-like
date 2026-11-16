@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="vb">
     <div class="vb-crumb">
       <span class="lnk" @click="router.push('/practice')">订单管理</span> &gt;
@@ -455,8 +455,8 @@ watch(orderId, () => {
 .stage-list { display: flex; flex-direction: column; gap: 10px; }
 .stage-row { border: 1px solid $color-border; border-radius: $radius-md; padding: 12px 14px; background: #fff; }
 .stage-row.todo { opacity: .72; }
-.stage-row.first { border-color: $color-primary; background: linear-gradient(180deg, #f7fbff, #fff);
-  box-shadow: 0 6px 18px rgba(37,119,227,0.10); opacity: 1; }
+.stage-row.first { border-color: $color-primary; background: linear-gradient(180deg, #f4f8fb, #fff);
+  box-shadow: 0 6px 18px rgba(19,52,80,0.10); opacity: 1; }
 .st-head { display: flex; align-items: baseline; gap: 9px; width: 100%; padding: 0; border: 0;
   background: none; font-family: inherit; text-align: left; cursor: pointer; }
 .st-chev { margin-left: 4px; display: inline-flex; color: $color-text-muted; transition: transform .16s ease; }
@@ -477,7 +477,7 @@ watch(orderId, () => {
 .doc-row { display: flex; align-items: center; gap: 10px; text-align: left; width: 100%; cursor: pointer;
   border: 1px solid $color-border; border-radius: $radius-md; background: #fff; padding: 9px 12px;
   font-family: inherit; transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease; }
-.doc-row:hover { border-color: $color-primary; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(37,119,227,0.12); }
+.doc-row:hover { border-color: $color-primary; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(19,52,80,0.12); }
 .step-mid { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
 .doc-row.current { border-color: $color-primary; background: $color-primary-soft; }
 .step-row { align-items: flex-start; }

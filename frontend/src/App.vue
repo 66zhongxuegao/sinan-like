@@ -135,8 +135,8 @@ onMounted(async () => {
 .app-shell::before {
   content: ''; position: absolute; inset: -25%; z-index: 0; pointer-events: none;
   background:
-    radial-gradient(720px 520px at 22% 22%, rgba(37, 119, 227, 0.05), transparent 62%),
-    radial-gradient(620px 480px at 74% 74%, rgba(74, 143, 240, 0.04), transparent 60%);
+    radial-gradient(720px 520px at 22% 22%, rgba(19,52,80, 0.05), transparent 62%),
+    radial-gradient(620px 480px at 74% 74%, rgba(110,140,164, 0.04), transparent 60%);
   will-change: transform;
   animation: shellDrift 32s ease-in-out infinite alternate;
 }
@@ -155,10 +155,10 @@ onMounted(async () => {
 .side-foot { flex-shrink: 0; padding: 14px; }
 .foot-card { display: block; padding: 13px 15px; border-radius: $radius-md; color: #fff;
   background: linear-gradient(135deg, $color-primary, $color-primary-dark);
-  box-shadow: 0 6px 16px rgba(37,119,227,0.24);
+  box-shadow: 0 6px 16px rgba(19,52,80,0.24);
   transition: transform .18s cubic-bezier(.34,1.4,.6,1), box-shadow .18s ease; }
-.foot-card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(37,119,227,0.32); }
-.foot-card.on { box-shadow: 0 0 0 3px rgba(37,119,227,0.18), 0 6px 16px rgba(37,119,227,0.24); }
+.foot-card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(19,52,80,0.32); }
+.foot-card.on { box-shadow: 0 0 0 3px rgba(19,52,80,0.18), 0 6px 16px rgba(19,52,80,0.24); }
 .foot-title { display: inline-flex; align-items: center; gap: 7px; font-size: 16px; font-weight: 700; }
 
 .main { position: relative; z-index: 1; flex: 1; min-width: 0; display: flex; flex-direction: column; }

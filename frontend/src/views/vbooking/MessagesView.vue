@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="vb">
     <div class="vb-crumb">定制游工作台 / 消息中心</div>
     <div class="vb-body">
@@ -222,11 +222,11 @@ onUnmounted(() => { if (poll) clearInterval(poll) })
 .lang-pick { display: inline-flex; align-items: center; gap: 5px; margin-left: 10px; color: $color-text-secondary; }
 .lang-sel { height: 30px; border: 1px solid $color-border-strong; border-radius: 6px; padding: 0 8px;
   font-size: 12.5px; color: $color-text; background: #fff; outline: none; cursor: pointer; }
-.lang-sel:focus { border-color: $color-primary; box-shadow: 0 0 0 2px rgba(37,119,227,.1); }
+.lang-sel:focus { border-color: $color-primary; box-shadow: 0 0 0 2px rgba(19,52,80,.1); }
 .refresh { margin-left: auto; border: 1px solid $color-border; background: #fff; border-radius: 999px; padding: 4px 13px; font-size: 14px; color: $color-primary; cursor: pointer; }
 .refresh:hover { background: $color-primary-softer; }
 .refresh:disabled, .gen:disabled { opacity: .6; cursor: default; }
-.gen { margin-left: 6px; border: none; background: linear-gradient(135deg, #2577e3, #1a63c4); color: #fff;
+.gen { margin-left: 6px; border: none; background: linear-gradient(135deg, #133450, #0d283f); color: #fff;
   border-radius: 999px; padding: 5px 14px; font-size: 14px; font-weight: 700; cursor: pointer; }
 .gen:hover { filter: brightness(1.06); }
 .diff { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
@@ -257,8 +257,8 @@ onUnmounted(() => { if (poll) clearInterval(poll) })
 .eta { font-size: 14px; color: $color-text-muted; }
 .grab {
   margin-left: auto; flex-shrink: 0; border: none; cursor: pointer; font-size: 15.5px; font-weight: 700;
-  color: #fff; background: linear-gradient(135deg, #2577e3, #1a63c4);
-  border-radius: 999px; padding: 6px 20px; box-shadow: 0 4px 12px rgba(37,119,227,0.28);
+  color: #fff; background: linear-gradient(135deg, #133450, #0d283f);
+  border-radius: 999px; padding: 6px 20px; box-shadow: 0 4px 12px rgba(19,52,80,0.28);
 }
 .grab:hover { filter: brightness(1.06); }
 .grab:disabled { opacity: .6; cursor: default; }

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="board">
     <div class="db-kpis five">
       <article v-for="(k, i) in opsKpis" :key="k.id" class="db-card db-kpi" :class="{ accent: i === 0 }" :style="{ '--i': i }">
@@ -25,7 +25,7 @@
             <p class="db-card-sub">活跃学员 vs 新增学员 · 近 14 天</p>
           </div>
           <div class="db-legend">
-            <span class="db-legend-item"><i style="background: #5b9dff" />活跃学员</span>
+            <span class="db-legend-item"><i style="background: #4c7fa4" />活跃学员</span>
             <span class="db-legend-item"><i style="background: #2fe3c8" />新增学员</span>
           </div>
         </div>

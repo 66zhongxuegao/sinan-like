@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <svg class="dspark" :viewBox="`0 0 ${W} ${H}`" preserveAspectRatio="none" :style="{ width: `${width}px`, height: `${height}px` }">
     <defs>
       <linearGradient :id="gid" x1="0" y1="0" x2="0" y2="1">
@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<{
   color?: string
   width?: number
   height?: number
-}>(), { color: '#5b9dff', width: 104, height: 36 })
+}>(), { color: '#4c7fa4', width: 104, height: 36 })
 
 const W = 100
 const H = 36

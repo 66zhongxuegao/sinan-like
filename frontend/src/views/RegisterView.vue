@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="auth">
     <section class="auth-card rise">
       <div class="auth-brand">
@@ -150,7 +150,7 @@ async function submit() {
 .fl .req { font-style: normal; font-weight: 500; color: $color-text-muted; font-size: $fs-badge; margin-left: 6px; }
 .fi { width: 100%; height: 42px; padding: 0 13px; font-size: $fs-body; color: $color-text; background: #fff;
   border: 1px solid $color-border-strong; border-radius: $radius-md; outline: none; transition: border-color .15s ease, box-shadow .15s ease; }
-.fi:focus { border-color: $color-primary; box-shadow: 0 0 0 3px rgba(37,119,227,.12); }
+.fi:focus { border-color: $color-primary; box-shadow: 0 0 0 3px rgba(19,52,80,.12); }
 .fi:disabled { background: #f7f8fa; color: $color-text-muted; }
 .fi-wrap { position: relative; }
 .fi-wrap .fi { padding-right: 44px; }
@@ -163,10 +163,10 @@ async function submit() {
 
 .submit { margin-top: 8px; height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   border: none; border-radius: $radius-md; cursor: pointer; color: #fff; font-size: $fs-body; font-weight: 700;
-  background: linear-gradient(135deg, $color-primary, $color-primary-dark); box-shadow: 0 6px 16px rgba(37,119,227,.24);
+  background: linear-gradient(135deg, $color-primary, $color-primary-dark); box-shadow: 0 6px 16px rgba(19,52,80,.24);
   transition: transform .16s cubic-bezier(.34,1.4,.6,1), box-shadow .16s ease, filter .16s ease; }
-.submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(37,119,227,.3); filter: brightness(1.03); }
-.submit:disabled { cursor: default; background: linear-gradient(135deg, #9dc0ee, #86aee6); box-shadow: none; }
+.submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(19,52,80,.3); filter: brightness(1.03); }
+.submit:disabled { cursor: default; background: linear-gradient(135deg, #a9c0d1, #7e9cb3); box-shadow: none; }
 .spin { animation: spin .9s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 

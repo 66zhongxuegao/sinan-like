@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="board">
     <div class="db-kpis">
       <article v-for="(k, i) in teamKpis" :key="k.id" class="db-card db-kpi" :class="{ accent: i === 0 }" :style="{ '--i': i }">
@@ -25,7 +25,7 @@
             <p class="db-card-sub">训练发起 vs 完成 · 近 7 天</p>
           </div>
           <div class="db-legend">
-            <span class="db-legend-item"><i style="background: #5b9dff" />训练发起</span>
+            <span class="db-legend-item"><i style="background: #4c7fa4" />训练发起</span>
             <span class="db-legend-item"><i style="background: #2fe3c8" />训练完成</span>
           </div>
         </div>
@@ -51,7 +51,7 @@
         </div>
         <DRadar :axes="teamRadar" />
         <div class="db-legend" style="justify-content: center; margin-top: -2px">
-          <span class="db-legend-item"><i style="background: #5b9dff" />团队均值</span>
+          <span class="db-legend-item"><i style="background: #4c7fa4" />团队均值</span>
           <span class="db-legend-item"><i class="dash" />平台基线</span>
         </div>
         <div class="db-insight warn">

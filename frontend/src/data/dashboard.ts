@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 数据看板 · 聚合指标与埋点口径
  *
  * 当前为纯前端演示数据：页面所有数字都从本文件派生，接入真实数据时
@@ -101,7 +101,7 @@ export interface MetricSpec {
 export const teamKpis: KpiItem[] = [
   {
     id: 'dau', label: '今日活跃学员', value: 32, unit: '/ 48', delta: 12.5, deltaUnit: 'pct',
-    note: '较上周同期', color: '#2f7fe8',
+    note: '较上周同期', color: '#24577e',
     series: [21, 24, 22, 27, 26, 29, 32],
   },
   {
@@ -124,7 +124,7 @@ export const teamKpis: KpiItem[] = [
 export const teamTrendLabels = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
 
 export const teamTrendSeries: TrendSeries[] = [
-  { name: '训练发起', color: '#2f7fe8', data: [21, 24, 19, 28, 26, 18, 20] },
+  { name: '训练发起', color: '#24577e', data: [21, 24, 19, 28, 26, 18, 20] },
   { name: '训练完成', color: '#10a99a', data: [15, 18, 14, 21, 20, 15, 18] },
 ]
 
@@ -138,8 +138,8 @@ export const teamRadar: RadarAxis[] = [
 ]
 
 export const teamFunnel: FunnelStep[] = [
-  { label: '进入学习', short: '进入学习', value: 48, color: '#2f7fe8' },
-  { label: '完成技能点', short: '技能点', value: 44, color: '#4a86e8' },
+  { label: '进入学习', short: '进入学习', value: 48, color: '#24577e' },
+  { label: '完成技能点', short: '技能点', value: 44, color: '#356b93' },
   { label: '进入实战', short: '进入实战', value: 39, color: '#10a99a' },
   { label: '提交方案', short: '提交方案', value: 35, color: '#e89a2b' },
   { label: '评分达标', short: '评分达标', value: 33, color: '#7c6ad6' },
@@ -173,7 +173,7 @@ export const teamFeed: FeedItem[] = [
 export const opsKpis: KpiItem[] = [
   {
     id: 'users', label: '累计注册学员', value: 2846, delta: 318, deltaUnit: 'count',
-    note: '本月新增', color: '#2f7fe8',
+    note: '本月新增', color: '#24577e',
     series: [2410, 2502, 2588, 2661, 2735, 2790, 2846],
   },
   {
@@ -204,13 +204,13 @@ export const opsTrendLabels = [
 ]
 
 export const opsTrendSeries: TrendSeries[] = [
-  { name: '活跃学员', color: '#2f7fe8', data: [742, 768, 801, 786, 834, 862, 845, 890, 921, 903, 947, 968, 994, 1032] },
+  { name: '活跃学员', color: '#24577e', data: [742, 768, 801, 786, 834, 862, 845, 890, 921, 903, 947, 968, 994, 1032] },
   { name: '新增学员', color: '#10a99a', axis: 'right', data: [18, 22, 24, 19, 21, 26, 23, 20, 25, 22, 27, 24, 21, 26] },
 ]
 
 export const opsFunnel: FunnelStep[] = [
-  { label: '注册学员', short: '注册', value: 2846, color: '#2f7fe8' },
-  { label: '完成激活', short: '激活', value: 2412, color: '#4a86e8' },
+  { label: '注册学员', short: '注册', value: 2846, color: '#24577e' },
+  { label: '完成激活', short: '激活', value: 2412, color: '#356b93' },
   { label: '首次实战', short: '首战', value: 1985, color: '#10a99a' },
   { label: '提交方案', short: '提交', value: 1612, color: '#e89a2b' },
   { label: '评分达标', short: '达标', value: 1088, color: '#7c6ad6' },
@@ -228,13 +228,13 @@ export const retentionCurve = [
 export const scoreBands = [
   { label: '<60', value: 228, pct: 8, color: '#e05a78' },
   { label: '60-69', value: 541, pct: 19, color: '#e89a2b' },
-  { label: '70-79', value: 882, pct: 31, color: '#2f7fe8' },
+  { label: '70-79', value: 882, pct: 31, color: '#24577e' },
   { label: '80-89', value: 797, pct: 28, color: '#10a99a' },
   { label: '90+', value: 398, pct: 14, color: '#7c6ad6' },
 ]
 
 export const channelMix: DonutItem[] = [
-  { label: '院校合作', value: 1195, color: '#2f7fe8' },
+  { label: '院校合作', value: 1195, color: '#24577e' },
   { label: '社会招募', value: 769, color: '#10a99a' },
   { label: '行业协会', value: 512, color: '#e89a2b' },
   { label: '内部转介', value: 370, color: '#7c6ad6' },

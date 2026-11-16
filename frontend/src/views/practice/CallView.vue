@@ -391,7 +391,7 @@ function draw() {
 
   const cx = w / 2, cy = h / 2
   const isAgent = speaking.value || phase.value === 'agent'
-  const main = isAgent ? '#e08a1e' : phase.value === 'student' ? '#2577e3' : '#9db6d6'
+  const main = isAgent ? '#e08a1e' : phase.value === 'student' ? '#133450' : '#9db6d6'
   const breathe = 0.5 + 0.5 * Math.sin(tick * 0.045)
 
   for (let k = 0; k < 3; k++) {
@@ -450,15 +450,15 @@ onUnmounted(() => {
 .c-head { display: flex; align-items: center; gap: 14px; }
 .back { display: inline-flex; align-items: center; gap: 4px; border: 1px solid $color-border; background: #fff; border-radius: 999px; padding: 6px 14px; font-size: 15.5px; color: $color-primary; cursor: pointer; }
 .c-title { font-size: 16.5px; font-weight: 800; }
-.c-modes { display: flex; gap: 4px; background: #eef3fa; border-radius: 999px; padding: 3px; }
+.c-modes { display: flex; gap: 4px; background: #eaf0f5; border-radius: 999px; padding: 3px; }
 .mode { display: inline-flex; align-items: center; gap: 5px; border: none; background: transparent; border-radius: 999px; padding: 5px 14px; font-size: 15.5px; color: $color-text-secondary; cursor: pointer; }
-.mode.on { background: #fff; color: $color-primary; font-weight: 700; box-shadow: 0 2px 6px rgba(16,32,56,0.10); }
+.mode.on { background: #fff; color: $color-primary; font-weight: 700; box-shadow: 0 2px 6px rgba(13,40,63,0.10); }
 .mode:disabled { opacity: .55; cursor: default; }
 .c-timer { margin-left: auto; font-family: ui-monospace, monospace; font-size: 16.5px; color: $color-primary; font-weight: 700; }
 
 .c-stage {
   position: relative; height: 420px; border-radius: $radius-lg; overflow: hidden;
-  background: radial-gradient(circle at 50% 45%, #ffffff 0%, #eaf3fe 55%, #dbeafe 100%);
+  background: radial-gradient(circle at 50% 45%, #ffffff 0%, #e7eef4 55%, #dce7ef 100%);
   border: 1px solid $color-border;
 }
 .viz { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -467,21 +467,21 @@ onUnmounted(() => {
 .cc-name { font-size: 22px; font-weight: 800; color: $color-text; letter-spacing: 2px; line-height: 1.2; }
 .cc-meta { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; min-height: 24px; }
 .cc-lang { display: inline-flex; align-items: center; gap: 5px; padding: 3px 11px; border-radius: 999px;
-  font-size: 14.5px; font-weight: 700; color: $color-primary; background: $color-primary-soft; border: 1px solid #d8e7fa; }
+  font-size: 14.5px; font-weight: 700; color: $color-primary; background: $color-primary-soft; border: 1px solid #d7e3ec; }
 .cc-pd { font-size: 14.5px; color: $color-text-muted; }
 .cc-state { display: inline-flex; align-items: center; gap: 7px; font-size: 15.5px; color: $color-text-secondary;
-  background: rgba(255, 255, 255, 0.82); border-radius: 999px; padding: 3px 12px; }
+  background: rgba(255,255,255, 0.82); border-radius: 999px; padding: 3px 12px; }
 .cc-state .dot { width: 7px; height: 7px; border-radius: 50%; background: #b9c9dd; }
 .cc-state .dot.agent { background: #e08a1e; animation: pulse 1.1s ease-in-out infinite; }
-.cc-state .dot.student { background: #2577e3; animation: pulse 1.1s ease-in-out infinite; }
+.cc-state .dot.student { background: #133450; animation: pulse 1.1s ease-in-out infinite; }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
 
 .c-start {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; cursor: pointer;
   width: 148px; height: 148px; border-radius: 50%; border: none;
-  background: linear-gradient(135deg, #2577e3, #1a63c4); color: #fff;
-  box-shadow: 0 14px 34px rgba(37,119,227,0.42);
+  background: linear-gradient(135deg, #133450, #0d283f); color: #fff;
+  box-shadow: 0 14px 34px rgba(19,52,80,0.42);
   font-size: 15px; font-weight: 700;
 }
 .c-start:hover { filter: brightness(1.06); }
@@ -504,7 +504,7 @@ onUnmounted(() => {
 .c-input { display: flex; gap: 10px; padding: 12px; align-items: flex-end; }
 .ipt { flex: 1; border: 1px solid $color-border; border-radius: 8px; padding: 9px 12px; font-size: 15px; font-family: inherit; line-height: 1.6; resize: vertical; outline: none; }
 .ipt:focus { border-color: $color-primary; }
-.send { border: none; cursor: pointer; border-radius: 8px; padding: 10px 20px; font-size: 15px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #2577e3, #1a63c4); }
+.send { border: none; cursor: pointer; border-radius: 8px; padding: 10px 20px; font-size: 15px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #133450, #0d283f); }
 .send:disabled { opacity: .5; cursor: default; }
 
 .ct-head { display: flex; align-items: baseline; gap: 10px; padding: 12px 16px; font-size: 15.5px; font-weight: 700; border-bottom: 1px solid $color-border; }

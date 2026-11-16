@@ -65,10 +65,10 @@ onMounted(loadExisting)
 @use '@/styles/tokens.scss' as *;
 .route-launcher {
   display: grid; grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr); gap: 24px;
-  padding: 24px 26px; border-radius: $radius-lg; border: 1px solid #dce8f8;
+  padding: 24px 26px; border-radius: $radius-lg; border: 1px solid #d9e4ec;
   background:
-    radial-gradient(520px 240px at 4% 0%, rgba(37,119,227,.14), transparent 62%),
-    linear-gradient(135deg, #fbfdff, #f5f9ff 58%, #fffaf2);
+    radial-gradient(520px 240px at 4% 0%, rgba(19,52,80,.14), transparent 62%),
+    linear-gradient(135deg, #fafcfd, #f4f8fb 58%, #fffaf2);
   box-shadow: $shadow-card;
 }
 .rl-copy { min-width: 0; }
@@ -79,14 +79,14 @@ onMounted(loadExisting)
 .rl-form textarea { width: 100%; min-height: 70px; resize: vertical; border: 1px solid #cedaeb; border-radius: 10px;
   padding: 11px 13px; background: rgba(255,255,255,.92); color: $color-text; font: inherit; font-size: $fs-body;
   line-height: 1.65; outline: none; transition: border-color .16s ease, box-shadow .16s ease; }
-.rl-form textarea:focus { border-color: $color-primary; box-shadow: 0 0 0 3px rgba(37,119,227,.1); }
+.rl-form textarea:focus { border-color: $color-primary; box-shadow: 0 0 0 3px rgba(19,52,80,.1); }
 .rl-actions { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 10px; }
 .tc-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 38px; padding: 0 16px;
   border-radius: 8px; border: 1px solid transparent; font: inherit; font-size: $fs-meta; cursor: pointer; }
-.tc-btn.primary { background: $color-primary; color: #fff; box-shadow: 0 5px 14px rgba(37,119,227,.2); }
+.tc-btn.primary { background: $color-primary; color: #fff; box-shadow: 0 5px 14px rgba(19,52,80,.2); }
 .tc-btn.primary:hover:not(:disabled) { background: $color-primary-dark; }
-.tc-btn.ghost { background: #fff; color: $color-text-secondary; border-color: #d7e2f0; }
-.tc-btn.ghost:hover:not(:disabled) { color: $color-primary; border-color: #a9cafa; }
+.tc-btn.ghost { background: #fff; color: $color-text-secondary; border-color: #d9e4ec; }
+.tc-btn.ghost:hover:not(:disabled) { color: $color-primary; border-color: #a9bfd1; }
 .tc-btn:disabled { opacity: .5; cursor: default; }
 .spin { width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; animation: spin .8s linear infinite; }
 .rl-error { margin: 8px 0 0; color: $color-danger; font-size: $fs-meta; }

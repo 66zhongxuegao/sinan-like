@@ -2,7 +2,7 @@
   <div class="tb">
     <section class="tool card">
       <div class="tool-head">
-        <span class="tool-ic" style="color:#2577e3;background:#eaf3fe"><SIcon name="route" :size="18" /></span>
+        <span class="tool-ic" style="color:#133450;background:#e7eef4"><SIcon name="route" :size="18" /></span>
         <div class="tool-meta">
           <div class="tool-name">路线查询 · 驾车 / 步行 / 骑行 / 公交</div>
         </div>
@@ -133,7 +133,7 @@
 
     <div class="tools-grid">
       <section class="tool card">
-        <div class="tool-head"><span class="tool-ic" style="color:#2577e3;background:#eaf3fe"><SIcon name="sun" :size="18" /></span><div class="tool-meta"><div class="tool-name">天气 · 选日期看预报</div></div></div>
+        <div class="tool-head"><span class="tool-ic" style="color:#133450;background:#e7eef4"><SIcon name="sun" :size="18" /></span><div class="tool-meta"><div class="tool-name">天气 · 选日期看预报</div></div></div>
         <div class="mini-row-in">
           <input v-model="city" class="ipt sm" placeholder="城市，如 杭州市" @keydown.enter="getWeather" />
           <input v-model="weatherDate" type="date" class="ipt sm" />
@@ -357,7 +357,7 @@ onMounted(() => { query() })
 
 .ac-wrap { position: relative; }
 .ac-list { position: absolute; left: 0; right: 0; top: 38px; z-index: 20; background: #fff;
-  border: 1px solid $color-border; border-radius: 8px; box-shadow: 0 12px 30px rgba(16,32,56,0.14);
+  border: 1px solid $color-border; border-radius: 8px; box-shadow: 0 12px 30px rgba(13,40,63,0.14);
   max-height: 240px; overflow-y: auto; }
 .ac-item { display: flex; flex-direction: column; gap: 2px; padding: 7px 10px; cursor: pointer; }
 .ac-item:hover { background: $color-primary-softer; }
@@ -380,8 +380,8 @@ onMounted(() => { query() })
 .st-sub { font-size: 13.5px; color: $color-text-muted; }
 .st-cost { font-size: 14px; color: $color-primary; background: $color-primary-softer; border-radius: 6px;
   padding: 5px 8px; }
-.map { position: relative; overflow: hidden; min-height: 340px; max-height: 400px; display: flex; align-items: center; justify-content: center; background: #eef3f9; }
-.map-tag { position: absolute; top: 12px; left: 12px; z-index: 3; display: inline-flex; align-items: center; gap: 5px; font-size: 15px; font-weight: 600; color: #fff; background: rgba(37,119,227,.9); border-radius: 7px; padding: 4px 12px; box-shadow: 0 4px 12px rgba(37,119,227,.25); }
+.map { position: relative; overflow: hidden; min-height: 340px; max-height: 400px; display: flex; align-items: center; justify-content: center; background: #d9e4ec; }
+.map-tag { position: absolute; top: 12px; left: 12px; z-index: 3; display: inline-flex; align-items: center; gap: 5px; font-size: 15px; font-weight: 600; color: #fff; background: rgba(19,52,80,.9); border-radius: 7px; padding: 4px 12px; box-shadow: 0 4px 12px rgba(19,52,80,.25); }
 .map-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .map-empty { font-size: 15px; color: $color-text-muted; padding: 40px; text-align: center; }
 

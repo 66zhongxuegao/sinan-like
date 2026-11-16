@@ -57,7 +57,7 @@
         <div class="ring-analyze">
           <svg viewBox="0 0 120 120">
             <circle cx="60" cy="60" r="52" fill="none" stroke="#eef2f7" stroke-width="7" />
-            <circle cx="60" cy="60" r="52" fill="none" stroke="#2577e3" stroke-width="7" stroke-linecap="round"
+            <circle cx="60" cy="60" r="52" fill="none" stroke="#133450" stroke-width="7" stroke-linecap="round"
               stroke-dasharray="80 246" transform="rotate(-90 60 60)" class="spin-arc" />
             <circle cx="60" cy="60" r="38" fill="none" stroke="#eef2f7" stroke-width="6" />
             <circle cx="60" cy="60" r="38" fill="none" stroke="#e08a1e" stroke-width="6" stroke-linecap="round"
@@ -79,7 +79,7 @@
           <div class="gauge">
             <svg viewBox="0 0 120 120">
               <circle cx="60" cy="60" r="52" fill="none" stroke="#eef2f7" stroke-width="9" />
-              <circle cx="60" cy="60" r="52" fill="none" stroke="#2577e3" stroke-width="9" stroke-linecap="round"
+              <circle cx="60" cy="60" r="52" fill="none" stroke="#133450" stroke-width="9" stroke-linecap="round"
                 :stroke-dasharray="C52" :stroke-dashoffset="off52" transform="rotate(-90 60 60)" class="ring-anim" />
             </svg>
             <div class="gauge-txt">
@@ -100,7 +100,7 @@
                 <polygon :points="ringPoints(l)" fill="none" :stroke="l === 100 ? '#d6e0ed' : '#eef2f7'" stroke-width="1" />
               </g>
               <line v-for="(p, i) in axes" :key="'a' + i" x1="110" y1="110" :x2="p.x" :y2="p.y" stroke="#eef2f7" stroke-width="1" />
-              <polygon :points="initialPoints" fill="rgba(37,119,227,0.16)" stroke="#2577e3" stroke-width="2" stroke-dasharray="5 4" />
+              <polygon :points="initialPoints" fill="rgba(19,52,80,0.16)" stroke="#133450" stroke-width="2" stroke-dasharray="5 4" />
               <polygon :points="currentPoints" fill="rgba(224,138,30,0.14)" stroke="#e08a1e" stroke-width="2" />
               <text v-for="(p, i) in labels" :key="'t' + i" :x="p.x" :y="p.y" class="radar-label"
                 text-anchor="middle" dominant-baseline="middle">{{ p.text }}</text>
@@ -449,7 +449,7 @@ onUnmounted(() => { if (anTimer) clearInterval(anTimer) })
 .head-title { font-size: 19px; font-weight: 800; }
 .head-sub { margin-top: 4px; font-size: 15px; color: $color-text-secondary; }
 .head-bar { flex: 1; height: 8px; border-radius: 999px; background: #eef2f7; overflow: hidden; }
-.head-bar i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #2577e3, #6aa9f7);
+.head-bar i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #133450, #4f7897);
   transition: width .45s cubic-bezier(.34,1.1,.5,1); }
 .head-pct { min-width: 54px; text-align: right; font-size: 17px; font-weight: 800; color: $color-primary; }
 
@@ -464,10 +464,10 @@ onUnmounted(() => { if (anTimer) clearInterval(anTimer) })
   color: $color-text; animation: optIn .34s cubic-bezier(.34,1.3,.6,1) both;
   transition: border-color .16s ease, box-shadow .16s ease, transform .16s cubic-bezier(.34,1.4,.6,1), background .16s ease; }
 @keyframes optIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-.opt:hover { border-color: $color-primary; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,119,227,0.12); }
-.opt.on { border-color: $color-primary; background: $color-primary-softer; box-shadow: 0 0 0 3px rgba(37,119,227,0.12); }
+.opt:hover { border-color: $color-primary; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(19,52,80,0.12); }
+.opt.on { border-color: $color-primary; background: $color-primary-softer; box-shadow: 0 0 0 3px rgba(19,52,80,0.12); }
 .opt-key { width: 28px; height: 28px; flex-shrink: 0; border-radius: 8px; display: flex; align-items: center; justify-content: center;
-  font-size: 15px; font-weight: 800; color: $color-text-secondary; background: #f1f5fa; transition: all .16s ease; }
+  font-size: 15px; font-weight: 800; color: $color-text-secondary; background: #edf2f6; transition: all .16s ease; }
 .opt.on .opt-key { background: $color-primary; color: #fff; }
 .opt-label { flex: 1; }
 .opt-check { color: $color-primary; opacity: 0; transform: scale(.6); transition: all .2s cubic-bezier(.34,1.56,.64,1); }
@@ -476,7 +476,7 @@ onUnmounted(() => { if (anTimer) clearInterval(anTimer) })
 .qfoot { margin-top: 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .dots { display: flex; gap: 5px; }
 .dots i { width: 7px; height: 7px; border-radius: 50%; background: #e3e9f2; transition: all .2s ease; }
-.dots i.done { background: #9fc4f2; }
+.dots i.done { background: #afc3d2; }
 .dots i.cur { width: 20px; border-radius: 999px; background: $color-primary; }
 .btn-ghost { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 999px; cursor: pointer;
   border: 1px solid $color-border; background: #fff; color: $color-text-secondary; font-size: 15.5px; }
@@ -501,7 +501,7 @@ onUnmounted(() => { if (anTimer) clearInterval(anTimer) })
 .an-step { display: flex; align-items: center; gap: 10px; font-size: 16px; color: $color-text-muted; transition: color .3s ease; }
 .an-step .an-dot { width: 8px; height: 8px; border-radius: 50%; background: #dbe3ee; transition: all .3s ease; }
 .an-step.on { color: $color-text; }
-.an-step.on .an-dot { background: $color-primary; box-shadow: 0 0 0 4px rgba(37,119,227,0.14); }
+.an-step.on .an-dot { background: $color-primary; box-shadow: 0 0 0 4px rgba(19,52,80,0.14); }
 
 .result-top { display: flex; align-items: center; gap: 32px; padding: 26px 30px; }
 .gauge { position: relative; width: 186px; height: 186px; flex-shrink: 0; }
@@ -513,10 +513,10 @@ onUnmounted(() => { if (anTimer) clearInterval(anTimer) })
 .result-mid { flex: 1; min-width: 0; }
 .rm-title { font-size: 21px; font-weight: 800; }
 .rm-desc { position: relative; margin-top: 14px; padding: 15px 18px 15px 22px; border-radius: $radius-md;
-  background: linear-gradient(135deg, #f7fbff, #f2f7ff); border: 1px solid #e4eefb;
+  background: linear-gradient(135deg, #f4f8fb, #d9e4ec); border: 1px solid #d9e4ec;
   font-size: 16.5px; line-height: 2; letter-spacing: .2px; color: $color-text; }
 .rm-desc::before { content: ''; position: absolute; left: 0; top: 13px; bottom: 13px; width: 3px;
-  border-radius: 0 3px 3px 0; background: linear-gradient(180deg, $color-primary, #6aa9f7); }
+  border-radius: 0 3px 3px 0; background: linear-gradient(180deg, $color-primary, #4f7897); }
 .rm-tags { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
 .tag-focus { font-size: 14.5px; font-weight: 700; color: #b3730f; background: #fdf3e3; border: 1px solid #f2dcb6;
   padding: 4px 12px; border-radius: 999px; }
@@ -534,7 +534,7 @@ onUnmounted(() => { if (anTimer) clearInterval(anTimer) })
 .rc-legend { display: inline-flex; align-items: center; gap: 6px; font-size: $fs-badge; color: $color-text-secondary;
   background: $color-bg; border: 1px solid $color-border; padding: 2px 10px; border-radius: 999px; }
 .sw { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
-.sw.init { background: #2577e3; }
+.sw.init { background: #133450; }
 .sw.cur { background: #e08a1e; }
 .scope-badge { margin-left: auto; font-size: $fs-badge; font-weight: 700; padding: 2px 10px; border-radius: 999px; }
 .scope-badge.real { color: $color-success; background: #e5f7ee; border: 1px solid #ccecd9; }
@@ -551,7 +551,7 @@ onUnmounted(() => { if (anTimer) clearInterval(anTimer) })
 .rc-dim { display: flex; align-items: center; gap: 8px; color: $color-text; }
 .rc-dim .tag { font-size: $fs-badge; font-weight: 700; color: $color-primary; background: $color-primary-soft;
   padding: 1px 6px; border-radius: 5px; font-style: normal; }
-.rc-v { font-weight: 700; color: #2577e3; }
+.rc-v { font-weight: 700; color: #133450; }
 .rc-v.cur { color: #e08a1e; }
 .rc-v.na { color: $color-text-muted; font-weight: 500; }
 .rc-d { font-weight: 700; color: $color-text-secondary; }
@@ -576,7 +576,7 @@ onUnmounted(() => { if (anTimer) clearInterval(anTimer) })
 .ts-box.order { background: #fff9f1; border-color: #f2e0c8; }
 .ts-l { font-size: $fs-badge; font-weight: 700; color: $color-text-secondary; }
 .ts-v { display: flex; align-items: baseline; gap: 6px; margin: 4px 0 2px; }
-.ts-v b { font-size: $fs-num-lg; font-weight: 800; color: #2577e3; }
+.ts-v b { font-size: $fs-num-lg; font-weight: 800; color: #133450; }
 .ts-box.order .ts-v b { color: #e08a1e; }
 .ts-v i { font-style: normal; font-size: $fs-badge; color: $color-text-muted; }
 .ts-m { font-size: $fs-badge; line-height: 1.7; color: $color-text-secondary; }
@@ -593,17 +593,17 @@ onUnmounted(() => { if (anTimer) clearInterval(anTimer) })
 .dr-id { font-size: 14.5px; font-weight: 800; color: $color-primary; }
 .dr-name { font-size: 15.5px; font-weight: 600; }
 .dr-track { height: 7px; border-radius: 999px; background: #eef2f7; overflow: hidden; }
-.dr-track i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #e08a1e, #2577e3);
+.dr-track i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #e08a1e, #133450);
   transition: width 1s cubic-bezier(.4,0,.2,1); }
 .dr-score { font-size: 15.5px; font-weight: 800; text-align: right; }
 .dr-comment { grid-column: 1 / -1; font-size: 15px; line-height: 1.7; color: $color-text-muted; }
 
 .sugs { display: flex; flex-direction: column; gap: 12px; }
 .sug { border: 1px solid $color-border; border-radius: $radius-md; padding: 16px 18px 15px; background: #fff;
-  box-shadow: 0 2px 10px rgba(23,52,94,0.04); animation: optIn .46s cubic-bezier(.34,1.2,.6,1) both;
+  box-shadow: 0 2px 10px rgba(19,52,80,0.04); animation: optIn .46s cubic-bezier(.34,1.2,.6,1) both;
   transition: transform .18s cubic-bezier(.34,1.4,.6,1), box-shadow .18s ease, border-color .18s ease; }
-.sug:hover { transform: translateY(-2px); border-color: #cfe0f7; box-shadow: 0 12px 26px rgba(37,119,227,0.12); }
-.sug-head { display: flex; align-items: center; gap: 10px; padding-bottom: 11px; border-bottom: 1px dashed #e8eef7; }
+.sug:hover { transform: translateY(-2px); border-color: #c9d9e6; box-shadow: 0 12px 26px rgba(19,52,80,0.12); }
+.sug-head { display: flex; align-items: center; gap: 10px; padding-bottom: 11px; border-bottom: 1px dashed #e5ebf1; }
 .sug-dim { font-size: 13.5px; font-weight: 700; color: $color-primary; background: $color-primary-soft; padding: 3px 10px; border-radius: 6px; white-space: nowrap; }
 .sug-title { font-size: 16.5px; font-weight: 800; line-height: 1.5; }
 .sug-line { display: flex; gap: 10px; margin-top: 11px; }
@@ -612,7 +612,7 @@ onUnmounted(() => { if (anTimer) clearInterval(anTimer) })
 .sug-line:nth-of-type(3) .sug-v { color: $color-text; }
 .sug-go { align-self: flex-start; margin-top: 14px; display: inline-flex; align-items: center; gap: 6px;
   padding: 8px 16px; border-radius: 999px; cursor: pointer; font-size: 14.5px; font-weight: 700;
-  color: $color-primary; background: $color-primary-softer; border: 1px solid #d8e7fa; transition: all .18s ease; }
+  color: $color-primary; background: $color-primary-softer; border: 1px solid #d7e3ec; transition: all .18s ease; }
 .sug-go:hover { background: $color-primary; border-color: $color-primary; color: #fff; }
 .sug-go svg { transition: transform .18s ease; }
 .sug-go:hover svg { transform: translateX(3px); }

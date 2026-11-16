@@ -3,7 +3,7 @@
     <title>{{ description }}</title>
     <g class="radar-grid">
       <polygon v-for="level in [100, 80, 60, 40, 20]" :key="level"
-        :points="ring(level)" :fill="level % 40 === 0 ? '#f8fafd' : '#fff'" />
+        :points="ring(level)" :fill="level % 40 === 0 ? '#d9e4ec' : '#fff'" />
       <line v-for="(_, i) in dimensions" :key="i" x1="300" y1="210"
         :x2="position(i, 100).x" :y2="position(i, 100).y" />
     </g>
@@ -75,5 +75,5 @@ const description = computed(() => '能力雷达，刻度 0 至 100。' + props.
 .axis-labels text { fill: #687b94; font: 15px 'Microsoft YaHei', sans-serif; }
 .axis-labels .scale-label { fill: #91a0b3; font-size: 11px; }
 circle { outline: none; }
-circle:focus { stroke: #1e3555; stroke-width: 2; }
+circle:focus { stroke: #133450; stroke-width: 2; }
 </style>

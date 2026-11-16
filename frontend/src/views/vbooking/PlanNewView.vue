@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="pn">
     <!-- 顶栏：身份 + 三个动作（滚动时不动） -->
     <header class="topbar">
@@ -559,14 +559,14 @@ onUnmounted(() => { if (planTimer) clearInterval(planTimer) })
   font-size: 15px; color: $color-text; outline: none; background: #fff;
   transition: border-color .2s ease-out, box-shadow .2s ease-out; }
 .ipt:hover { border-color: $color-border-strong; }
-.ipt:focus { border-color: $color-primary; box-shadow: 0 0 0 2px rgba(37,119,227,.10); }
+.ipt:focus { border-color: $color-primary; box-shadow: 0 0 0 2px rgba(19,52,80,.10); }
 .ta { width: 100%; border: 1px solid $color-border-strong; border-radius: 6px; padding: 9px 11px; font-size: 15px;
   resize: vertical; outline: none; font-family: inherit; transition: border-color .2s ease-out, box-shadow .2s ease-out; }
-.ta:focus { border-color: $color-primary; box-shadow: 0 0 0 2px rgba(37,119,227,.10); }
+.ta:focus { border-color: $color-primary; box-shadow: 0 0 0 2px rgba(19,52,80,.10); }
 
 /* 逐日行程：一天一张卡 */
 .days { display: flex; flex-direction: column; gap: 10px; }
-.day { border: 1px solid $color-border; border-radius: $radius-md; background: linear-gradient(180deg,#fbfdff,#fff);
+.day { border: 1px solid $color-border; border-radius: $radius-md; background: linear-gradient(180deg,#fafcfd,#fff);
   padding: 14px 16px; transition: border-color .18s ease, box-shadow .18s ease; }
 .day:hover { border-color: $color-primary-light; box-shadow: $shadow-hover; }
 .day-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
@@ -604,9 +604,9 @@ onUnmounted(() => { if (planTimer) clearInterval(planTimer) })
 .steps .dot { width: 12px; height: 12px; border-radius: 50%; background: #e3e9f2; margin-top: 3px; flex-shrink: 0;
   transition: background .3s ease, box-shadow .3s ease; }
 .steps li.on .dot { background: $color-primary; }
-.steps li.now .dot { box-shadow: 0 0 0 4px rgba(37,119,227,.16); animation: pulse 1.8s ease-in-out infinite; }
-@keyframes pulse { 0%,100% { box-shadow: 0 0 0 4px rgba(37,119,227,.16); transform: scale(1); }
-  50% { box-shadow: 0 0 0 8px rgba(37,119,227,.05); transform: scale(1.2); } }
+.steps li.now .dot { box-shadow: 0 0 0 4px rgba(19,52,80,.16); animation: pulse 1.8s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 4px rgba(19,52,80,.16); transform: scale(1); }
+  50% { box-shadow: 0 0 0 8px rgba(19,52,80,.05); transform: scale(1.2); } }
 .steps .line { position: absolute; left: 5px; top: 16px; bottom: 0; width: 2px; background: #eef2f7; }
 .steps li.on .line { background: $color-primary-soft; }
 .st-mid { display: flex; flex-direction: column; gap: 2px; }
@@ -628,14 +628,14 @@ onUnmounted(() => { if (planTimer) clearInterval(planTimer) })
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 5px; height: 36px; padding: 0 16px;
   border-radius: 6px; border: 1px solid transparent; font-size: 15px; cursor: pointer;
   transition: transform .15s ease-out, box-shadow .15s ease-out, background .15s ease-out; }
-.btn.primary { background: $color-primary; color: #fff; box-shadow: 0 6px 16px rgba(37,119,227,.24); }
+.btn.primary { background: $color-primary; color: #fff; box-shadow: 0 6px 16px rgba(19,52,80,.24); }
 .btn.primary:hover:not(:disabled) { background: $color-primary-dark; transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(37,119,227,.30); }
+  box-shadow: 0 4px 12px rgba(19,52,80,.30); }
 .btn.ghost { background: #fff; color: $color-primary; border-color: $color-border; }
 .btn.ghost:hover:not(:disabled) { border-color: $color-primary; }
 .btn:disabled { opacity: .5; cursor: default; box-shadow: none; }
 .import-template { white-space: nowrap; }
-.spin { width: 14px; height: 14px; display: inline-block; border: 2px solid rgba(37,119,227,.25); border-top-color: $color-primary; border-radius: 50%; animation: spin .8s linear infinite; }
+.spin { width: 14px; height: 14px; display: inline-block; border: 2px solid rgba(19,52,80,.25); border-top-color: $color-primary; border-radius: 50%; animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .notice { margin-top: 12px; font-size: 15.5px; color: $color-primary; background: $color-primary-softer;
   border-radius: $radius-sm; padding: 9px 11px; }

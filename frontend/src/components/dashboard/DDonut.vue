@@ -1,8 +1,8 @@
-<template>
+﻿<template>
   <div class="ddonut">
     <div class="ddonut-ring" :style="{ width: `${size}px`, height: `${size}px` }">
       <svg :viewBox="`0 0 ${size} ${size}`">
-        <circle :cx="half" :cy="half" :r="radius" fill="none" stroke="#eef3fa" :stroke-width="thickness" />
+        <circle :cx="half" :cy="half" :r="radius" fill="none" stroke="#eaf0f5" :stroke-width="thickness" />
         <circle v-for="(s, i) in segments" :key="s.label" :cx="half" :cy="half" :r="radius" fill="none"
           :stroke="s.color" :stroke-width="thickness" stroke-linecap="round"
           :stroke-dasharray="`${Math.max(0, s.len - 3)} ${C}`" :stroke-dashoffset="s.offset"

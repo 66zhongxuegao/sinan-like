@@ -1,4 +1,4 @@
-@use './tokens.scss' as *;
+﻿@use './tokens.scss' as *;
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html, body, #app { height: 100%; }
@@ -15,8 +15,8 @@ a { color: $color-primary; text-decoration: none; }
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(26,106,224,0.18); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(26,106,224,0.32); }
+::-webkit-scrollbar-thumb { background: rgba(13,40,63,0.18); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(13,40,63,0.32); }
 
 .text-primary { color: $color-primary; }
 .text-muted { color: $color-text-secondary; }

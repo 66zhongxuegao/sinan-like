@@ -247,7 +247,7 @@ watch(orderId, load)
 
 .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 .kpi { background: #fff; border: 1px solid $color-border; border-radius: $radius-md; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
-.kpi.hl { border-color: $color-primary; background: linear-gradient(180deg, #f7fbff, #fff); }
+.kpi.hl { border-color: $color-primary; background: linear-gradient(180deg, #f4f8fb, #fff); }
 .k-label { font-size: 15.5px; color: $color-text-secondary; }
 .k-val { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; }
 .k-val.ok { color: $color-success; }
@@ -255,7 +255,7 @@ watch(orderId, load)
 .k-sub { font-size: 15px; color: $color-text-muted; }
 .grade { display: inline-block; border-radius: 4px; padding: 0 6px; margin-right: 4px; font-weight: 600; }
 .grade.ok { background: #e8f7ee; color: $color-success; }
-.grade.ok-soft { background: #eef6ff; color: $color-primary; }
+.grade.ok-soft { background: #d9e4ec; color: $color-primary; }
 .grade.warn { background: #fdf3e6; color: $color-warning; }
 .grade.bad { background: #fdeceb; color: $color-danger; }
 .grade.muted { background: #f2f4f7; color: $color-text-muted; }

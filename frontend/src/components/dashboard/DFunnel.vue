@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="dfunnel">
     <div v-for="(s, i) in steps" :key="s.label" class="dfunnel-row" :style="{ '--i': i }">
       <span class="dfunnel-name">{{ s.short }}</span>
@@ -37,9 +37,9 @@ function fmt(v: number): string {
 .dfunnel-row { display: grid; grid-template-columns: 46px minmax(0, 1fr) 56px 48px; align-items: center; gap: 9px;
   animation: funnelRow .55s cubic-bezier(.22, 1, .36, 1) both; animation-delay: calc(var(--i) * 70ms); }
 .dfunnel-name { font-size: 12px; color: #5c6f8a; white-space: nowrap; }
-.dfunnel-track { height: 9px; border-radius: 999px; background: #eef3fa; overflow: hidden; }
+.dfunnel-track { height: 9px; border-radius: 999px; background: #eaf0f5; overflow: hidden; }
 .dfunnel-bar { position: relative; height: 100%; border-radius: 999px; overflow: hidden;
-  box-shadow: 0 4px 12px rgba(47, 127, 232, .20);
+  box-shadow: 0 4px 12px rgba(36,87,126, .20);
   animation: funnelGrow .95s cubic-bezier(.22, 1, .36, 1) both; animation-delay: calc(var(--i) * 70ms + .12s); }
 .dfunnel-bar::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.42), transparent);
   transform: translateX(-120%); animation: funnelSheen 3.6s ease-in-out 1.2s infinite; }

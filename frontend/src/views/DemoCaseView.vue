@@ -792,7 +792,7 @@ code { font-family: ui-monospace, monospace; font-size: $fs-badge; background: $
 .tbl td { padding: 7px 9px; border-bottom: 1px solid #f1f3f5; vertical-align: top; }
 
 /* 回执 */
-.op { margin-top: 12px; border: 1px solid $color-border; border-radius: 8px; padding: 11px 13px; background: #fcfdff; }
+.op { margin-top: 12px; border: 1px solid $color-border; border-radius: 8px; padding: 11px 13px; background: #d9e4ec; }
 .op.ok { border-color: #cbeadb; background: #f6fdf9; }
 .op.fail { border-color: #f4c9c9; background: #fdf6f6; }
 .op.running { border-color: $color-primary-light; background: $color-primary-softer; }
@@ -808,7 +808,7 @@ code { font-family: ui-monospace, monospace; font-size: $fs-badge; background: $
 
 .next { margin-top: 10px; font-size: $fs-meta; background: $color-primary-soft; border-radius: 6px; padding: 8px 11px; color: $color-text; }
 .ok-line { color: #1f7a3d; }
-.tbl.stage tr.now td { background: rgba(0, 0, 0, 0.035); }
+.tbl.stage tr.now td { background: rgba(0,0,0, 0.035); }
 .guide .g-title { font-weight: 700; color: $color-text; }
 .guide .g-hint { font-size: $fs-badge; color: $color-text-secondary; margin-top: 2px; }
 .guide .g-deliv { font-size: $fs-badge; color: $color-primary; margin-top: 2px; }

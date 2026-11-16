@@ -254,7 +254,7 @@ onBeforeUnmount(() => {
   transform: rotate(45deg) translateY(-2px); }
 
 .um-menu { position: absolute; top: calc(100% + 8px); right: 0; width: 276px; background: #fff;
-  border: 1px solid $color-border; border-radius: 12px; box-shadow: 0 16px 40px rgba(16,32,56,.18);
+  border: 1px solid $color-border; border-radius: 12px; box-shadow: 0 16px 40px rgba(13,40,63,.18);
   padding: 8px; z-index: 60; }
 .um-head { display: flex; align-items: center; gap: 10px; padding: 6px 8px 8px; }
 .um-head-txt { min-width: 0; }
@@ -268,7 +268,7 @@ onBeforeUnmount(() => {
 .um-item { width: 100%; display: flex; align-items: center; gap: 10px; padding: 10px; border: none; background: transparent;
   border-radius: 8px; font-size: $fs-body; color: $color-text; cursor: pointer; text-align: left; }
 .um-item:hover { background: $color-primary-softer; }
-.um-group-label { padding: 6px 10px 2px; font-size: 11.5px; font-weight: 700; letter-spacing: 1.2px; color: #9aa8bb; }
+.um-group-label { padding: 6px 10px 2px; font-size: 11.5px; font-weight: 700; letter-spacing: 1.2px; color: #9aa8bb; }
 .um-item.danger { color: $color-danger; }
 .um-item.danger:hover { background: #fdecec; }
 .um-item:disabled { opacity: .6; cursor: default; }
@@ -279,7 +279,7 @@ onBeforeUnmount(() => {
 .um-menu-anim-enter-active, .um-menu-anim-leave-active { transition: opacity .16s ease, transform .16s ease; }
 .um-menu-anim-enter-from, .um-menu-anim-leave-to { opacity: 0; transform: translateY(-6px); }
 
-.um-mask { position: fixed; inset: 0; z-index: 3000; background: rgba(16,32,56,.34); display: flex;
+.um-mask { position: fixed; inset: 0; z-index: 3000; background: rgba(13,40,63,.34); display: flex;
   align-items: center; justify-content: center; padding: 24px; }
 .um-dialog { width: 100%; max-width: 560px; background: #fff; border-radius: $radius-lg; box-shadow: $shadow-deep;
   padding: 20px 22px 18px; max-height: 90vh; overflow-y: auto; }
@@ -301,7 +301,7 @@ onBeforeUnmount(() => {
 .ui { width: 100%; height: 40px; padding: 0 12px; font-size: $fs-body; color: $color-text; background: #fff;
   border: 1px solid $color-border-strong; border-radius: $radius-md; outline: none; font-family: inherit;
   transition: border-color .15s ease, box-shadow .15s ease; }
-.ui:focus { border-color: $color-primary; box-shadow: 0 0 0 3px rgba(37,119,227,.12); }
+.ui:focus { border-color: $color-primary; box-shadow: 0 0 0 3px rgba(19,52,80,.12); }
 .ui.ta { height: auto; padding: 10px 12px; line-height: 1.7; resize: vertical; }
 
 .ud-meta { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 12px 14px; border-radius: $radius-md;
@@ -311,8 +311,8 @@ onBeforeUnmount(() => {
 .ud-foot { margin-top: 18px; display: flex; justify-content: flex-end; gap: 10px; }
 .ud-btn { display: inline-flex; align-items: center; gap: 7px; padding: 10px 20px; border: none; border-radius: 999px;
   cursor: pointer; font-size: $fs-body; font-weight: 700; color: #fff;
-  background: linear-gradient(135deg, $color-primary, $color-primary-dark); box-shadow: 0 6px 16px rgba(37,119,227,.24); }
-.ud-btn:disabled { cursor: default; background: linear-gradient(135deg, #9dc0ee, #86aee6); box-shadow: none; }
+  background: linear-gradient(135deg, $color-primary, $color-primary-dark); box-shadow: 0 6px 16px rgba(19,52,80,.24); }
+.ud-btn:disabled { cursor: default; background: linear-gradient(135deg, #a9c0d1, #7e9cb3); box-shadow: none; }
 .ud-btn.ghost { background: #fff; color: $color-text-secondary; border: 1px solid $color-border; box-shadow: none; }
 .ud-btn.ghost:hover:not(:disabled) { border-color: $color-primary; color: $color-primary; }
 .spin { animation: umSpin .9s linear infinite; }

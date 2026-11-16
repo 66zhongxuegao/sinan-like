@@ -3,8 +3,8 @@
     <svg viewBox="0 0 340 316" class="dradar-svg">
       <defs>
         <radialGradient :id="teamFill" cx="50%" cy="50%" r="50%">
-          <stop offset="55%" stop-color="#2f7fe8" stop-opacity=".03" />
-          <stop offset="100%" stop-color="#2f7fe8" stop-opacity=".20" />
+          <stop offset="55%" stop-color="#24577e" stop-opacity=".03" />
+          <stop offset="100%" stop-color="#24577e" stop-opacity=".20" />
         </radialGradient>
         <linearGradient :id="sweepFill" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stop-color="#2fe3c8" stop-opacity="0" />
@@ -90,17 +90,17 @@ const wedgePath = (() => {
 <style scoped>
 .dradar { display: flex; align-items: center; justify-content: center; width: 100%; }
 .dradar-svg { width: 100%; max-width: 380px; height: auto; overflow: visible; }
-.dradar-grid polygon { fill: none; stroke: #e6eef8; stroke-width: 1; }
-.dradar-grid line { stroke: #eaf1f9; stroke-width: 1; }
-.dradar-base polygon { fill: #f4f8fd; stroke: #c9d8ea; stroke-width: 1.2;
+.dradar-grid polygon { fill: none; stroke: #d9e4ec; stroke-width: 1; }
+.dradar-grid line { stroke: #d9e4ec; stroke-width: 1; }
+.dradar-base polygon { fill: #d9e4ec; stroke: #c9d8ea; stroke-width: 1.2;
   stroke-dasharray: 4 4; animation: radarIn .9s cubic-bezier(.22, 1, .36, 1) both; }
-.dradar-team polygon { stroke: #2f7fe8; stroke-width: 2; stroke-linejoin: round;
-  filter: drop-shadow(0 0 10px rgba(47, 127, 232, .20));
+.dradar-team polygon { stroke: #24577e; stroke-width: 2; stroke-linejoin: round;
+  filter: drop-shadow(0 0 10px rgba(36,87,126, .20));
   transform-box: view-box; transform-origin: 170px 158px;
   animation: radarIn 1.1s cubic-bezier(.22, 1, .36, 1) .12s both; }
-.dradar-dot { fill: #ffffff; stroke: #2f7fe8; stroke-width: 1.2; opacity: 0; animation: dotIn .4s ease forwards; }
+.dradar-dot { fill: #ffffff; stroke: #24577e; stroke-width: 1.2; opacity: 0; animation: dotIn .4s ease forwards; }
 .dradar-sweep { transform-box: view-box; transform-origin: 170px 158px; animation: radarSpin 14s linear infinite; }
-.dradar-sweep-line { stroke: rgba(16, 169, 154, .32); stroke-width: 1; }
+.dradar-sweep-line { stroke: rgba(16,169,154, .32); stroke-width: 1; }
 .dradar-labels text { fill: #5c6f8a; font-size: 11.5px; font-weight: 600; letter-spacing: .3px; }
 @keyframes radarIn { from { opacity: 0; transform: scale(.55); } to { opacity: 1; transform: scale(1); } }
 @keyframes dotIn { from { opacity: 0; transform: scale(.2); } to { opacity: 1; transform: scale(1); } }
