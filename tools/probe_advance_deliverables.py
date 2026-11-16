@@ -17,7 +17,7 @@ import urllib.request
 import uuid
 from pathlib import Path
 
-BASE = "http://127.0.0.1:18020"
+BASE = "http://127.0.0.1:28020"
 DUMP_DIR = Path(os.environ.get("PROBE_DUMP_DIR", ""))
 REQUIRED_ACTIONS = ("确认联系", "confirm_contact", "首呼", "first_call")
 

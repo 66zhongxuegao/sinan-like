@@ -20,7 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from tripcraft.contracts.stages import STAGE_ORDER, as_payload, deliverable_stage  # noqa: E402
 
-BASE = "http://127.0.0.1:18020"
+BASE = "http://127.0.0.1:28020"
 
 
 def call(method: str, path: str, body: dict | None = None, token: str = ""):

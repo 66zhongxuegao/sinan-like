@@ -1,4 +1,4 @@
-# 司南礼客
+﻿# 司南礼客
 
 面向入境游定制师培训的个性化生成与多智能体协同决策系统。
 
@@ -29,8 +29,8 @@
    powershell -NoProfile -ExecutionPolicy Bypass -File .\_交接文档\首次安装与适配.ps1
    ```
 
-3. 普通训练模式：双击 `司南礼客桌面版.bat`。
-4. 固定案例演示模式：
+3. 普通训练模式：双击 `司南礼客桌面版.bat`。默认后端端口 `28020`，前端端口 `25190`。
+4. 固定案例演示模式：默认后端端口 `28930`，前端端口 `25191`。
 
    ```powershell
    powershell -NoProfile -ExecutionPolicy Bypass -File .\启动标准演示.ps1
