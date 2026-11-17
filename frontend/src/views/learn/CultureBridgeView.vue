@@ -121,4 +121,22 @@ h1 { font-size: 22px; margin: 0; }
 .pits b { display: block; margin-bottom: 6px; }
 .pits ul { margin: 0; padding-left: 18px; } .pits li { line-height: 1.7; }
 .empty { flex: 1; display: flex; align-items: center; justify-content: center; color: $color-text-secondary; }
+
+@media (max-width: 760px) {
+  .bridge-page { height: auto; min-height: 100%; overflow: visible; }
+  .bh { padding: 4px 0 12px; }
+  .bh-l { align-items: flex-start; flex-direction: column; gap: 8px; }
+  h1 { font-size: 21px; line-height: 1.35; }
+  .bh-sub { margin-top: 9px; font-size: 14px; line-height: 1.7; }
+  .body { flex-direction: column; gap: 10px; padding: 0; overflow: visible; }
+  .list { width: 100%; flex-direction: row; overflow-x: auto; padding-bottom: 2px; }
+  .item { flex: 0 0 160px; padding: 10px; }
+  .nm { font-size: 14px; }
+  .ct { font-size: 11.5px; }
+  .detail { width: 100%; padding: 16px; border-radius: 18px; overflow: visible; }
+  .dh { align-items: flex-start; flex-direction: column; gap: 5px; }
+  .sum { font-size: 15px; line-height: 1.75; }
+  .cmp { grid-template-columns: minmax(0,1fr); }
+  .side, .use, .pits { font-size: 14px; }
+}
 </style>

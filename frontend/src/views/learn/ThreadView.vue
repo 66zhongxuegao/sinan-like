@@ -758,4 +758,42 @@ function openAsset(a: any) { preview.value = { title: a.title, content: a.conten
 .diff-toast.down { color: #e08a1e; border-color: rgba(224,138,30, 0.3); }
 .toast-enter-active, .toast-leave-active { transition: opacity .25s ease, transform .25s ease; }
 .toast-enter-from, .toast-leave-to { opacity: 0; transform: translate(-50%, -14px); }
+
+@media (max-width: 800px) {
+  .thread { max-width: none; }
+  .cols { grid-template-columns: minmax(0,1fr); gap: 12px; }
+  .mid { height: calc(100dvh - 205px); min-height: 570px; border-radius: 18px; overflow: hidden; }
+  .chat-head { align-items: flex-start; flex-wrap: wrap; gap: 9px; padding: 13px 14px; }
+  .ch-left { flex: 1; flex-wrap: wrap; gap: 6px; min-width: 0; }
+  .spname { font-size: 17px; }
+  .ch-right { width: 100%; justify-content: flex-end; }
+  .ch-right .mini { padding: 6px 11px; font-size: 13.5px; }
+  .msgs { padding: 14px; gap: 14px; }
+  .bubble-wrap { max-width: 92%; }
+  .who { font-size: 13px; }
+  .bubble { padding: 11px 13px; font-size: 16px; line-height: 1.72; }
+  .trace-toggle, .trace-item { font-size: 13.5px; }
+  .chat-input { padding: 10px 12px; }
+  .quick { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+  .quick::-webkit-scrollbar { display: none; }
+  .qbtn { flex: 0 0 auto; padding: 7px 12px; font-size: 14px; }
+  .composer { flex-direction: column; align-items: stretch; }
+  .ipt { min-height: 80px; font-size: 16px; }
+  .send { width: 100%; height: 44px; }
+  .quiz { padding: 15px; border-radius: 16px; }
+  .q-head { flex-wrap: wrap; }
+  .q-stem { font-size: 17px; line-height: 1.7; }
+  .q-opt { align-items: flex-start; padding: 12px; font-size: 16px; line-height: 1.65; }
+  .q-foot { align-items: stretch; flex-direction: column; }
+  .q-foot .tc-btn { width: 100%; min-height: 42px; }
+  .right { display: grid; grid-template-columns: minmax(0,1fr); gap: 10px; }
+  .rings { justify-content: flex-start; gap: 22px; padding: 8px 18px 4px; }
+  .agent-modal { width: calc(100vw - 20px); max-height: 88dvh; }
+  .am-head { padding: 15px 17px; }
+  .am-body { max-height: 72dvh; }
+  .tr-panel { width: calc(100vw - 20px); max-height: 88dvh; }
+  .tr-hd { flex-wrap: wrap; padding: 12px 14px; }
+  .tr-hint { flex-basis: 100%; }
+  .m-body { padding: 14px 16px; }
+}
 </style>

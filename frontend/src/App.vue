@@ -47,6 +47,23 @@
       </section>
       <ProgressDock v-if="route.path.startsWith('/practice') && route.path !== '/practice'" :order-id="String(route.params.id || '')" />
     </main>
+
+    <nav v-if="!isFullscreen" class="mobile-tabbar" aria-label="移动端主导航">
+      <router-link to="/learn" class="mobile-tab" :class="{ active: route.path.startsWith('/learn') }">
+        <SIcon name="book" :size="20" /><span>学习</span>
+      </router-link>
+      <router-link to="/practice/messages" class="mobile-tab"
+        :class="{ active: route.path.startsWith('/practice/messages') || route.path.startsWith('/practice/im') }">
+        <SIcon name="chat" :size="20" /><span>消息</span>
+      </router-link>
+      <router-link to="/practice" class="mobile-tab"
+        :class="{ active: route.path.startsWith('/practice') && !route.path.startsWith('/practice/messages') && !route.path.startsWith('/practice/im') }">
+        <SIcon name="layers" :size="20" /><span>实战</span>
+      </router-link>
+      <router-link to="/profile" class="mobile-tab" :class="{ active: route.path.startsWith('/profile') }">
+        <SIcon name="user" :size="20" /><span>我的</span>
+      </router-link>
+    </nav>
   </div>
 </template>
 
@@ -174,6 +191,7 @@ onMounted(async () => {
 
 .topbar-right { display: flex; align-items: center; gap: 12px; }
 .mobile-brand { display: none; }
+.mobile-tabbar { display: none; }
 .status { display: inline-flex; align-items: center; gap: 7px; font-size: 14.5px; padding: 6px 14px; border-radius: 999px; background: $color-bg; border: 1px solid $color-border; }
 .status .dot { width: 8px; height: 8px; border-radius: 50%; }
 .status.on { color: $color-success; } .status.on .dot { background: $color-success; }
@@ -192,30 +210,23 @@ onMounted(async () => {
    * 于是装饰层 .app-shell::before 的 inset:-25% 直接把文档撑宽 25%×2 → 488/390 ≈ 1.25，正好对上。
    * 现在：横向用 clip（不产生滚动容器，也不裁掉纵向可见性），并关掉这层装饰底纹。
    */
-  .app-shell { flex-direction: column; height: auto; min-height: 100vh; overflow-x: clip; overflow-y: visible; padding-bottom: calc(74px + env(safe-area-inset-bottom)); }
+  .app-shell { flex-direction: column; height: auto; min-height: 100vh; overflow-x: clip; overflow-y: visible; padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
   .app-shell::before { display: none; }
-  .sidebar {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 120;
-    width: 100%; max-width: 100%; height: calc(68px + env(safe-area-inset-bottom));
-    padding-bottom: env(safe-area-inset-bottom);
-    border: 0; border-top: 1px solid rgba(19,52,80,.12); border-radius: 20px 20px 0 0;
-    background: rgba(255,255,255,.96); backdrop-filter: blur(18px);
-    box-shadow: 0 -12px 32px rgba(13,40,63,.12);
+  .sidebar { display: none; }
+  .mobile-tabbar {
+    display: grid; grid-template-columns: repeat(4,minmax(0,1fr));
+    position: fixed; left: 12px; right: 12px; bottom: calc(10px + env(safe-area-inset-bottom)); z-index: 130;
+    height: 64px; padding: 5px 8px; border: 1px solid rgba(19,52,80,.12); border-radius: 22px;
+    background: rgba(255,255,255,.95); backdrop-filter: blur(20px);
+    box-shadow: 0 16px 42px rgba(13,40,63,.20);
   }
-  .side-top { display: none; }
-  .side-nav { flex: 1; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); overflow: visible; gap: 0; padding: 6px 8px; }
-  .nav-group { display: none; }
-  .nav-item {
-    min-width: 0; flex-direction: column; justify-content: center; gap: 3px;
-    padding: 6px 2px; border-radius: 13px; font-size: 11.5px; line-height: 1; white-space: nowrap;
+  .mobile-tab {
+    position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    min-width: 0; border-radius: 16px; color: #6b7a90; font-size: 12px; line-height: 1;
+    transition: color .16s ease, background .16s ease, transform .16s ease;
   }
-  .nav-item :deep(svg) { width: 19px; height: 19px; }
-  .nav-item::before {
-    display: block; left: 50%; top: 4px; width: 18px; height: 3px;
-    border-radius: 999px; transform: translateX(-50%);
-  }
-  .nav-item.active::before { height: 3px; }
-  .side-foot { display: none; }
+  .mobile-tab.active { color: #fff; background: linear-gradient(145deg,#133450,#24577e); box-shadow: 0 7px 18px rgba(19,52,80,.22); }
+  .mobile-tab:active { transform: scale(.96); }
   .main { overflow: visible; min-width: 0; max-width: 100%; width: 100%; }
   .topbar {
     position: sticky; top: 0; z-index: 80; padding: 10px 15px; gap: 10px;
@@ -230,14 +241,14 @@ onMounted(async () => {
   .topbar-right { flex: 0 0 auto; gap: 6px; min-width: 0; }
   .status { width: 30px; height: 30px; justify-content: center; padding: 0; border: 0; background: transparent; font-size: 0; }
   .status .dot { width: 8px; height: 8px; }
-  .content { padding: 14px 14px calc(96px + env(safe-area-inset-bottom)); }
+  .content { padding: 16px 16px calc(106px + env(safe-area-inset-bottom)); }
   .page-title { font-size: 17px; line-height: 1.2; overflow-wrap: anywhere; }
 }
 
 /* 更窄（≤400px，含 390px 视口）：状态徽标只留圆点与短文案，保证顶栏不横向撑开 */
 @media (max-width: 400px) {
   .topbar { padding: 9px 12px; }
-  .content { padding: 12px 12px calc(94px + env(safe-area-inset-bottom)); }
-  .nav-item { font-size: 11px; letter-spacing: -.1px; }
+  .content { padding: 14px 14px calc(104px + env(safe-area-inset-bottom)); }
+  .mobile-tabbar { left: 8px; right: 8px; }
 }
 </style>

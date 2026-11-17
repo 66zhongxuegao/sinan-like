@@ -802,4 +802,31 @@ onBeforeUnmount(() => {
 .mem-empty { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 8px 0 4px; }
 .me-text { font-size: 16px; line-height: 1.8; color: $color-text-secondary; max-width: 820px; }
 .mem-empty .tc-btn { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+
+@media (max-width: 760px) {
+  .prof { gap: 10px; }
+  .hero-card { align-items: stretch; flex-direction: column; gap: 18px; padding: 18px 16px; }
+  .gauge { width: 160px; height: 160px; margin: 0 auto; }
+  .hero-mid .t { font-size: 23px; }
+  .hero-note { font-size: 14px; }
+  .hero-stats { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; width: 100%; }
+  .hs { min-width: 0; padding: 10px 6px; }
+  .hs .n { font-size: 26px; }
+  .panel { padding: 16px; }
+  .panel-head { align-items: flex-start; font-size: 18px; }
+  .mem-refresh { width: 100%; justify-content: center; margin-left: 0; }
+  .radar-workspace { gap: 12px; margin-top: 12px; }
+  .radar-history { padding-bottom: 12px; }
+  .history-list { padding-bottom: 3px; }
+  .radar-series-controls { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .series-toggle { justify-content: center; padding: 8px 6px; }
+  .series-toggle span { display: none; }
+  .radar-table { overflow-x: auto; }
+  .rt-head, .rt-row { min-width: 520px; }
+  .charts { grid-template-columns: minmax(0,1fr); gap: 10px; }
+  .mem-strengths, .mem-sugs { grid-template-columns: minmax(0,1fr); }
+  .mem-summary { padding: 14px 16px; font-size: 16px; line-height: 1.85; }
+  .mem-empty { align-items: flex-start; flex-direction: column; gap: 10px; }
+  .mem-empty .tc-btn { width: 100%; justify-content: center; }
+}
 </style>

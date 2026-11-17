@@ -91,5 +91,12 @@ onMounted(loadExisting)
 .spin { width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; animation: spin .8s linear infinite; }
 .rl-error { margin: 8px 0 0; color: $color-danger; font-size: $fs-meta; }
 @keyframes spin { to { transform: rotate(360deg); } }
-@media (max-width: 840px) { .route-launcher { grid-template-columns: minmax(0,1fr); gap: 15px; } }
+@media (max-width: 840px) {
+  .route-launcher { grid-template-columns: minmax(0,1fr); gap: 14px; padding: 18px 16px; border-radius: 18px; }
+  .rl-copy h3 { font-size: 20px; }
+  .rl-copy p { font-size: 14px; line-height: 1.7; }
+  .rl-form textarea { min-height: 88px; font-size: 16px; }
+  .rl-actions { flex-direction: column; }
+  .rl-actions .tc-btn { width: 100%; min-height: 42px; }
+}
 </style>
