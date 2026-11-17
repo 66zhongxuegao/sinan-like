@@ -264,4 +264,45 @@ onUnmounted(() => { if (poll) clearInterval(poll) })
 .grab:disabled { opacity: .6; cursor: default; }
 .cd { margin-left: auto; }
 .empty { padding: 40px; text-align: center; color: $color-text-muted; font-size: 15px; }
+
+@media (max-width: 760px) {
+  .vb { max-width: none; }
+  .vb-crumb { display: none; }
+  .vb-body { flex-direction: column; gap: 10px; }
+  .vb-side {
+    position: sticky; top: 84px; z-index: 6; width: 100%;
+    display: flex; gap: 6px; overflow-x: auto; padding: 8px;
+    border-radius: 14px; scrollbar-width: none;
+  }
+  .vb-side::-webkit-scrollbar { display: none; }
+  .grp { display: contents; }
+  .grp:has(.grp-children) > .grp-title { display: none; }
+  .grp-children { display: contents; }
+  .grp-title, .child {
+    flex: 0 0 auto; width: auto; white-space: nowrap; border: 1px solid transparent;
+    border-radius: 999px; padding: 7px 12px; font-size: 14px;
+  }
+  .grp-title.active, .child.active { border-color: rgba(19,52,80,.15); background: $color-primary; color: #fff; }
+  .badge { margin-left: 3px; }
+  .msg-head { align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .msg-title { font-size: 19px; }
+  .msg-sub { font-size: 13.5px; }
+  .lang-pick { margin-left: 0; }
+  .lang-sel { height: 36px; font-size: 14px; }
+  .refresh { margin-left: auto; padding: 7px 15px; }
+  .msg-list { gap: 9px; }
+  .msg-card { align-items: flex-start; gap: 10px; padding: 14px; border-radius: 16px; }
+  .avatar { width: 34px; height: 34px; font-size: 15px; }
+  .msg-top { gap: 6px; }
+  .msg-name { font-size: 16px; }
+  .src-tag, .msg-time, .msg-sub { font-size: 13px; }
+  .msg-text { margin-top: 6px; font-size: 15px; line-height: 1.65; }
+  .msg-foot { align-items: flex-start; gap: 7px 9px; }
+  .rivals, .eta { font-size: 13px; }
+  .grab { width: 100%; margin-left: 0; padding: 10px 16px; }
+  .cd { margin-left: 0; }
+  .diff { align-items: flex-start; }
+  .diff-why { white-space: normal; line-height: 1.5; }
+  .empty { padding: 30px 18px; }
+}
 </style>

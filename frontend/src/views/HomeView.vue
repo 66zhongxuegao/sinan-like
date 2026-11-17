@@ -1930,22 +1930,22 @@ onMounted(async () => {
   .home { gap: 18px; min-height: 0; padding-bottom: 12px; }
 
 
-  .hero { padding: 30px 22px 28px; border-radius: 27px; }
+  .hero { min-height: auto; padding: 26px 20px 24px; border-radius: 24px; box-shadow: 0 18px 46px rgba(13,40,63,.24); }
 
 
   .hero-layout, .hero-layout.guest { gap: 28px; }
 
 
-  .hero-copy { gap: 24px; }
+  .hero-copy { gap: 22px; }
 
 
-  .home-brand { gap: 16px; }
+  .home-brand { gap: 12px; flex-wrap: nowrap; }
 
 
-  .home-brand img { width: 60px; height: 60px; border-radius: 17px; }
+  .home-brand img { width: 52px; height: 52px; border-radius: 16px; }
 
 
-  .home-brand h1 { font-size: clamp(56px, 15.5vw, 66px); letter-spacing: .04em; }
+  .home-brand h1 { font-size: 48px; line-height: .96; letter-spacing: -2.5px; white-space: nowrap; }
 
 
   .home .cta { min-height: 60px; padding: 0 22px 0 25px; gap: 28px; font-size: 22px; }
@@ -1961,6 +1961,11 @@ onMounted(async () => {
 
 
   .auth-submit { height: 55px; }
+  .journey { padding: 22px 18px; border-radius: 24px; }
+  .journey-title { font-size: 27px; }
+  .journey-steps { gap: 8px; }
+  .journey-step { min-width: 0; }
+  .journey-step b { font-size: 17px; }
 
 
   .cloud-front { width: 460px; right: -205px; bottom: -120px; }

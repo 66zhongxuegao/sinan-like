@@ -519,4 +519,27 @@ onUnmounted(() => {
 @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 .ct-empty { text-align: center; color: $color-text-muted; font-size: 15.5px; padding: 20px; }
 .err { color: #e04b4b; font-size: 15.5px; }
+
+@media (max-width: 720px) {
+  .call { gap: 12px; }
+  .c-head { flex-wrap: wrap; gap: 8px; }
+  .back { padding: 7px 11px; font-size: 14px; }
+  .c-title { flex: 1; min-width: 0; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .c-timer { margin-left: 0; font-size: 15px; }
+  .c-modes { order: 5; width: 100%; padding: 4px; }
+  .mode { flex: 1; justify-content: center; padding: 8px 10px; }
+  .c-stage { height: min(390px, 52dvh); min-height: 310px; border-radius: 20px; }
+  .c-topinfo { top: 18px; gap: 10px; padding: 0 18px; }
+  .cc-name { font-size: 20px; letter-spacing: 1px; }
+  .cc-meta { gap: 7px; }
+  .cc-pd { max-width: 145px; line-height: 1.35; text-align: center; }
+  .c-start { width: 126px; height: 126px; gap: 8px; }
+  .c-controls { gap: 10px; }
+  .ctrl { flex: 1; width: auto; min-height: 74px; }
+  .c-input { flex-direction: column; align-items: stretch; }
+  .c-input .send { width: 100%; min-height: 44px; }
+  .ct-body { max-height: none; }
+  .ct-row { gap: 7px; }
+  .ct-who { width: 48px; }
+}
 </style>

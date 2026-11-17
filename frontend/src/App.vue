@@ -25,6 +25,10 @@
     <main class="main">
       <header v-if="showTopbar" class="topbar" :class="{ plain: isFullscreen }">
         <div v-if="!isFullscreen" class="topbar-left">
+          <div class="mobile-brand">
+            <img src="@/assets/logo-sinan-like.webp" alt="" />
+            <span>司南礼客</span>
+          </div>
           <h1 class="page-title">{{ pageHeading }}</h1>
         </div>
         <div class="topbar-right">
@@ -169,6 +173,7 @@ onMounted(async () => {
 .page-title { font-size: $fs-page-title; font-weight: 800; letter-spacing: .3px; line-height: 1.25; }
 
 .topbar-right { display: flex; align-items: center; gap: 12px; }
+.mobile-brand { display: none; }
 .status { display: inline-flex; align-items: center; gap: 7px; font-size: 14.5px; padding: 6px 14px; border-radius: 999px; background: $color-bg; border: 1px solid $color-border; }
 .status .dot { width: 8px; height: 8px; border-radius: 50%; }
 .status.on { color: $color-success; } .status.on .dot { background: $color-success; }
@@ -187,28 +192,52 @@ onMounted(async () => {
    * 于是装饰层 .app-shell::before 的 inset:-25% 直接把文档撑宽 25%×2 → 488/390 ≈ 1.25，正好对上。
    * 现在：横向用 clip（不产生滚动容器，也不裁掉纵向可见性），并关掉这层装饰底纹。
    */
-  .app-shell { flex-direction: column; height: auto; min-height: 100vh; overflow-x: clip; overflow-y: visible; }
+  .app-shell { flex-direction: column; height: auto; min-height: 100vh; overflow-x: clip; overflow-y: visible; padding-bottom: calc(74px + env(safe-area-inset-bottom)); }
   .app-shell::before { display: none; }
-  .sidebar { width: 100%; max-width: 100%; border-right: none; border-bottom: 1px solid $color-border; }
-  .side-top { padding: 12px 16px 10px; }
-  .side-nav { flex-direction: row; overflow-x: auto; overflow-y: hidden; gap: 6px; padding: 8px 12px; }
+  .sidebar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 120;
+    width: 100%; max-width: 100%; height: calc(68px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    border: 0; border-top: 1px solid rgba(19,52,80,.12); border-radius: 20px 20px 0 0;
+    background: rgba(255,255,255,.96); backdrop-filter: blur(18px);
+    box-shadow: 0 -12px 32px rgba(13,40,63,.12);
+  }
+  .side-top { display: none; }
+  .side-nav { flex: 1; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); overflow: visible; gap: 0; padding: 6px 8px; }
   .nav-group { display: none; }
-  .nav-item { white-space: nowrap; padding: 8px 12px; font-size: 14.5px; }
-  .nav-item::before { display: none; }
+  .nav-item {
+    min-width: 0; flex-direction: column; justify-content: center; gap: 3px;
+    padding: 6px 2px; border-radius: 13px; font-size: 11.5px; line-height: 1; white-space: nowrap;
+  }
+  .nav-item :deep(svg) { width: 19px; height: 19px; }
+  .nav-item::before {
+    display: block; left: 50%; top: 4px; width: 18px; height: 3px;
+    border-radius: 999px; transform: translateX(-50%);
+  }
+  .nav-item.active::before { height: 3px; }
   .side-foot { display: none; }
-  .main { overflow: visible; min-width: 0; max-width: 100%; }
-  .topbar { padding: 12px 16px; flex-wrap: wrap; gap: 10px; }
-  .topbar.plain { padding: 10px 16px; }
+  .main { overflow: visible; min-width: 0; max-width: 100%; width: 100%; }
+  .topbar {
+    position: sticky; top: 0; z-index: 80; padding: 10px 15px; gap: 10px;
+    background: rgba(255,255,255,.94); backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(19,52,80,.10); box-shadow: 0 5px 18px rgba(13,40,63,.055);
+  }
+  .topbar.plain { padding: 8px 14px; background: rgba(247,250,252,.92); }
+  .topbar-left { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .mobile-brand { display: flex; align-items: center; gap: 7px; min-width: 0; color: $color-primary; font-size: 12.5px; font-weight: 800; letter-spacing: 1.4px; }
+  .mobile-brand img { width: 23px; height: 23px; object-fit: contain; border-radius: 7px; background: #fff; box-shadow: 0 2px 8px rgba(13,40,63,.08); }
   /* 顶栏右侧（连接状态 + 用户菜单）在窄屏允许换行，不把标题挤出视口 */
-  .topbar-right { flex-wrap: wrap; gap: 8px; row-gap: 8px; min-width: 0; }
-  .content { padding: 14px 16px 32px; }
-  .page-title { font-size: 18px; overflow-wrap: anywhere; }
+  .topbar-right { flex: 0 0 auto; gap: 6px; min-width: 0; }
+  .status { width: 30px; height: 30px; justify-content: center; padding: 0; border: 0; background: transparent; font-size: 0; }
+  .status .dot { width: 8px; height: 8px; }
+  .content { padding: 14px 14px calc(96px + env(safe-area-inset-bottom)); }
+  .page-title { font-size: 17px; line-height: 1.2; overflow-wrap: anywhere; }
 }
 
 /* 更窄（≤400px，含 390px 视口）：状态徽标只留圆点与短文案，保证顶栏不横向撑开 */
 @media (max-width: 400px) {
-  .topbar { padding: 10px 12px; }
-  .status { padding: 5px 9px; font-size: 13px; }
-  .content { padding: 12px 12px 28px; }
+  .topbar { padding: 9px 12px; }
+  .content { padding: 12px 12px calc(94px + env(safe-area-inset-bottom)); }
+  .nav-item { font-size: 11px; letter-spacing: -.1px; }
 }
 </style>

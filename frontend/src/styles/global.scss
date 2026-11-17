@@ -9,6 +9,7 @@ body {
   color: $color-text;
   background: $color-bg;
   -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
 }
 
 a { color: $color-primary; text-decoration: none; }
@@ -65,4 +66,11 @@ a { color: $color-primary; text-decoration: none; }
     transition-duration: .001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+@media (max-width: 900px) {
+  html, body, #app { min-height: 100dvh; }
+  body { min-height: 100dvh; }
+  button, input, select, textarea { font-size: 16px; }
+  input, textarea, select { scroll-margin-top: 110px; }
 }

@@ -317,4 +317,17 @@ onBeforeUnmount(() => {
 .ud-btn.ghost:hover:not(:disabled) { border-color: $color-primary; color: $color-primary; }
 .spin { animation: umSpin .9s linear infinite; }
 @keyframes umSpin { to { transform: rotate(360deg); } }
+
+@media (max-width: 600px) {
+  .um-btn { padding: 3px; border: 0; background: transparent; box-shadow: none; }
+  .um-name, .um-chev { display: none; }
+  .um-avatar { width: 38px; height: 38px; }
+  .um-menu { position: fixed; left: 12px; right: 12px; top: calc(76px + env(safe-area-inset-top)); width: auto; max-height: calc(100dvh - 100px); overflow-y: auto; border-radius: 18px; }
+  .um-mask { align-items: flex-end; padding: 10px; }
+  .um-dialog { max-height: 92dvh; border-radius: 22px 22px 14px 14px; padding: 18px 16px calc(18px + env(safe-area-inset-bottom)); }
+  .ud-grid { grid-template-columns: 1fr; gap: 11px; }
+  .ud-meta { gap: 7px 12px; }
+  .ud-foot { justify-content: stretch; }
+  .ud-foot .ud-btn { flex: 1; }
+}
 </style>

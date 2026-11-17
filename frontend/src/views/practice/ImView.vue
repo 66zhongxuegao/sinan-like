@@ -1,7 +1,7 @@
 <template>
   <div class="im" :class="{ wide: infoOpen }">
     <!-- 左：会话与联系人 -->
-    <aside class="col side card">
+    <aside class="col side card" :class="{ 'mobile-open': mobileSideOpen }">
       <div class="side-head">
         <span class="side-title">会话</span>
         <button class="icon-btn" title="发起群聊" @click="newGroupDlg = true"><SIcon name="plus" :size="13" /></button>
@@ -45,10 +45,15 @@
       </div>
     </aside>
 
+    <button v-if="mobileSideOpen" class="mobile-drawer-mask" aria-label="关闭会话列表" @click="mobileSideOpen = false" />
+
     <!-- 中：会话 -->
     <section class="col main card">
       <div class="m-head">
         <div class="mh-l">
+          <button class="mobile-drawer-btn" title="打开会话列表" @click="mobileSideOpen = true">
+            <SIcon name="chat" :size="14" /> 会话
+          </button>
           <span class="mh-name">{{ active.name }}</span>
           <span class="mh-kind">{{ active.kind }}</span>
           <span class="mh-type">{{ conversationTypeLabel }}</span>
@@ -198,8 +203,12 @@
     </section>
 
     <!-- 右：会话信息 -->
+    <button v-if="infoOpen" class="mobile-info-mask" aria-label="关闭会话信息" @click="infoOpen = false" />
     <aside v-if="infoOpen" class="col info card">
-      <div class="info-title">会话信息</div>
+      <div class="info-head">
+        <div class="info-title">会话信息</div>
+        <button class="mobile-info-close" aria-label="关闭会话信息" @click="infoOpen = false"><SIcon name="x" :size="14" /></button>
+      </div>
       <div class="info-row"><span>类型</span><b>{{ active.kind || '—' }}</b></div>
       <div class="info-row"><span>订单</span><b>{{ active.order_id || '—' }}</b></div>
       <div class="info-row"><span>成员</span><b>{{ active.members.length }} 位</b></div>
@@ -331,7 +340,8 @@ const replying = ref(false)
 const reacted = ref<string[]>([])
 const notice = ref('')
 const busy = ref(false)
-const infoOpen = ref(true)
+const infoOpen = ref(window.innerWidth > 900)
+const mobileSideOpen = ref(false)
 const voiceListening = ref(false)
 const voiceProcessing = ref(false)
 let voiceWs: WebSocket | null = null
@@ -556,6 +566,7 @@ function openSession(sid: string) {
   targetRole.value = ''
   notice.value = ''
   markSeen(sid)
+  mobileSideOpen.value = false
   scrollMsgsToEnd()
 }
 
@@ -936,6 +947,7 @@ onUnmounted(() => { if (voiceListening.value || voiceProcessing.value) stopVoice
 .mh-members:hover { color: $color-primary; }
 .mh-order { font-size: 14.5px; color: $color-text-muted; }
 .mh-r { display: flex; gap: 6px; }
+.mobile-drawer-btn, .mobile-drawer-mask, .mobile-info-mask, .mobile-info-close { display: none; }
 
 .lock-bar { display: flex; align-items: center; gap: 8px; font-size: 15px; color: $color-warning; background: #fdf7ee; padding: 9px 16px; }
 .lock-bar.soft { color: $color-text-secondary; background: #d9e4ec; }
@@ -984,6 +996,7 @@ onUnmounted(() => { if (voiceListening.value || voiceProcessing.value) stopVoice
 .send { align-self: flex-end; display: inline-flex; align-items: center; gap: 5px; }
 
 .info { padding: 14px; gap: 6px; max-height: 660px; overflow-y: auto; }
+.info-head { display: flex; align-items: center; justify-content: space-between; }
 .info-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
 .info-title.mt { margin-top: 14px; }
 .info-row { display: flex; justify-content: space-between; font-size: 15.5px; color: $color-text-secondary; padding: 4px 0; }
@@ -1012,4 +1025,52 @@ onUnmounted(() => { if (voiceListening.value || voiceProcessing.value) stopVoice
 .pick-row > span:not(.tag) { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .empty { text-align: center; color: $color-text-muted; font-size: 15px; padding: 40px; }
 .empty-sm { text-align: center; color: $color-text-muted; font-size: 14px; padding: 10px; }
+
+@media (max-width: 800px) {
+  .im, .im.wide { display: block; max-width: none; }
+  .side {
+    position: fixed; z-index: 240; top: calc(78px + env(safe-area-inset-top)); bottom: calc(82px + env(safe-area-inset-bottom));
+    left: 10px; width: min(88vw, 360px); max-height: none; padding: 12px;
+    border-radius: 20px; box-shadow: 0 22px 60px rgba(13,40,63,.28);
+    transform: translateX(calc(-100% - 24px)); transition: transform .24s cubic-bezier(.22,.9,.3,1);
+  }
+  .side.mobile-open { transform: translateX(0); }
+  .mobile-drawer-mask, .mobile-info-mask {
+    display: block; position: fixed; inset: 0; z-index: 230; border: 0;
+    background: rgba(13,40,63,.34); backdrop-filter: blur(3px);
+  }
+  .main { min-height: 560px; height: calc(100dvh - 205px); max-height: none; }
+  .m-head { align-items: flex-start; flex-wrap: wrap; gap: 9px; padding: 12px; }
+  .mh-l { width: 100%; flex-wrap: wrap; gap: 6px; }
+  .mobile-drawer-btn {
+    display: inline-flex; align-items: center; gap: 5px; border: 1px solid $color-border;
+    border-radius: 999px; background: #fff; color: $color-primary; padding: 6px 10px; font: inherit; font-size: 13px; cursor: pointer;
+  }
+  .mh-name { font-size: 17px; }
+  .mh-type, .mh-kind, .mh-members, .mh-order { font-size: 12.5px; }
+  .mh-r { margin-left: auto; }
+  .msgs { padding: 12px; gap: 10px; }
+  .row .body { max-width: 84%; }
+  .bubble { font-size: 15px; padding: 9px 11px; }
+  .card-msg { max-width: 100%; }
+  .input { padding: 9px 10px; }
+  .target-row { align-items: flex-start; flex-direction: column; gap: 5px; }
+  .target-select { width: 100%; }
+  .tools { overflow-x: auto; padding-bottom: 2px; }
+  .tool { flex: 0 0 auto; }
+  .input .send { align-self: stretch; justify-content: center; min-height: 42px; }
+  .info {
+    position: fixed; z-index: 240; top: calc(78px + env(safe-area-inset-top)); bottom: calc(82px + env(safe-area-inset-bottom));
+    right: 10px; width: min(88vw, 330px); max-height: none; border-radius: 20px;
+    box-shadow: 0 22px 60px rgba(13,40,63,.28);
+  }
+  .mobile-info-close {
+    display: inline-flex; width: 30px; height: 30px; align-items: center; justify-content: center;
+    margin-bottom: 6px; border: 0; border-radius: 50%; background: $color-primary-soft; color: $color-primary;
+  }
+  .dlg { width: 100%; max-height: 82dvh; border-radius: 20px; padding: 18px 16px calc(18px + env(safe-area-inset-bottom)); }
+  .mask { align-items: flex-end; padding: 10px; }
+  .dlg-row { align-items: stretch; flex-direction: column; }
+  .dlg-row label { width: auto; }
+}
 </style>

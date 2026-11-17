@@ -408,6 +408,17 @@ onMounted(() => { query() })
   .tb-body { grid-template-columns: 1fr; }
   .mini-row { grid-template-columns: 1fr; }
 }
+@media (max-width: 640px) {
+  .tool { padding: 14px; border-radius: 16px; }
+  .tool-name { font-size: 17px; line-height: 1.35; }
+  .tools-grid { grid-template-columns: 1fr; }
+  .mini-row-in { flex-wrap: wrap; }
+  .mini-row-in .ipt { flex: 1 1 150px; min-width: 0; }
+  .map { min-height: 260px; max-height: 300px; border-radius: 14px; }
+  .fx-grid { grid-template-columns: 1fr 1fr; }
+  .fx-calc { flex-wrap: wrap; }
+  .fx-calc .ipt { flex: 1 1 120px; }
+}
 .fx-calc { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
 .fx-eq { font-size: 14px; color: $color-text-muted; white-space: nowrap; }
 .fx-out { font-size: 16px; font-weight: 800; color: $color-primary; }
