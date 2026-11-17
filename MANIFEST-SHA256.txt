@@ -184,7 +184,7 @@ ac635e751b29f85e5ab988aa0a0c9673f971c91a86ad6dfbb8d2d3a5f5f72d6e           495  
 3dfa3e1fa114a6e18e7b2fbac17833adcbb4a237c8b8312042175ee3f4c48cb4        109662  frontend/package-lock.json
 70668292d144938a84bc6a6297321cf20928e4b76c771a75bd0f55040c67b7f5          1011  frontend/package.json
 33563b4f4316c180c24f3c436646aab86227aca2ef7cd54956ef5bc840bfed8b           119  frontend/src/api/client.ts
-70d3fa5c72d25d4b8df0a44433aace3851d2fe90663cb4e8840dfcfbc860259b         14038  frontend/src/App.vue
+389ca2d0b5d057bc8f9acfeef3459aa80e2f3517af94142589376e98a23a7670         13878  frontend/src/App.vue
 80d10ca33015bebf8615278ad4c93984d77354e81014045ff576539687719653         51198  frontend/src/assets/app.ico
 56c008a9bf80e4a0366975e8a6e26a46baca93d3622db9924e98c5914f1f08c4        241192  frontend/src/assets/deco/feiniao.png
 a5c16036450c816fa0a71c53b5b387ef3b81ec9dd5790f4cadf4743091cc7c7e          2934  frontend/src/assets/deco/guofeng-shanshui.svg
@@ -368,7 +368,7 @@ e4fa6eca31bdc735a7860754f32db11af07906cd2cfe0c21a43931e832acda66          7894  
 eb414fcf49a80abdf418f3d23c4836b7ed2785ad6906bf06915330e57f1a62ce         15703  frontend/src/views/practice/FinanceView.vue
 0bcc0e1cd3bed68d839aa4317a1400303320cfbefc390c2f7883175f9125ec4b         50166  frontend/src/views/practice/ImView.vue
 be9de7c93551cfc703af4f73a1fa3477d79e036f8e75e33defbd99527a212553         34958  frontend/src/views/practice/OrderScoreView.vue
-93dce1d8227a7acbc5fba054accc9b54d3faaca86850bb1331b2791455dd2528         18100  frontend/src/views/practice/PracticeView.vue
+48245c3b92cb008fc33ab0e151c6c5240d681c027981b4a32af12302f81851e5         20266  frontend/src/views/practice/PracticeView.vue
 755b43ff75d2d9477c62422a43ad69f0ba5f664a5c3fc970189fc9abb3562140         36980  frontend/src/views/ProfileQuizView.vue
 8f7d97934e66bc61d733d2557d24f6c7fe508123f8d6f63e31b48b183d4de67b         48031  frontend/src/views/ProfileView.vue
 9c85a445b1e371992ace95d327b372b5abc699f15950913fa3526e43c611fb53          9641  frontend/src/views/RegisterView.vue

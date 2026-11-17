@@ -48,16 +48,14 @@
       <ProgressDock v-if="route.path.startsWith('/practice') && route.path !== '/practice'" :order-id="String(route.params.id || '')" />
     </main>
 
-    <nav v-if="!isFullscreen" class="mobile-tabbar" aria-label="移动端主导航">
+    <nav v-if="!isFullscreen || userStore.isAuthenticated" class="mobile-tabbar" aria-label="移动端主导航">
+      <router-link to="/" class="mobile-tab" :class="{ active: route.path === '/' }">
+        <SIcon name="home" :size="20" /><span>首页</span>
+      </router-link>
       <router-link to="/learn" class="mobile-tab" :class="{ active: route.path.startsWith('/learn') }">
         <SIcon name="book" :size="20" /><span>学习</span>
       </router-link>
-      <router-link to="/practice/messages" class="mobile-tab"
-        :class="{ active: route.path.startsWith('/practice/messages') || route.path.startsWith('/practice/im') }">
-        <SIcon name="chat" :size="20" /><span>消息</span>
-      </router-link>
-      <router-link to="/practice" class="mobile-tab"
-        :class="{ active: route.path.startsWith('/practice') && !route.path.startsWith('/practice/messages') && !route.path.startsWith('/practice/im') }">
+      <router-link to="/practice" class="mobile-tab" :class="{ active: route.path.startsWith('/practice') }">
         <SIcon name="layers" :size="20" /><span>实战</span>
       </router-link>
       <router-link to="/profile" class="mobile-tab" :class="{ active: route.path.startsWith('/profile') }">
@@ -126,7 +124,7 @@ const HEADINGS: Record<string, string> = {
   '/register': '注册',
   '/demo': '标准案例演示',
   '/learn': '学习地图',
-  '/practice': '订单管理',
+  '/practice': '实战训练',
   '/practice/messages': '消息中心',
   '/practice/orders': '订单详情',
   '/practice/im': '聊天界面',

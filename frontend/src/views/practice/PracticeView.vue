@@ -1,5 +1,18 @@
 <template>
   <div class="prac">
+    <nav class="mobile-practice-tabs" aria-label="实战功能">
+      <button type="button" :class="{ active: pane === 'orders' }" @click="setPane('orders')">
+        <SIcon name="layers" :size="16" />订单
+      </button>
+      <button type="button" :class="{ active: pane === 'messages' }" @click="setPane('messages')">
+        <SIcon name="msg" :size="16" />消息
+      </button>
+      <button type="button" :class="{ active: pane === 'chat' }" @click="setPane('chat')">
+        <SIcon name="chat" :size="16" />聊天
+      </button>
+    </nav>
+
+    <template v-if="pane === 'orders'">
     <header class="page-head">
       <div class="title-wrap">
         <h2>我的订单</h2>
@@ -20,7 +33,7 @@
     </div>
     <div v-else-if="!list.length" class="state-card empty-state">
       <span>{{ cards.length ? '该分类下暂无订单' : '暂无订单' }}</span>
-      <RouterLink v-if="!cards.length" class="empty-link" to="/practice/messages">前往抢单</RouterLink>
+      <button v-if="!cards.length" class="empty-link" type="button" @click="setPane('messages')">前往抢单</button>
     </div>
 
     <TransitionGroup v-else name="card-list" tag="div" class="orders">
@@ -73,20 +86,37 @@
         </div>
       </article>
     </TransitionGroup>
+    </template>
+    <MessagesView v-else-if="pane === 'messages'" />
+    <ImView v-else />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, effectScope, onMounted, onUnmounted, ref, shallowRef } from 'vue'
+import { computed, effectScope, onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import SIcon from '@/components/SIcon.vue'
 import client from '@/api/client'
 import { useJourney } from '@/composables/useJourney'
 import { usePracticeStore } from '@/stores/practice'
+import MessagesView from '@/views/vbooking/MessagesView.vue'
+import ImView from '@/views/practice/ImView.vue'
 
 const router = useRouter()
 const route = useRoute()
 const practice = usePracticeStore()
+type PracticePane = 'orders' | 'messages' | 'chat'
+const pane = ref<PracticePane>(['orders', 'messages', 'chat'].includes(String(route.query.tab))
+  ? String(route.query.tab) as PracticePane : 'orders')
+
+function setPane(next: PracticePane) {
+  pane.value = next
+  void router.replace({ path: '/practice', query: next === 'orders' ? {} : { tab: next } })
+}
+watch(() => route.query.tab, (tab) => {
+  const next = String(tab || 'orders')
+  pane.value = (['orders', 'messages', 'chat'].includes(next) ? next : 'orders') as PracticePane
+})
 
 const TABS = ['进行中', '已完成', '已取消'] as const
 const tab = ref<string>('进行中')
@@ -187,6 +217,7 @@ onMounted(loadOrders)
   color: $color-text;
   font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
 }
+.mobile-practice-tabs { display: none; }
 
 .page-head {
   display: flex;
@@ -477,6 +508,19 @@ h2 { margin: 0; font-size: 30px; line-height: 1.2; font-weight: 800; letter-spac
 
 @media (max-width: 760px) {
   .prac { gap: 16px; }
+  .mobile-practice-tabs {
+    display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 5px;
+    position: relative; top: auto; z-index: 3; padding: 5px;
+    border: 1px solid rgba(19,52,80,.12); border-radius: 16px;
+    background: rgba(255,255,255,.94); backdrop-filter: blur(16px);
+    box-shadow: 0 8px 24px rgba(13,40,63,.08);
+  }
+  .mobile-practice-tabs button {
+    height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    border: 0; border-radius: 12px; background: transparent; color: #6b7a90;
+    font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+  }
+  .mobile-practice-tabs button.active { color: #fff; background: linear-gradient(145deg,#133450,#24577e); box-shadow: 0 6px 14px rgba(19,52,80,.18); }
   .page-head { align-items: flex-start; }
   h2 { font-size: 26px; }
   .count-badge { height: 30px; min-width: 30px; font-size: 15px; }
