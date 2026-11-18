@@ -282,6 +282,18 @@ def build(ctx: AppContext) -> APIRouter:
             sess = svc.login(username, body.password)
         except Exception as exc:  # noqa: BLE001
             raise _fail(exc, 401, "用户名或密码不正确")
+        # 演示模板账号（demo-blank / demo-flow）：口令校验通过后，改为签发一个只属于本次登录的访客账号，
+        # 多人同时使用同一个演示账号时数据互不影响（见 services/demo_guest.py）。
+        from tripcraft.services import demo_guest
+        if demo_guest.is_template(sess.get("username") or username):
+            try:
+                svc.logout(sess.get("token", ""))       # 模板账号本身的会话不留
+            except Exception:  # noqa: BLE001
+                pass
+            try:
+                sess = demo_guest.start_guest(ctx, sess.get("username") or username)
+            except Exception as exc:  # noqa: BLE001
+                raise HTTPException(503, f"演示账号初始化失败，请稍后重试：{exc}")
         payload = {
             "token": sess.get("token", ""),
             "user_id": sess.get("user_id", ""),
@@ -292,13 +304,6 @@ def build(ctx: AppContext) -> APIRouter:
             payload["user"] = _public(svc.user(payload["user_id"]))
         except Exception:  # noqa: BLE001 - 资料读取失败不应影响登录本身
             payload["user"] = None
-        # 空白演示账号：每次登录都清空旧的订单/学习/画像，保证从「未测画像」开始。
-        try:
-            from tripcraft.services import demo_blank_state
-            if (sess.get("username") or username) == demo_blank_state.USERNAME:
-                demo_blank_state.reset_blank(ctx, payload["user_id"])
-        except Exception:  # noqa: BLE001 - 演示复位失败不阻断登录
-            pass
         _set_session_cookie(response, payload["token"], payload["expires_at"])
         return payload
 
@@ -311,7 +316,10 @@ def build(ctx: AppContext) -> APIRouter:
                 from tripcraft.services import demo_blank_state, demo_stage_state, demo_standard_state
                 uid = ctx.get_auth().resolve(token)
                 user = ctx.get_auth().user(uid) if uid else None
-                if user and user.get("username") == demo_stage_state.USERNAME:
+                from tripcraft.services import demo_guest
+                if user and demo_guest.is_guest(user.get("username") or ""):
+                    demo_guest.delete_guest(ctx, uid)     # 访客退出即删号；会话随之失效
+                elif user and user.get("username") == demo_stage_state.USERNAME:
                     demo_stage_state.reset_initial(ctx, uid)
                 elif user and user.get("username") == demo_blank_state.USERNAME:
                     demo_blank_state.reset_blank(ctx, uid)

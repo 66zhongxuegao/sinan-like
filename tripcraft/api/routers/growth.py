@@ -153,7 +153,7 @@ def _sanitize_quiz_payload(result):
         out["messages"] = cleaned
 
     # `pick_question()` / `submit_answer()` 的题卡是**扁平**返回（顶层直接就是题卡字段，
-    # 不是 {"quiz": card}），所以顶层也要过一遍投影。public_quiz_card 只 pop 那 4 个键，
+    # 不是 {"quiz": card}），所以顶层也要过一遍投影。public_quiz_card 只 pop 答案与出题留档相关的键，
     # 对快照/chat 的顶层（skill_point_id/name/messages/quiz/kind/content/...）是幂等无害的。
     out = public_quiz_card(out)
     return out
@@ -678,8 +678,8 @@ def build(ctx: AppContext) -> APIRouter:
             raise HTTPException(400, f"请完成全部 {len(profile_agent.QUIZ)} 道题再提交")
         scores = profile_agent.score_answers(answers)
         user_row = ctx.store.user_by_id(user_id) or {}
-        from tripcraft.services import demo_blank_state
-        blank_demo = user_row.get("username") == demo_blank_state.USERNAME
+        from tripcraft.services import demo_blank_state, demo_guest
+        blank_demo = demo_guest.is_blank_like(user_row.get("username") or "")
         if blank_demo:
             scores = demo_blank_state.normalize_assessment_scores(scores)
         # 空白演示账号使用确定性画像，避免模型写成与分数不一致的“标准案例”摘要。

@@ -222,8 +222,11 @@ class AuthService:
             "CASE WHEN username='demo-flow' THEN 0 WHEN username='demo-blank' THEN 1 ELSE 2 END, username")
         demo_hints = {"demo-flow": "Demo2026!", "demo-blank": "Demo2026!"}
         out = []
+        guest = re.compile(r"^demo-(blank|flow)-g[0-9a-f]{8}$")
         for row in rows:
             username = row.get("username") or ""
+            if guest.match(username):
+                continue    # 演示访客是一次性账号，不出现在登录列表
             label = (row.get("display_name") or username or "").strip()
             suffix = "" if row.get("kind") == "demo" else " · 训练账户"
             out.append({"username": username,
