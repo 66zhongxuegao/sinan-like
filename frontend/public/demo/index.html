@@ -15,40 +15,28 @@
   <header class="hero">
     <p class="brand">司南礼客</p>
     <h1>使用说明</h1>
-    <p class="hero-line">按顺序完成下面 7 步</p>
+    <p class="hero-line">左右翻页，查看 7 步具体操作</p>
   </header>
 
   <main class="manual-wrap">
-    <section class="manual-card" aria-labelledby="step-title">
-      <div class="step-head">
-        <p class="step-count" id="step-count">第 01 步 / 共 07 步</p>
-        <h2 id="step-title">画像自测</h2>
-        <p class="step-goal" id="step-goal">先建立你的八维能力画像</p>
+    <div class="manual-shell">
+      <button class="carousel-arrow carousel-arrow--prev" id="prev" type="button" aria-label="上一步">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+      </button>
+
+      <div class="carousel-viewport" id="viewport" aria-roledescription="carousel" aria-label="司南礼客使用步骤">
+        <div class="carousel-track" id="track"></div>
       </div>
 
-      <div class="video-stage" id="video-stage">
-        <button class="arrow arrow--prev" id="prev" type="button" aria-label="上一步">‹</button>
-        <video id="step-video" autoplay muted loop playsinline controls preload="auto" poster="./media/01-profile.jpg">
-          <source src="./media/01-profile.mp4" type="video/mp4" />
-        </video>
-        <button class="arrow arrow--next" id="next" type="button" aria-label="下一步">›</button>
-      </div>
+      <button class="carousel-arrow carousel-arrow--next" id="next" type="button" aria-label="下一步">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+      </button>
+    </div>
 
-      <div class="instruction-block" aria-live="polite">
-        <p class="instruction-title">这样操作</p>
-        <ol class="instruction-list" id="step-list">
-          <li>在首页点击「画像」。新账号先点右上角「新建用户」。</li>
-          <li>按顺序完成测评题，选择答案后系统自动进入下一题。</li>
-          <li>提交后查看八维能力画像和学习建议，再进入学习地图。</li>
-        </ol>
-      </div>
-
-      <div class="carousel-footer">
-        <button class="step-button" id="prev-text" type="button">← 上一步</button>
-        <div class="dots" id="dots" aria-label="步骤切换"></div>
-        <button class="step-button" id="next-text" type="button">下一步 →</button>
-      </div>
-    </section>
+    <div class="carousel-status">
+      <div class="dots" id="dots" aria-label="步骤切换"></div>
+      <p class="position" id="position" aria-live="polite">01 / 07</p>
+    </div>
   </main>
 
   <script src="./demo.js" defer></script>

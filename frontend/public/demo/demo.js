@@ -8,68 +8,115 @@ const steps = [
   { title: '行后结算与复盘', goal: '核对结算、查看评分并更新画像', video: './media/07-settlement.mp4', poster: './media/07-settlement.jpg', actions: ['进入「成本与结算」，逐项核对地接结算单和实际成本。', '处理赔偿或追偿，完成结账留档并检查实际利润。', '到「订单评分」查看 61 技能点分数和证据，再到「学情画像」更新画像。'] }
 ];
 
-const video = document.querySelector('#step-video');
-const source = video.querySelector('source');
-const stepCount = document.querySelector('#step-count');
-const stepTitle = document.querySelector('#step-title');
-const stepGoal = document.querySelector('#step-goal');
-const stepList = document.querySelector('#step-list');
-const card = document.querySelector('.manual-card');
+const track = document.querySelector('#track');
+const viewport = document.querySelector('#viewport');
+const prev = document.querySelector('#prev');
+const next = document.querySelector('#next');
 const dots = document.querySelector('#dots');
-const prevButton = document.querySelector('#prev');
-const nextButton = document.querySelector('#next');
-const prevText = document.querySelector('#prev-text');
-const nextText = document.querySelector('#next-text');
-const stage = document.querySelector('#video-stage');
+const position = document.querySelector('#position');
 let current = 0;
 let startX = 0;
 let startY = 0;
 
-const buttons = steps.map((step, index) => {
-  const button = document.createElement('button');
-  button.className = 'dot';
-  button.type = 'button';
-  button.setAttribute('aria-label', `跳到第 ${index + 1} 步：${step.title}`);
-  button.addEventListener('click', () => goTo(index));
-  dots.appendChild(button);
-  return button;
+function element(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+
+const slides = steps.map((step, index) => {
+  const slide = element('article', 'manual-slide');
+  slide.setAttribute('role', 'group');
+  slide.setAttribute('aria-roledescription', 'slide');
+  slide.setAttribute('aria-label', `第 ${index + 1} 步：${step.title}`);
+
+  const head = element('div', 'slide-head');
+  head.append(
+    element('p', 'slide-index', `${String(index + 1).padStart(2, '0')} / ${String(steps.length).padStart(2, '0')}`),
+    element('h2', '', step.title),
+    element('p', 'slide-goal', step.goal)
+  );
+
+  const stage = element('div', 'video-stage');
+  const video = document.createElement('video');
+  video.muted = true;
+  video.loop = true;
+  video.playsInline = true;
+  video.controls = true;
+  video.preload = 'none';
+  video.poster = step.poster;
+  video.setAttribute('aria-label', `${step.title}录屏`);
+  const source = document.createElement('source');
+  source.src = step.video;
+  source.type = 'video/mp4';
+  video.appendChild(source);
+  stage.appendChild(video);
+
+  const actions = element('div', 'actions');
+  const list = element('ol', 'action-list');
+  step.actions.forEach((action) => list.appendChild(element('li', '', action)));
+  actions.append(element('p', 'actions-title', '这样操作'), list);
+
+  slide.append(head, stage, actions);
+  track.appendChild(slide);
+  return { slide, video };
 });
 
-function render(index) {
-  const step = steps[index];
-  stepCount.textContent = `第 ${String(index + 1).padStart(2, '0')} 步 / 共 ${String(steps.length).padStart(2, '0')} 步`;
-  stepTitle.textContent = step.title;
-  stepGoal.textContent = step.goal;
-  stepList.replaceChildren(...step.actions.map((action) => {
-    const item = document.createElement('li');
-    item.textContent = action;
-    return item;
-  }));
-  buttons.forEach((button, dotIndex) => button.classList.toggle('is-active', dotIndex === index));
-  source.src = step.video;
-  video.poster = step.poster;
-  video.load();
-  video.play().catch(() => {});
-  card.classList.remove('is-switching');
-  void card.offsetWidth;
-  card.classList.add('is-switching');
+const dotButtons = steps.map((step, index) => {
+  const dot = element('button', 'dot');
+  dot.type = 'button';
+  dot.setAttribute('aria-label', `跳到第 ${index + 1} 步：${step.title}`);
+  dot.addEventListener('click', () => goTo(index));
+  dots.appendChild(dot);
+  return dot;
+});
+
+function syncState() {
+  slides.forEach(({ slide }, slideIndex) => {
+    const active = slideIndex === current;
+    slide.setAttribute('aria-hidden', String(!active));
+    if (active) slide.removeAttribute('inert');
+    else slide.setAttribute('inert', '');
+  });
+  dotButtons.forEach((dot, dotIndex) => dot.classList.toggle('is-active', dotIndex === current));
+  position.textContent = `${String(current + 1).padStart(2, '0')} / ${String(steps.length).padStart(2, '0')}`;
+  prev.disabled = current === 0;
+  next.disabled = current === steps.length - 1;
+}
+
+function playVideo(video) {
+  video.preload = 'auto';
+  const start = () => {
+    try { video.currentTime = 0; } catch {}
+    video.play().catch(() => {});
+  };
+  if (video.readyState >= 2) {
+    start();
+  } else {
+    video.addEventListener('canplay', start, { once: true });
+    video.load();
+  }
 }
 
 function goTo(index) {
-  current = (index + steps.length) % steps.length;
-  render(current);
+  const nextIndex = Math.max(0, Math.min(steps.length - 1, index));
+  if (nextIndex === current) return;
+  slides[current].video.pause();
+  current = nextIndex;
+  track.style.transform = `translate3d(-${current * 100}%, 0, 0)`;
+  syncState();
+  playVideo(slides[current].video);
 }
 
-prevButton.addEventListener('click', () => goTo(current - 1));
-nextButton.addEventListener('click', () => goTo(current + 1));
-prevText.addEventListener('click', () => goTo(current - 1));
-nextText.addEventListener('click', () => goTo(current + 1));
+prev.addEventListener('click', () => goTo(current - 1));
+next.addEventListener('click', () => goTo(current + 1));
 
-stage.addEventListener('pointerdown', (event) => { startX = event.clientX; startY = event.clientY; });
-stage.addEventListener('pointerup', (event) => {
+viewport.addEventListener('pointerdown', (event) => { startX = event.clientX; startY = event.clientY; });
+viewport.addEventListener('pointerup', (event) => {
   const deltaX = event.clientX - startX;
   const deltaY = event.clientY - startY;
-  if (Math.abs(deltaX) > 60 && Math.abs(deltaX) > Math.abs(deltaY)) goTo(current + (deltaX < 0 ? 1 : -1));
+  if (Math.abs(deltaX) > 55 && Math.abs(deltaX) > Math.abs(deltaY)) goTo(current + (deltaX < 0 ? 1 : -1));
 });
 
 window.addEventListener('keydown', (event) => {
@@ -77,4 +124,5 @@ window.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowRight') goTo(current + 1);
 });
 
-render(current);
+syncState();
+playVideo(slides[0].video);
