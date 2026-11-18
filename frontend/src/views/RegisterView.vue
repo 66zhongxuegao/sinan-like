@@ -163,10 +163,10 @@ async function submit() {
 
 .submit { margin-top: 8px; height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   border: none; border-radius: $radius-md; cursor: pointer; color: #fff; font-size: $fs-body; font-weight: 700;
-  background: linear-gradient(135deg, $color-primary, $color-primary-dark); box-shadow: 0 6px 16px rgba(19,52,80,.24);
+  background: linear-gradient(135deg, $color-primary-mid, $color-primary); box-shadow: 0 6px 16px rgba(19,52,80,.24);
   transition: transform .16s cubic-bezier(.34,1.4,.6,1), box-shadow .16s ease, filter .16s ease; }
 .submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(19,52,80,.3); filter: brightness(1.03); }
-.submit:disabled { cursor: default; background: linear-gradient(135deg, #a9c0d1, #7e9cb3); box-shadow: none; }
+.submit:disabled { cursor: default; background: linear-gradient(135deg, #b9d0e6, #8db3d8); box-shadow: none; }
 .spin { animation: spin .9s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 

@@ -265,4 +265,9 @@ onMounted(() => { loadRules(); loadCalibration(); loadMcp(); loadStates(); loadF
 .mcp-name { font-family: ui-monospace, monospace; color: $color-primary; font-weight: 600; width: 150px; flex-shrink: 0; }
 .mcp-desc { flex: 1; color: $color-text-secondary; }
 .mcp-req { font-family: ui-monospace, monospace; font-size: 15px; color: $color-text-muted; }
+/* 手机端：多列诊断表改为横向滑动，单元格不再被挤成一字一行 */
+@media (max-width: 760px) {
+  .tbl, .ctl { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tbl th, .tbl td, .ctl th, .ctl td { white-space: nowrap; }
+}
 </style>

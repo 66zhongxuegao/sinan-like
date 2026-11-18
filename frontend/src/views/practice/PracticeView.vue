@@ -4,7 +4,7 @@
       <button type="button" :class="{ active: pane === 'orders' }" @click="setPane('orders')">
         <SIcon name="layers" :size="16" />订单
       </button>
-      <button type="button" :class="{ active: pane === 'messages' }" @click="setPane('messages')">
+      <button type="button" data-tour="hub-messages" :class="{ active: pane === 'messages' }" @click="setPane('messages')">
         <SIcon name="msg" :size="16" />消息
       </button>
       <button type="button" :class="{ active: pane === 'chat' }" @click="setPane('chat')">
@@ -62,8 +62,8 @@
 
           <div class="progress-line" :class="{ pending: !c.j.stages.value.length }"
             tabindex="0" :aria-label="`当前阶段：${currentNameOf(c)}`"
-            @mouseenter="hoveredTrack = c.order.order_id"
-            @mouseleave="hoveredTrack = ''"
+            @mouseenter="canHover && (hoveredTrack = c.order.order_id)"
+            @mouseleave="canHover && (hoveredTrack = '')"
             @focus="hoveredTrack = c.order.order_id"
             @blur="hoveredTrack = ''">
             <span class="line-segments">
@@ -79,7 +79,7 @@
             <button class="action ghost" type="button" @click.stop="goto(c.order, 'score')">
               <SIcon name="chart" :size="18" />评分复盘
             </button>
-            <button class="action primary" type="button" @click.stop="open(c)">
+            <button class="action primary" data-tour="enter-order" type="button" @click.stop="open(c)">
               进入订单<SIcon name="right" :size="18" />
             </button>
           </div>
@@ -143,6 +143,9 @@ const list = computed(() => cards.value.filter((c) => {
 }))
 
 const hoveredTrack = ref('')
+// 只有真正有鼠标悬停能力的设备才用 hover 弹提示：iOS 上 mouseenter 插入新内容会让
+// 「第一次点击只触发悬停」，用户得点两次才能进订单。
+const canHover = typeof window !== 'undefined' && !!window.matchMedia?.('(hover: hover) and (pointer: fine)').matches
 
 function stagesOf(c: Card) {
   const rows = c.j.stages.value
@@ -288,7 +291,7 @@ h2 { margin: 0; font-size: 30px; line-height: 1.2; font-weight: 800; letter-spac
   bottom: 22px;
   width: 4px;
   border-radius: 0 4px 4px 0;
-  background: linear-gradient(180deg, #6e8ca4, #133450);
+  background: linear-gradient(180deg, #5b95c9, #133450);
   transform: scaleY(.35);
   transform-origin: center;
   opacity: .55;
@@ -304,7 +307,7 @@ h2 { margin: 0; font-size: 30px; line-height: 1.2; font-weight: 800; letter-spac
 }
 .order:hover {
   transform: translateY(-4px);
-  border-color: #8ea8bb;
+  border-color: #8db3d8;
   box-shadow: 0 17px 38px rgba(13,40,63, .14);
 }
 .order:hover::before { transform: scaleY(1); opacity: 1; }
@@ -320,7 +323,7 @@ h2 { margin: 0; font-size: 30px; line-height: 1.2; font-weight: 800; letter-spac
   height: 9px;
   border-radius: 50%;
   background: #24577e;
-  box-shadow: 0 0 0 0 rgba(79,120,151,.32);
+  box-shadow: 0 0 0 0 rgba(58,123,176,.32);
   animation: new-pulse 2.2s ease-out infinite;
 }
 
@@ -342,8 +345,8 @@ h2 { margin: 0; font-size: 30px; line-height: 1.2; font-weight: 800; letter-spac
 }
 .person-copy { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .customer { color: #133450; font-size: 21px; line-height: 1.25; font-weight: 800; }
-.destination { display: inline-flex; align-items: center; gap: 8px; color: #356b93; font-size: 16px; font-weight: 700; }
-.dest-label { padding: 2px 7px; border-radius: 6px; background: #e9f0f6; color: #356b93; font-size: 14px; font-weight: 800; }
+.destination { display: inline-flex; align-items: center; gap: 8px; color: #2b6699; font-size: 16px; font-weight: 700; }
+.dest-label { padding: 2px 7px; border-radius: 6px; background: #e9f0f6; color: #2b6699; font-size: 14px; font-weight: 800; }
 .statuses { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .status-badge { padding: 5px 11px; border-radius: 999px; font-size: 15px; font-weight: 750; }
 .status-badge.ok { color: #087b50; background: #e7f8ef; }
@@ -372,7 +375,7 @@ h2 { margin: 0; font-size: 30px; line-height: 1.2; font-weight: 800; letter-spac
   font-variant-numeric: tabular-nums;
   letter-spacing: .01em;
 }
-.order-id :deep(svg) { color: #6e8ca4; }
+.order-id :deep(svg) { color: #5b95c9; }
 
 .progress-line {
   position: relative;
@@ -397,10 +400,10 @@ h2 { margin: 0; font-size: 30px; line-height: 1.2; font-weight: 800; letter-spac
   animation-delay: calc(var(--seg) * 38ms);
   transition: background .22s ease, transform .18s ease, box-shadow .22s ease;
 }
-.line-segment.done { background: linear-gradient(90deg, #133450, #6e8ca4); }
+.line-segment.done { background: linear-gradient(90deg, #133450, #5b95c9); }
 .line-segment.current {
-  background: linear-gradient(90deg, #4f7897, #6e8ca4);
-  box-shadow: 0 0 0 3px rgba(79,120,151,.1), 0 3px 10px rgba(79,120,151,.22);
+  background: linear-gradient(90deg, #3a7bb0, #5b95c9);
+  box-shadow: 0 0 0 3px rgba(58,123,176,.1), 0 3px 10px rgba(58,123,176,.22);
   animation: segment-in .42s cubic-bezier(.2,.8,.2,1) both, segment-glow 1.9s ease-in-out infinite .5s;
 }
 .progress-line:hover .line-segment,
@@ -451,11 +454,11 @@ h2 { margin: 0; font-size: 30px; line-height: 1.2; font-weight: 800; letter-spac
   transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
 }
 .action:hover { transform: translateY(-2px); }
-.action.ghost { border: 1px solid #afc3d2; background: #d9e4ec; color: #356b93; }
-.action.ghost:hover { border-color: #6e8ca4; background: #d9e4ec; }
+.action.ghost { border: 1px solid #b9d0e6; background: #d9e4ec; color: #2b6699; }
+.action.ghost:hover { border-color: #5b95c9; background: #d9e4ec; }
 .action.primary {
   border: 1px solid #133450;
-  background: linear-gradient(135deg, #133450, #6e8ca4);
+  background: linear-gradient(135deg, #133450, #5b95c9);
   color: #fff;
   box-shadow: 0 8px 18px rgba(19,52,80,.2);
 }
@@ -500,14 +503,15 @@ h2 { margin: 0; font-size: 30px; line-height: 1.2; font-weight: 800; letter-spac
 @keyframes head-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
 @keyframes card-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes segment-in { from { opacity: 0; transform: scaleX(.15); } to { opacity: 1; transform: scaleX(1); } }
-@keyframes segment-glow { 0%, 100% { box-shadow: 0 0 0 3px rgba(79,120,151,.1), 0 3px 10px rgba(79,120,151,.22); } 50% { box-shadow: 0 0 0 5px rgba(79,120,151,.16), 0 4px 14px rgba(79,120,151,.3); } }
+@keyframes segment-glow { 0%, 100% { box-shadow: 0 0 0 3px rgba(58,123,176,.1), 0 3px 10px rgba(58,123,176,.22); } 50% { box-shadow: 0 0 0 5px rgba(58,123,176,.16), 0 4px 14px rgba(58,123,176,.3); } }
 @keyframes card-shine { from { transform: translateX(-120%); } to { transform: translateX(120%); } }
-@keyframes new-pulse { 0% { box-shadow: 0 0 0 0 rgba(79,120,151,.32); } 70% { box-shadow: 0 0 0 8px rgba(79,120,151,0); } 100% { box-shadow: 0 0 0 0 rgba(79,120,151,0); } }
+@keyframes new-pulse { 0% { box-shadow: 0 0 0 0 rgba(58,123,176,.32); } 70% { box-shadow: 0 0 0 8px rgba(58,123,176,0); } 100% { box-shadow: 0 0 0 0 rgba(58,123,176,0); } }
 @keyframes urgent-pulse { 0%,100% { transform: scale(1); opacity: .8; } 50% { transform: scale(1.45); opacity: 1; } }
 @keyframes loader-bounce { 0%,80%,100% { transform: translateY(0); opacity: .35; } 40% { transform: translateY(-7px); opacity: 1; } }
 
 @media (max-width: 760px) {
-  .prac { gap: 16px; }
+  /* 聊天面板要占满 Tab 下方剩余高度：Tab 52px + 间距 12px */
+  .prac { gap: 12px; --im-offset: 94px; }
   .mobile-practice-tabs {
     display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 5px;
     position: relative; top: auto; z-index: 3; padding: 5px;

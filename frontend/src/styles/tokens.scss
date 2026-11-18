@@ -1,7 +1,26 @@
 // TripCraft / Sinan Like design tokens
-$color-primary: #133450;
-$color-primary-dark: #0d283f;
-$color-primary-light: #3f6e91;
+/*
+ * 深蓝色阶（同一色相 ≈208°、饱和度约 50%~60%，从深到浅）。
+ * 渐变、图表、浅色底一律从这条色阶里取色，不要再手写 #6e8ca4 这类低饱和灰蓝：
+ * 深蓝渐变到灰蓝中段会发灰发脏；跨色相（橙→深蓝、深蓝→粉）中段会发褐。
+ * 按钮类渐变用「blue-700 → blue-800」这种相邻两级，避免「深 → 更深」看起来发黑。
+ */
+$blue-900: #0d283f;
+$blue-800: #133450;   // 主色
+$blue-700: #1d4a70;
+$blue-600: #2b6699;
+$blue-500: #2f6fa3;
+$blue-450: #3a7bb0;
+$blue-400: #5b95c9;
+$blue-300: #8db3d8;
+$blue-200: #b9d0e6;
+$blue-100: #dde8f2;
+$blue-50:  #eff4f9;
+
+$color-primary: $blue-800;
+$color-primary-dark: $blue-900;
+$color-primary-mid: $blue-700;     // 主按钮渐变起点：$color-primary-mid → $color-primary
+$color-primary-light: $blue-500;
 $color-primary-soft: #e7eef4;
 $color-primary-softer: #f4f8fb;
 
@@ -17,7 +36,7 @@ $color-text-muted: #9aa8bb;
 $color-success: #12a76a;
 $color-warning: #e08a1e;
 $color-danger: #e04b4b;
-$color-info: #3f6e91;
+$color-info: $blue-500;
 
 $font-sans: 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
 $font-serif: 'Noto Serif SC', 'Songti SC', serif;
@@ -57,6 +76,9 @@ $fs-num-lg: 30px;
   --tc-fs-num-lg: #{$fs-num-lg};
   --tc-primary: #{$color-primary};
   --tc-primary-soft: #{$color-primary-soft};
+  --tc-blue-900: #{$blue-900}; --tc-blue-800: #{$blue-800}; --tc-blue-700: #{$blue-700};
+  --tc-blue-600: #{$blue-600}; --tc-blue-500: #{$blue-500}; --tc-blue-400: #{$blue-400};
+  --tc-blue-300: #{$blue-300}; --tc-blue-200: #{$blue-200}; --tc-blue-100: #{$blue-100};
   --el-color-primary: #{$color-primary};
   --el-color-primary-light-3: #{$color-primary-light};
   --el-color-primary-light-9: #{$color-primary-soft};

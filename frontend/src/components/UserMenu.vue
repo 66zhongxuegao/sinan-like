@@ -28,6 +28,10 @@
           <SIcon name="chart" :size="16" /><span>学情画像</span>
           <SIcon name="right" :size="14" class="um-arrow" />
         </button>
+        <button class="um-item um-guide" type="button" @click="replayGuide">
+          <SIcon name="compass" :size="16" /><span>新手引导</span>
+          <SIcon name="right" :size="14" class="um-arrow" />
+        </button>
         <div class="um-divider" />
         <div class="um-group-label">数据看板</div>
         <button class="um-item" type="button" @click="goDashboard('team')">
@@ -165,6 +169,12 @@ function openDialog() {
 function closeDialog() {
   if (saving.value) return
   dialog.value = false
+}
+
+/** 重新播放新手引导（只在手机端提供；从首页第一步开始） */
+function replayGuide() {
+  open.value = false
+  window.dispatchEvent(new Event('tc-guide-restart'))
 }
 
 function goProfile() {
@@ -311,13 +321,15 @@ onBeforeUnmount(() => {
 .ud-foot { margin-top: 18px; display: flex; justify-content: flex-end; gap: 10px; }
 .ud-btn { display: inline-flex; align-items: center; gap: 7px; padding: 10px 20px; border: none; border-radius: 999px;
   cursor: pointer; font-size: $fs-body; font-weight: 700; color: #fff;
-  background: linear-gradient(135deg, $color-primary, $color-primary-dark); box-shadow: 0 6px 16px rgba(19,52,80,.24); }
-.ud-btn:disabled { cursor: default; background: linear-gradient(135deg, #a9c0d1, #7e9cb3); box-shadow: none; }
+  background: linear-gradient(135deg, $color-primary-mid, $color-primary); box-shadow: 0 6px 16px rgba(19,52,80,.24); }
+.ud-btn:disabled { cursor: default; background: linear-gradient(135deg, #b9d0e6, #8db3d8); box-shadow: none; }
 .ud-btn.ghost { background: #fff; color: $color-text-secondary; border: 1px solid $color-border; box-shadow: none; }
 .ud-btn.ghost:hover:not(:disabled) { border-color: $color-primary; color: $color-primary; }
 .spin { animation: umSpin .9s linear infinite; }
 @keyframes umSpin { to { transform: rotate(360deg); } }
 
+.um-guide { display: none; }
+@media (max-width: 900px) { .um-guide { display: flex; } }
 @media (max-width: 600px) {
   .um-btn { padding: 3px; border: 0; background: transparent; box-shadow: none; }
   .um-name, .um-chev { display: none; }

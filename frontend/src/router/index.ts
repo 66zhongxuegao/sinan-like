@@ -68,4 +68,28 @@ router.beforeEach(async (to) => {
   return true
 })
 
+/**
+ * 路由预取：首屏渲染完、浏览器空闲时，把常用页面的代码块提前下载好。
+ * 公网经 Cloudflare 隧道访问时每次往返约 200ms+，不预取的话每点一个新页面都要先等
+ * 一轮 JS 下载才开始请求数据，体感就是「点了半天才进去」。
+ * 只预取主流程页面；数据看板、标准案例、系统状态等内部页不预取，省流量。
+ */
+const PREFETCH = [
+  'practice', 'p-order-detail', 'learn-map', 'profile', 'p-messages', 'p-im',
+  'p-order-call', 'p-order-score', 'p-deliverables', 'learn-thread', 'p-finance', 'p-plan-new', 'profile-quiz', 'toolbox',
+]
+function prefetchRoutes() {
+  const conn = (navigator as any).connection
+  if (conn?.saveData || /(^|-)2g$/.test(conn?.effectiveType || '')) return  // 省流模式 / 2G 不预取
+  const loaders = PREFETCH
+    .map((name) => router.getRoutes().find((r) => r.name === name)?.components?.default)
+    .filter((c): c is any => typeof c === 'function') as Array<() => Promise<unknown>>
+  // 串行逐个下载，避免和当前页的数据请求抢带宽
+  loaders.reduce<Promise<unknown>>((p, load) => p.then(() => load()).catch(() => undefined), Promise.resolve())
+}
+router.isReady().then(() => {
+  const idle = (window as any).requestIdleCallback || ((cb: () => void) => setTimeout(cb, 1200))
+  idle(prefetchRoutes, { timeout: 3000 })
+})
+
 export default router

@@ -25,7 +25,7 @@
       </section>
 
       <!-- 答题 -->
-      <section v-if="phase === 'quiz'" class="card panel qcard">
+      <section v-if="phase === 'quiz'" class="card panel qcard" data-tour="quiz-card">
         <transition name="swap" mode="out-in">
           <div :key="cur.id" class="qbody">
             <div class="q-dim"><i class="q-dot" />{{ cur.dim_name }}</div>
@@ -209,7 +209,7 @@
 
         <div class="result-foot">
           <router-link to="/profile" class="tc-btn"><SIcon name="chart" :size="15" /> 进入学情画像</router-link>
-          <router-link to="/learn" class="tc-btn ghost"><SIcon name="book" :size="15" /> 去学习地图</router-link>
+          <router-link to="/learn" class="tc-btn ghost" data-tour="quiz-to-learn"><SIcon name="book" :size="15" /> 去学习地图</router-link>
         </div>
       </template>
 
@@ -449,7 +449,7 @@ onUnmounted(() => { if (anTimer) clearInterval(anTimer) })
 .head-title { font-size: 19px; font-weight: 800; }
 .head-sub { margin-top: 4px; font-size: 15px; color: $color-text-secondary; }
 .head-bar { flex: 1; height: 8px; border-radius: 999px; background: #eef2f7; overflow: hidden; }
-.head-bar i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #133450, #4f7897);
+.head-bar i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #133450, #3a7bb0);
   transition: width .45s cubic-bezier(.34,1.1,.5,1); }
 .head-pct { min-width: 54px; text-align: right; font-size: 17px; font-weight: 800; color: $color-primary; }
 
@@ -476,14 +476,14 @@ onUnmounted(() => { if (anTimer) clearInterval(anTimer) })
 .qfoot { margin-top: 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .dots { display: flex; gap: 5px; }
 .dots i { width: 7px; height: 7px; border-radius: 50%; background: #e3e9f2; transition: all .2s ease; }
-.dots i.done { background: #afc3d2; }
+.dots i.done { background: #b9d0e6; }
 .dots i.cur { width: 20px; border-radius: 999px; background: $color-primary; }
 .btn-ghost { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 999px; cursor: pointer;
   border: 1px solid $color-border; background: #fff; color: $color-text-secondary; font-size: 15.5px; }
 .btn-ghost:hover:not(:disabled) { border-color: $color-primary; color: $color-primary; }
 .btn-ghost:disabled { opacity: .45; cursor: default; }
 .qcard .tc-btn { display: inline-flex; align-items: center; gap: 6px; }
-.qcard .tc-btn:disabled { opacity: .5; cursor: default; }
+.qcard .tc-btn:disabled { opacity: 1; background: #b9d0e6; color: #fff; box-shadow: none; cursor: default; }
 .swap-enter-active, .swap-leave-active { transition: opacity .22s ease, transform .22s cubic-bezier(.34,1.2,.6,1); }
 .swap-enter-from { opacity: 0; transform: translateX(24px); }
 .swap-leave-to { opacity: 0; transform: translateX(-24px); }
@@ -516,7 +516,7 @@ onUnmounted(() => { if (anTimer) clearInterval(anTimer) })
   background: linear-gradient(135deg, #f4f8fb, #d9e4ec); border: 1px solid #d9e4ec;
   font-size: 16.5px; line-height: 2; letter-spacing: .2px; color: $color-text; }
 .rm-desc::before { content: ''; position: absolute; left: 0; top: 13px; bottom: 13px; width: 3px;
-  border-radius: 0 3px 3px 0; background: linear-gradient(180deg, $color-primary, #4f7897); }
+  border-radius: 0 3px 3px 0; background: linear-gradient(180deg, $color-primary, #3a7bb0); }
 .rm-tags { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
 .tag-focus { font-size: 14.5px; font-weight: 700; color: #b3730f; background: #fdf3e3; border: 1px solid #f2dcb6;
   padding: 4px 12px; border-radius: 999px; }
@@ -593,7 +593,7 @@ onUnmounted(() => { if (anTimer) clearInterval(anTimer) })
 .dr-id { font-size: 14.5px; font-weight: 800; color: $color-primary; }
 .dr-name { font-size: 15.5px; font-weight: 600; }
 .dr-track { height: 7px; border-radius: 999px; background: #eef2f7; overflow: hidden; }
-.dr-track i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #e08a1e, #133450);
+.dr-track i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #133450, #3a7bb0);
   transition: width 1s cubic-bezier(.4,0,.2,1); }
 .dr-score { font-size: 15.5px; font-weight: 800; text-align: right; }
 .dr-comment { grid-column: 1 / -1; font-size: 15px; line-height: 1.7; color: $color-text-muted; }

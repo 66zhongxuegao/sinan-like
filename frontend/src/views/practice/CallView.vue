@@ -27,7 +27,7 @@
         </div>
         <div class="cc-state"><i class="dot" :class="phase" />{{ stateText }}</div>
       </div>
-      <button v-if="!started" class="c-start" @click="start" :disabled="dialing">
+      <button v-if="!started" class="c-start" data-tour="call-start" @click="start" :disabled="dialing">
         <SIcon name="phone" :size="24" />
         <span>{{ dialing ? '接通中…' : '点击拨打' }}</span>
       </button>
@@ -45,7 +45,7 @@
     </div>
 
     <div class="c-input card">
-      <textarea v-model="draft" class="ipt" rows="2" :placeholder="inputHint"
+      <textarea v-model="draft" class="ipt" :rows="isNarrow ? 1 : 2" :placeholder="inputHint"
         :disabled="!started || speaking" @keydown.enter.exact.prevent="send" />
       <button class="send" :disabled="!draft.trim() || !started || speaking" @click="send">发送</button>
     </div>
@@ -72,6 +72,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import SIcon from '@/components/SIcon.vue'
 import client from '@/api/client'
+import { useIsMobile } from '@/composables/useIsMobile'
 
 const route = useRoute()
 const router = useRouter()
@@ -96,6 +97,7 @@ const draft = ref('')
 const error = ref('')
 const seconds = ref(0)
 const mode = ref<'voice' | 'text'>('voice')
+const isNarrow = useIsMobile()
 
 const INPUT_RATE = 16000
 const OUTPUT_RATE = 24000
@@ -480,7 +482,7 @@ onUnmounted(() => {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; cursor: pointer;
   width: 148px; height: 148px; border-radius: 50%; border: none;
-  background: linear-gradient(135deg, #133450, #0d283f); color: #fff;
+  background: linear-gradient(135deg, #1d4a70, #133450); color: #fff;
   box-shadow: 0 14px 34px rgba(19,52,80,0.42);
   font-size: 15px; font-weight: 700;
 }
@@ -504,8 +506,8 @@ onUnmounted(() => {
 .c-input { display: flex; gap: 10px; padding: 12px; align-items: flex-end; }
 .ipt { flex: 1; border: 1px solid $color-border; border-radius: 8px; padding: 9px 12px; font-size: 15px; font-family: inherit; line-height: 1.6; resize: vertical; outline: none; }
 .ipt:focus { border-color: $color-primary; }
-.send { border: none; cursor: pointer; border-radius: 8px; padding: 10px 20px; font-size: 15px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #133450, #0d283f); }
-.send:disabled { opacity: .5; cursor: default; }
+.send { border: none; cursor: pointer; border-radius: 8px; padding: 10px 20px; font-size: 15px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #1d4a70, #133450); }
+.send:disabled { background: #b9d0e6; cursor: default; }
 
 .ct-head { display: flex; align-items: baseline; gap: 10px; padding: 12px 16px; font-size: 15.5px; font-weight: 700; border-bottom: 1px solid $color-border; }
 .ct-hint { font-size: 15px; font-weight: 400; color: $color-text-muted; }
@@ -521,25 +523,33 @@ onUnmounted(() => {
 .err { color: #e04b4b; font-size: 15.5px; }
 
 @media (max-width: 720px) {
-  .call { gap: 12px; }
-  .c-head { flex-wrap: wrap; gap: 8px; }
-  .back { padding: 7px 11px; font-size: 14px; }
-  .c-title { flex: 1; min-width: 0; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .c-timer { margin-left: 0; font-size: 15px; }
-  .c-modes { order: 5; width: 100%; padding: 4px; }
-  .mode { flex: 1; justify-content: center; padding: 8px 10px; }
-  .c-stage { height: min(390px, 52dvh); min-height: 310px; border-radius: 20px; }
-  .c-topinfo { top: 18px; gap: 10px; padding: 0 18px; }
+  /* 手机通话页：信息头 → 通话舞台 → 实时记录 → 输入 → 底部操作，接近系统电话的阅读顺序 */
+  .call { gap: 10px; }
+  .c-head { flex-wrap: wrap; gap: 6px 8px; }
+  .back { display: none; } /* 顶栏已有返回键 */
+  .c-title { order: 1; flex: 1; min-width: 0; font-size: 14px; color: $color-text-secondary; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .c-timer { order: 2; margin-left: 0; font-size: 15px; }
+  .c-modes { order: 3; width: 100%; padding: 3px; }
+  .mode { flex: 1; justify-content: center; min-height: 36px; padding: 6px 10px; }
+  .c-stage { order: 1; height: min(340px, 44dvh); min-height: 280px; border-radius: 20px; }
+  .c-stage:not(.idle) { height: 230px; min-height: 0; }
+  .c-topinfo { top: 16px; gap: 8px; padding: 0 16px; }
   .cc-name { font-size: 20px; letter-spacing: 1px; }
-  .cc-meta { gap: 7px; }
-  .cc-pd { max-width: 145px; line-height: 1.35; text-align: center; }
-  .c-start { width: 126px; height: 126px; gap: 8px; }
-  .c-controls { gap: 10px; }
-  .ctrl { flex: 1; width: auto; min-height: 74px; }
-  .c-input { flex-direction: column; align-items: stretch; }
-  .c-input .send { width: 100%; min-height: 44px; }
-  .ct-body { max-height: none; }
+  .cc-meta { gap: 6px; }
+  .cc-pd { line-height: 1.35; text-align: center; }
+  .c-start { width: 120px; height: 120px; gap: 6px; top: 58%; }
+  .c-transcript { order: 2; }
+  .ct-head { padding: 10px 14px; }
+  .ct-body { padding: 10px 14px; max-height: 38dvh; }
   .ct-row { gap: 7px; }
-  .ct-who { width: 48px; }
+  .ct-who { width: 44px; }
+  .ct-empty { padding: 12px; }
+  /* 输入区：单行输入 + 右侧发送，和聊天 App 一致 */
+  .c-input { order: 3; flex-direction: row; align-items: flex-end; gap: 8px; padding: 8px; border-radius: 16px; }
+  .ipt { min-height: 44px; max-height: 120px; padding: 10px 12px; resize: none; border-radius: 12px; }
+  .c-input .send { flex-shrink: 0; min-height: 44px; padding: 0 16px; border-radius: 12px; }
+  .c-controls { order: 4; gap: 10px; }
+  .ctrl { flex: 1; width: auto; flex-direction: row; justify-content: center; gap: 8px; min-height: 52px; padding: 0 12px; }
+  .err { order: 5; }
 }
 </style>

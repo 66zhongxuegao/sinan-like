@@ -18,7 +18,7 @@
 
           <div class="card f-head">
             <div ref="documentPickerRef" class="doc-picker" @keydown="onDocumentPickerKey" @focusout="onDocumentPickerBlur">
-              <button ref="documentTriggerRef" class="doc-picker-btn" type="button"
+              <button ref="documentTriggerRef" class="doc-picker-btn" data-tour="doc-picker" type="button"
                 data-role="document-picker" aria-haspopup="listbox" aria-controls="document-options"
                 :aria-expanded="documentMenuOpen ? 'true' : 'false'" :disabled="!documentChoices.length || submitting || importBusy"
                 @click="documentMenuOpen = !documentMenuOpen">
@@ -1142,9 +1142,9 @@ watch(() => String(route.query.code || ''), async (code) => {
 .exp:hover:not(:disabled) .ex-fmt { color: $color-primary; }
 .submit-btn { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 24px;
   border-radius: $radius-md; font-weight: 700; letter-spacing: .2px;
-  background: linear-gradient(135deg, #6e8ca4, #356b93);
+  background: linear-gradient(135deg, #5b95c9, #2b6699);
   box-shadow: 0 6px 16px rgba(53,107,147, 0.26); }
-.submit-btn:hover:not(:disabled) { background: linear-gradient(135deg, #6e8ca4, #356b93);
+.submit-btn:hover:not(:disabled) { background: linear-gradient(135deg, #5b95c9, #2b6699);
   box-shadow: 0 10px 22px rgba(53,107,147, 0.32); transform: translateY(-1px); }
 .submit-btn:disabled { opacity: .72; cursor: default; }
 .submit-btn.done:disabled { background: #dce1e8; color: #7d8898; box-shadow: none; opacity: 1; cursor: not-allowed; }
@@ -1205,7 +1205,8 @@ watch(() => String(route.query.code || ''), async (code) => {
 }
 @media (max-width: 640px) {
   .dw { gap: 11px; }
-  .dw-head { align-items: flex-start; gap: 7px; }
+  .dw-head { align-items: center; flex-wrap: wrap; gap: 4px 8px; }
+  .dw-head .back { display: none; } /* 顶栏已有返回键 */
   .dw-stage { margin-left: 0; }
   .f-head { position: static; align-items: stretch; flex-direction: column; padding: 13px; }
   .doc-picker { width: 100%; }

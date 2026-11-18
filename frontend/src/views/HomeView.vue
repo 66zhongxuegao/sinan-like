@@ -76,7 +76,7 @@
 
 
 
-          <button v-if="isAuthed" class="tc-btn cta" data-testid="primary-action"
+          <button v-if="isAuthed" class="tc-btn cta" data-testid="primary-action" data-tour="home-start"
 
 
             :disabled="primary.disabled" @click="runPrimary">
@@ -1162,16 +1162,17 @@ onMounted(async () => {
 }
 
 
-.cloud { position: absolute; height: auto; color: #fff; will-change: transform; }
+/* 云朵用浅蓝（色阶 300~200 之间）而不是纯白：白色低透明度叠在深蓝上会发灰 */
+.cloud { position: absolute; height: auto; color: #a6c6e6; will-change: transform; }
 
 
-.cloud-back { width: 660px; right: 70px; top: -205px; opacity: .13; animation: cloud-back-drift 34s ease-in-out infinite alternate; }
+.cloud-back { width: 660px; right: 70px; top: -205px; opacity: .16; animation: cloud-back-drift 34s ease-in-out infinite alternate; }
 
 
-.cloud-mid { width: 470px; left: 43%; top: 49%; opacity: .07; animation: cloud-back-drift 28s ease-in-out -9s infinite alternate-reverse; }
+.cloud-mid { width: 470px; left: 43%; top: 49%; opacity: .09; animation: cloud-back-drift 28s ease-in-out -9s infinite alternate-reverse; }
 
 
-.cloud-front { width: 780px; right: -235px; bottom: -245px; opacity: .19; animation: cloud-front-drift 29s ease-in-out infinite alternate; }
+.cloud-front { width: 780px; right: -235px; bottom: -245px; opacity: .24; animation: cloud-front-drift 29s ease-in-out infinite alternate; }
 
 
 .flight-line {
@@ -1498,7 +1499,7 @@ onMounted(async () => {
 .auth-alert { display: flex; align-items: flex-start; gap: 9px; margin-bottom: 13px; padding: 10px 12px; border-radius: 11px; font-size: 16px; line-height: 1.55; }
 
 
-.auth-alert.info { background: #eaf1f7; color: #356b93; }
+.auth-alert.info { background: #eaf1f7; color: #2b6699; }
 
 
 .auth-alert.error { background: #fff0f0; color: #b52f2f; }
@@ -1645,7 +1646,7 @@ onMounted(async () => {
   border-radius: 14px;
 
 
-  background: linear-gradient(135deg, #133450, #4f7897);
+  background: linear-gradient(135deg, #133450, #3a7bb0);
 
 
   color: #fff;
@@ -1675,7 +1676,7 @@ onMounted(async () => {
 .auth-submit:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(53,107,147, .3); }
 
 
-.auth-submit:disabled { opacity: .55; cursor: default; box-shadow: none; }
+.auth-submit:disabled { opacity: 1; background: #b9d0e6; color: #fff; cursor: default; box-shadow: none; }
 
 
 .spin { animation: spin .9s linear infinite; }
@@ -1825,10 +1826,10 @@ onMounted(async () => {
 }
 
 
-.step:hover .step-dot { transform: translateY(-3px); border-color: #8ea8bb; color: #133450; }
+.step:hover .step-dot { transform: translateY(-3px); border-color: #8db3d8; color: #133450; }
 
 
-.step.done .step-dot { border-color: #8ea8bb; background: #d9e4ec; color: #133450; }
+.step.done .step-dot { border-color: #8db3d8; background: #d9e4ec; color: #133450; }
 
 
 .step.on .step-dot {
@@ -1837,7 +1838,7 @@ onMounted(async () => {
   border-color: #133450;
 
 
-  background: linear-gradient(145deg, #133450, #6e8ca4);
+  background: linear-gradient(145deg, #133450, #5b95c9);
 
 
   color: #fff;
@@ -1867,7 +1868,7 @@ onMounted(async () => {
 .step-detail { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 12px; margin-top: 24px; padding-top: 22px; border-top: 1px solid #d9e4ec; }
 
 
-.step-tag { padding: 10px 18px; border-radius: 999px; background: #d9e4ec; color: #356b93; font-size: 18px; line-height: 1; font-weight: 700; }
+.step-tag { padding: 10px 18px; border-radius: 999px; background: #d9e4ec; color: #2b6699; font-size: 18px; line-height: 1; font-weight: 700; }
 
 
 .detail-pop-enter-active, .detail-pop-leave-active { transition: opacity .16s ease, transform .16s ease; }

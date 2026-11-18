@@ -286,7 +286,13 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import * as echarts from 'echarts'
+// 按需引入 ECharts：本页只画一张折线图（雷达图是 ProfileRadar 自绘 SVG），
+// 全量 import 'echarts' 会把整个图表库（约 1MB）打进本页 chunk。
+import * as echarts from 'echarts/core'
+import { LineChart } from 'echarts/charts'
+import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+echarts.use([LineChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer])
 import client from '@/api/client'
 import { useUserStore } from '@/stores/user'
 import SIcon from '@/components/SIcon.vue'
@@ -738,7 +744,7 @@ onBeforeUnmount(() => {
 .lv { font-size: 14px; font-weight: 800; width: 28px; text-align: center; padding: 2px 0; border-radius: 5px; }
 .lv-M1 { color: #e04b4b; background: #fdecec; }
 .lv-M2 { color: #e08a1e; background: #fdf2e2; }
-.lv-M3 { color: #3f6e91; background: #e7eef4; }
+.lv-M3 { color: #2f6fa3; background: #e7eef4; }
 .lv-M4 { color: #133450; background: #dfe8f0; }
 .lv-M5 { color: #12a76a; background: #e5f7ee; }
 .go { font-size: 14.5px; color: $color-primary; opacity: 0; }
@@ -751,12 +757,12 @@ onBeforeUnmount(() => {
 .mem-time { font-size: 14px; color: $color-text-muted; }
 .mem-refresh { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px;
   border: none; border-radius: 999px; cursor: pointer; color: #fff; font-size: 15px; font-weight: 700;
-  background: linear-gradient(135deg, #24577e, #0d283f);
+  background: linear-gradient(135deg, #2b6699, #133450);
   box-shadow: 0 6px 16px rgba(19,52,80,0.26);
   transition: transform .18s cubic-bezier(.34,1.4,.6,1), box-shadow .18s ease, filter .18s ease; }
 .mem-refresh:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(19,52,80,0.34); filter: brightness(1.04); }
 .mem-refresh:active:not(:disabled) { transform: translateY(0); }
-.mem-refresh:disabled { background: linear-gradient(135deg, #8ea8bb, #6e8ca4); cursor: default; box-shadow: none; }
+.mem-refresh:disabled { background: linear-gradient(135deg, #8db3d8, #5b95c9); cursor: default; box-shadow: none; }
 .mem-refresh:disabled svg { animation: memSpin .9s linear infinite; }
 @keyframes memSpin { to { transform: rotate(360deg); } }
 
@@ -764,7 +770,7 @@ onBeforeUnmount(() => {
   background: linear-gradient(135deg, #f4f8fb, #d9e4ec); border: 1px solid #d9e4ec;
   font-size: 17px; line-height: 2; letter-spacing: .2px; color: $color-text; }
 .mem-summary::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px;
-  border-radius: 0 3px 3px 0; background: linear-gradient(180deg, $color-primary, #4f7897); }
+  border-radius: 0 3px 3px 0; background: linear-gradient(180deg, $color-primary, #3a7bb0); }
 
 .mem-label { margin: 20px 0 10px; font-size: 15px; font-weight: 700; color: $color-text-secondary;
   letter-spacing: .4px; }
@@ -821,8 +827,33 @@ onBeforeUnmount(() => {
   .radar-series-controls { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
   .series-toggle { justify-content: center; padding: 8px 6px; }
   .series-toggle span { display: none; }
-  .radar-table { overflow-x: auto; }
-  .rt-head, .rt-row { min-width: 520px; }
+  .series-toggle { white-space: nowrap; font-size: 13.5px; gap: 5px; min-width: 0; }
+  /* 雷达对照表四列在手机上收紧间距即可放下，不再横向滚动 */
+  .rt-head, .rt-row { grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr)); }
+  .rt-head span, .rt-row > span { padding: 8px 4px; }
+  .rt-head { font-size: 12px; line-height: 1.3; }
+  .rt-row { font-size: 13.5px; }
+  .rt-dim { gap: 5px; min-width: 0; }
+  .rt-dim .tag { display: none; } /* 编号在下方「能力维度明细」里有，这里省出宽度给维度名 */
+  /* 能力维度明细：首行「编号 名称 分数 ›」，第二行两条进度条，名称不再被挤成竖排 */
+  .dim-head {
+    display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto;
+    grid-template-areas: "tag dn avg chev" "m m m m"; gap: 8px 10px; padding: 12px;
+  }
+  .dim-head .tag { grid-area: tag; font-size: 13px; }
+  .dn { grid-area: dn; width: auto; min-width: 0; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .avg { grid-area: avg; font-size: 14px; }
+  .chev { grid-area: chev; }
+  .dim-meters { grid-area: m; max-width: none; gap: 14px; }
+  .ml { font-size: 13px; width: auto; flex-shrink: 0; }
+  .dim-body { padding: 0 8px 10px; }
+  .sp { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "pid pn lv" "bars bars cp"; gap: 6px 8px; padding: 10px 6px; font-size: 15px; }
+  .pid { grid-area: pid; width: auto; font-size: 13px; }
+  .pn { grid-area: pn; min-width: 0; }
+  .lv { grid-area: lv; }
+  .cp { grid-area: cp; font-size: 12.5px; }
+  .sp-bars { grid-area: bars; width: auto; align-self: center; }
+  .sp .go { display: none; }
   .charts { grid-template-columns: minmax(0,1fr); gap: 10px; }
   .mem-strengths, .mem-sugs { grid-template-columns: minmax(0,1fr); }
   .mem-summary { padding: 14px 16px; font-size: 16px; line-height: 1.85; }

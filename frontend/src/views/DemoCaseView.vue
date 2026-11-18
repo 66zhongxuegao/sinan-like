@@ -813,4 +813,10 @@ code { font-family: ui-monospace, monospace; font-size: $fs-badge; background: $
 .guide .g-hint { font-size: $fs-badge; color: $color-text-secondary; margin-top: 2px; }
 .guide .g-deliv { font-size: $fs-badge; color: $color-primary; margin-top: 2px; }
 .go { font-size: $fs-badge; font-weight: 700; white-space: nowrap; }
+/* 手机端：表格保持可读宽度并横向滑动；状态标签不折行 */
+@media (max-width: 760px) {
+  .tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tbl-scroll .tbl { min-width: 560px; }
+  .tag { white-space: nowrap; }
+}
 </style>

@@ -1,5 +1,7 @@
 <template>
-  <div class="dock">
+  <!-- 移动端把整个浮球 Teleport 进顶栏（App.vue #tc-topbar-dock），不再遮挡底部输入区 -->
+  <Teleport to="#tc-topbar-dock" :disabled="!isMobile" defer>
+  <div class="dock" :class="{ 'in-topbar': isMobile }">
     <transition name="panel">
       <div v-if="open" class="panel card">
         <div class="p-order">
@@ -27,7 +29,7 @@
           <div v-else-if="!stageRows.length" class="p-state">该订单暂无流程数据</div>
 
           <template v-else>
-            <button v-if="nextAction" class="p-next" type="button" @click="goNext">
+            <button v-if="nextAction" class="p-next" data-tour="next-action" type="button" @click="goNext">
               <span class="pn-k">下一步</span>
               <span class="pn-mid">
                 <span class="pn-label">{{ nextAction.label }}</span>
@@ -86,7 +88,7 @@
       </div>
     </transition>
 
-    <button class="fab" @click="toggle" :class="{ on: open }">
+    <button class="fab" data-tour="progress-fab" @click="toggle" :class="{ on: open }">
       <span class="fab-halo" />
       <svg class="fab-ring" viewBox="0 0 88 88">
         <circle cx="44" cy="44" r="37" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="6" />
@@ -97,6 +99,7 @@
       <span class="fab-sub">流程进度</span>
     </button>
   </div>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
@@ -106,10 +109,12 @@ import client from '@/api/client'
 import { usePracticeStore } from '@/stores/practice'
 import { useJourney } from '@/composables/useJourney'
 import { useStages } from '@/composables/useStages'
+import { useIsMobile } from '@/composables/useIsMobile'
 
 const props = defineProps<{ orderId?: string }>()
 const practice = usePracticeStore()
 const router = useRouter()
+const isMobile = useIsMobile()
 
 const open = ref(false)
 const tab = ref<'stages' | 'gates'>('stages')
@@ -331,7 +336,7 @@ function toggle() {
 .g-stage { font-size: 17px; font-weight: 700; }
 .g-cnt { margin-left: auto; font-size: 16px; color: $color-primary; font-weight: 700; }
 .g-bar { height: 5px; border-radius: 3px; background: #eef2f7; overflow: hidden; margin-bottom: 10px; }
-.g-bar i { display: block; height: 100%; background: linear-gradient(90deg,#133450,#3f6e91); border-radius: 3px; transition: width .4s ease; }
+.g-bar i { display: block; height: 100%; background: linear-gradient(90deg,#133450,#2f6fa3); border-radius: 3px; transition: width .4s ease; }
 .g-row { display: flex; align-items: flex-start; gap: 9px; font-size: 15.5px; color: $color-text-muted; padding: 5px 0; }
 .g-mid { display: flex; flex-direction: column; gap: 2px; }
 .g-label { color: $color-text-secondary; }
@@ -350,7 +355,7 @@ function toggle() {
 
 .fab {
   position: relative; width: 116px; height: 116px; border-radius: 50%; border: none; cursor: pointer;
-  background: linear-gradient(135deg, #24577e, #0d283f);
+  background: linear-gradient(135deg, #2b6699, #133450);
   box-shadow: 0 14px 34px rgba(19,52,80,0.5), 0 0 0 6px rgba(19,52,80,0.10);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
   transition: transform .16s ease, box-shadow .2s ease;
@@ -378,11 +383,21 @@ function toggle() {
 @media (max-width: 560px) {
   .dock { right: 10px; bottom: 10px; gap: 8px; }
   .panel { width: min(360px, calc(100vw - 20px)); max-height: min(500px, 68vh); }
-  .fab { width: 88px; height: 88px; box-shadow: 0 10px 24px rgba(19,52,80,0.45), 0 0 0 4px rgba(19,52,80,0.10); }
-  .fab-ring { width: 88px; height: 88px; }
-  .fab-txt { font-size: 21px; }
-  .fab-txt i { font-size: 13px; }
-  .fab-sub { font-size: 12.5px; }
-  .fab-halo { inset: -5px; }
+}
+
+/*
+ * 移动端：浮球 Teleport 进顶栏，缩成 40px 进度环（位置固定在右上角，
+ * 不再压住底部 Tab、输入框和「发送」按钮）；面板从顶栏下方展开为整宽下拉卡片。
+ */
+.dock.in-topbar { position: static; flex-direction: row; gap: 0; }
+.in-topbar .fab { width: 40px; height: 40px; gap: 0; box-shadow: 0 4px 12px rgba(19,52,80,0.28); }
+.in-topbar .fab:hover { transform: none; }
+.in-topbar .fab-halo, .in-topbar .fab-sub { display: none; }
+.in-topbar .fab-ring { width: 40px; height: 40px; }
+.in-topbar .fab-txt { font-size: 14px; letter-spacing: -.3px; }
+.in-topbar .fab-txt i { font-size: 10px; }
+.in-topbar .panel {
+  position: absolute; top: calc(100% + 6px); left: 10px; right: 10px; width: auto;
+  max-height: calc(100dvh - var(--tc-topbar-h, 60px) - 24px); z-index: 90;
 }
 </style>

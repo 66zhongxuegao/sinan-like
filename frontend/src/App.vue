@@ -1,6 +1,6 @@
 <template>
   <router-view v-if="standalone" />
-  <div v-else class="app-shell">
+  <div v-else class="app-shell" :class="{ 'no-tabbar': !showTabbar, 'is-sub': isSubPage }">
     <aside v-if="!isFullscreen" class="sidebar">
       <div class="side-top">
         <AppLogo />
@@ -25,13 +25,16 @@
     <main class="main">
       <header v-if="showTopbar" class="topbar" :class="{ plain: isFullscreen }">
         <div v-if="!isFullscreen" class="topbar-left">
-          <div class="mobile-brand">
-            <img src="@/assets/logo-sinan-like.webp" alt="" />
-            <span>司南礼客</span>
-          </div>
+          <!-- 移动端：二级页左上角是返回键，一级页是品牌图标；桌面端两者都隐藏 -->
+          <button v-if="isSubPage" type="button" class="mobile-back" data-tour="topbar-back" aria-label="返回" @click="goBack">
+            <SIcon name="back" :size="22" />
+          </button>
+          <img v-else class="mobile-logo" src="@/assets/logo-sinan-like.webp" alt="司南礼客" />
           <h1 class="page-title">{{ pageHeading }}</h1>
         </div>
         <div class="topbar-right">
+          <!-- 移动端流程进度浮球 Teleport 到这里，避免压住页面底部的输入框和按钮 -->
+          <div id="tc-topbar-dock" class="topbar-dock" />
           <span v-if="route.path !== '/'" class="status" :class="online ? 'on' : 'off'"><i class="dot" />{{ online ? '已连接' : '未连接' }}</span>
           <!-- 学情画像与个人资料都在右上角用户菜单里（R12：从侧边栏移入这里） -->
           <UserMenu v-if="showUserMenu" />
@@ -48,14 +51,16 @@
       <ProgressDock v-if="route.path.startsWith('/practice') && route.path !== '/practice'" :order-id="String(route.params.id || '')" />
     </main>
 
-    <nav v-if="!isFullscreen || userStore.isAuthenticated" class="mobile-tabbar" aria-label="移动端主导航">
+    <!-- 手机端新手引导：只对还没做初始测评的账号自动开启 -->
+    <GuideTour v-if="isMobile && userStore.isAuthenticated" />
+    <nav v-if="showTabbar" class="mobile-tabbar" aria-label="移动端主导航">
       <router-link to="/" class="mobile-tab" :class="{ active: route.path === '/' }">
         <SIcon name="home" :size="20" /><span>首页</span>
       </router-link>
       <router-link to="/learn" class="mobile-tab" :class="{ active: route.path.startsWith('/learn') }">
         <SIcon name="book" :size="20" /><span>学习</span>
       </router-link>
-      <router-link to="/practice" class="mobile-tab" :class="{ active: route.path.startsWith('/practice') }">
+      <router-link to="/practice" class="mobile-tab" data-tour="tab-practice" :class="{ active: route.path.startsWith('/practice') }">
         <SIcon name="layers" :size="20" /><span>实战</span>
       </router-link>
       <router-link to="/profile" class="mobile-tab" :class="{ active: route.path.startsWith('/profile') }">
@@ -67,11 +72,13 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { useIsMobile } from '@/composables/useIsMobile'
 import AppLogo from '@/components/AppLogo.vue'
 import SIcon from '@/components/SIcon.vue'
 import UserMenu from '@/components/UserMenu.vue'
 import ProgressDock from '@/components/ProgressDock.vue'
+import GuideTour from '@/components/GuideTour.vue'
 import client from '@/api/client'
 import { useUserStore } from '@/stores/user'
 
@@ -141,6 +148,32 @@ const standalone = computed(() => !!route.meta.standalone)
 const showUserMenu = computed(() => userStore.isAuthenticated)
 const showTopbar = computed(() => !isFullscreen.value || userStore.isAuthenticated)
 
+/*
+ * 移动端导航习惯：只有一级页（首页 / 学习 / 实战 / 我的）显示底部 Tab；
+ * 进入二级页（订单详情、通话、聊天、做题……）隐藏 Tab，左上角给返回键，
+ * 把整屏高度留给内容与底部输入框。桌面端不受影响。
+ */
+const router = useRouter()
+const isMobile = useIsMobile()
+const TOP_LEVEL = new Set(['/', '/learn', '/practice', '/profile'])
+const isSubPage = computed(() => isMobile.value && !isFullscreen.value && !TOP_LEVEL.has(route.path))
+const showTabbar = computed(() => (!isFullscreen.value || userStore.isAuthenticated) && !isSubPage.value)
+
+function parentPath(p: string): string {
+  const m = p.match(/^\/practice\/orders\/([^/]+)(\/.*)?$/)
+  if (m) return m[2] ? `/practice/orders/${m[1]}` : '/practice'
+  if (p === '/practice/im') return '/practice?tab=chat'
+  if (p === '/practice/messages') return '/practice?tab=messages'
+  if (p.startsWith('/learn/')) return '/learn'
+  if (p.startsWith('/profile/')) return '/profile'
+  return '/'
+}
+function goBack() {
+  // 站内有上一页就原路返回（保留滚动位置与 Tab 状态），否则按层级回父页
+  if (window.history.state?.back) router.back()
+  else router.push(parentPath(route.path))
+}
+
 onMounted(async () => {
   try { online.value = (await client.get('/')).data?.status === 'ok' } catch { online.value = false }
 })
@@ -155,7 +188,7 @@ onMounted(async () => {
   content: ''; position: absolute; inset: -25%; z-index: 0; pointer-events: none;
   background:
     radial-gradient(720px 520px at 22% 22%, rgba(19,52,80, 0.05), transparent 62%),
-    radial-gradient(620px 480px at 74% 74%, rgba(110,140,164, 0.04), transparent 60%);
+    radial-gradient(620px 480px at 74% 74%, rgba(91,149,201, 0.04), transparent 60%);
   will-change: transform;
   animation: shellDrift 32s ease-in-out infinite alternate;
 }
@@ -173,7 +206,7 @@ onMounted(async () => {
 .nav-item.active { background: $color-primary-soft; color: $color-primary; font-weight: 600; }
 .side-foot { flex-shrink: 0; padding: 14px; }
 .foot-card { display: block; padding: 13px 15px; border-radius: $radius-md; color: #fff;
-  background: linear-gradient(135deg, $color-primary, $color-primary-dark);
+  background: linear-gradient(135deg, $color-primary-mid, $color-primary);
   box-shadow: 0 6px 16px rgba(19,52,80,0.24);
   transition: transform .18s cubic-bezier(.34,1.4,.6,1), box-shadow .18s ease; }
 .foot-card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(19,52,80,0.32); }
@@ -188,7 +221,7 @@ onMounted(async () => {
 .page-title { font-size: $fs-page-title; font-weight: 800; letter-spacing: .3px; line-height: 1.25; }
 
 .topbar-right { display: flex; align-items: center; gap: 12px; }
-.mobile-brand { display: none; }
+.mobile-back, .mobile-logo, .topbar-dock { display: none; }
 .mobile-tabbar { display: none; }
 .status { display: inline-flex; align-items: center; gap: 7px; font-size: 14.5px; padding: 6px 14px; border-radius: 999px; background: $color-bg; border: 1px solid $color-border; }
 .status .dot { width: 8px; height: 8px; border-radius: 50%; }
@@ -208,7 +241,19 @@ onMounted(async () => {
    * 于是装饰层 .app-shell::before 的 inset:-25% 直接把文档撑宽 25%×2 → 488/390 ≈ 1.25，正好对上。
    * 现在：横向用 clip（不产生滚动容器，也不裁掉纵向可见性），并关掉这层装饰底纹。
    */
-  .app-shell { flex-direction: column; height: auto; min-height: 100vh; overflow-x: clip; overflow-y: visible; padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  /*
+   * 移动端版心尺寸统一出口：子页面需要「占满一屏」（聊天、通话、做题）时用
+   * height: var(--tc-page-h)，不要自己猜顶栏/底栏高度。
+   */
+  .app-shell {
+    --tc-topbar-h: calc(54px + env(safe-area-inset-top));
+    --tc-tabbar-space: calc(86px + env(safe-area-inset-bottom));
+    --tc-pad-top: 12px;
+    --tc-pad-bottom: calc(var(--tc-tabbar-space) + 12px);
+    --tc-page-h: calc(100dvh - var(--tc-topbar-h) - var(--tc-pad-top) - var(--tc-pad-bottom));
+    flex-direction: column; height: auto; min-height: 100vh; overflow-x: clip; overflow-y: visible;
+  }
+  .app-shell.no-tabbar { --tc-tabbar-space: 0px; --tc-pad-bottom: calc(12px + env(safe-area-inset-bottom)); }
   .app-shell::before { display: none; }
   .sidebar { display: none; }
   .mobile-tabbar {
@@ -226,27 +271,35 @@ onMounted(async () => {
   .mobile-tab.active { color: #fff; background: linear-gradient(145deg,#133450,#24577e); box-shadow: 0 7px 18px rgba(19,52,80,.22); }
   .mobile-tab:active { transform: scale(.96); }
   .main { overflow: visible; min-width: 0; max-width: 100%; width: 100%; }
+  /* 单行导航栏（54px）：返回键/品牌 + 标题 + 右侧操作，符合手机 App 顶栏习惯 */
   .topbar {
-    position: sticky; top: 0; z-index: 80; padding: 10px 15px; gap: 10px;
+    position: sticky; top: 0; z-index: 80; height: var(--tc-topbar-h);
+    padding: env(safe-area-inset-top) 12px 0; gap: 8px;
     background: rgba(255,255,255,.94); backdrop-filter: blur(18px);
-    border-bottom: 1px solid rgba(19,52,80,.10); box-shadow: 0 5px 18px rgba(13,40,63,.055);
+    border-bottom: 1px solid rgba(19,52,80,.10); box-shadow: 0 4px 14px rgba(13,40,63,.05);
   }
-  .topbar.plain { padding: 8px 14px; background: rgba(247,250,252,.92); }
-  .topbar-left { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  .mobile-brand { display: flex; align-items: center; gap: 7px; min-width: 0; color: $color-primary; font-size: 12.5px; font-weight: 800; letter-spacing: 1.4px; }
-  .mobile-brand img { width: 23px; height: 23px; object-fit: contain; border-radius: 7px; background: #fff; box-shadow: 0 2px 8px rgba(13,40,63,.08); }
-  /* 顶栏右侧（连接状态 + 用户菜单）在窄屏允许换行，不把标题挤出视口 */
-  .topbar-right { flex: 0 0 auto; gap: 6px; min-width: 0; }
-  .status { width: 30px; height: 30px; justify-content: center; padding: 0; border: 0; background: transparent; font-size: 0; }
+  .topbar.plain { padding: env(safe-area-inset-top) 12px 0; background: rgba(247,250,252,.92); }
+  .topbar-left { flex: 1; display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .mobile-logo { display: block; flex-shrink: 0; width: 28px; height: 28px; object-fit: contain; border-radius: 8px; background: #fff; box-shadow: 0 2px 8px rgba(13,40,63,.08); }
+  .mobile-back {
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+    width: 38px; height: 38px; margin-left: -6px; border: 0; border-radius: 12px;
+    background: transparent; color: $color-text; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  }
+  .mobile-back:active { background: $color-primary-softer; }
+  .topbar-right { flex: 0 0 auto; gap: 4px; min-width: 0; }
+  .topbar-dock { display: flex; align-items: center; }
+  .topbar-dock:empty { display: none; }
+  .status { width: 18px; height: 30px; justify-content: center; padding: 0; border: 0; background: transparent; font-size: 0; }
   .status .dot { width: 8px; height: 8px; }
-  .content { padding: 16px 16px calc(106px + env(safe-area-inset-bottom)); }
-  .page-title { font-size: 17px; line-height: 1.2; overflow-wrap: anywhere; }
+  .content { padding: var(--tc-pad-top) 16px var(--tc-pad-bottom); }
+  .content.plain { padding: 8px 14px var(--tc-pad-bottom); }
+  .page-title { min-width: 0; font-size: 17px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 }
 
-/* 更窄（≤400px，含 390px 视口）：状态徽标只留圆点与短文案，保证顶栏不横向撑开 */
+/* 更窄（≤400px，含 390px 视口）：版心边距收紧到 14px */
 @media (max-width: 400px) {
-  .topbar { padding: 9px 12px; }
-  .content { padding: 14px 14px calc(104px + env(safe-area-inset-bottom)); }
+  .content { padding-left: 14px; padding-right: 14px; }
   .mobile-tabbar { left: 8px; right: 8px; }
 }
 </style>

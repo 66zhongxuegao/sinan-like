@@ -51,8 +51,8 @@
     <section class="col main card">
       <div class="m-head">
         <div class="mh-l">
-          <button class="mobile-drawer-btn" title="打开会话列表" @click="mobileSideOpen = true">
-            <SIcon name="chat" :size="14" /> 会话
+          <button class="mobile-drawer-btn" title="返回会话列表" aria-label="返回会话列表" @click="mobileSideOpen = true">
+            <SIcon name="back" :size="18" />
           </button>
           <span class="mh-name">{{ active.name }}</span>
           <span class="mh-kind">{{ active.kind }}</span>
@@ -175,7 +175,7 @@
             <option value="导游">司导档期（地接统筹）</option>
           </select>
         </div>
-        <div class="tools">
+        <div class="tools" :class="{ expanded: sendMenu }">
           <button class="tool voice-tool" :class="{ on: voiceListening }"
             :disabled="!canSend" @click="toggleVoiceInput">
             <SIcon name="mic" :size="13" />{{ voiceProcessing ? '识别中…' : voiceListening ? '结束语音' : '语音输入' }}
@@ -320,6 +320,7 @@ import { useRoute, useRouter } from 'vue-router'
 import SIcon from '@/components/SIcon.vue'
 import client from '@/api/client'
 import { usePracticeStore } from '@/stores/practice'
+import { useIsMobile } from '@/composables/useIsMobile'
 
 const route = useRoute()
 const router = useRouter()
@@ -341,7 +342,9 @@ const reacted = ref<string[]>([])
 const notice = ref('')
 const busy = ref(false)
 const infoOpen = ref(window.innerWidth > 900)
-const mobileSideOpen = ref(false)
+// 手机端沿用聊天 App 习惯：先看会话列表，点进会话再聊；带 ?session= 跳转时直接进会话
+const isNarrow = useIsMobile()
+const mobileSideOpen = ref(isNarrow.value && !route.query.session)
 const voiceListening = ref(false)
 const voiceProcessing = ref(false)
 let voiceWs: WebSocket | null = null
@@ -1028,39 +1031,56 @@ onUnmounted(() => { if (voiceListening.value || voiceProcessing.value) stopVoice
 
 @media (max-width: 800px) {
   .im, .im.wide { display: block; max-width: none; }
-  .side {
-    position: fixed; z-index: 240; top: calc(78px + env(safe-area-inset-top)); bottom: calc(82px + env(safe-area-inset-bottom));
-    left: 10px; width: min(88vw, 360px); max-height: none; padding: 12px;
-    border-radius: 20px; box-shadow: 0 22px 60px rgba(13,40,63,.28);
-    transform: translateX(calc(-100% - 24px)); transition: transform .24s cubic-bezier(.22,.9,.3,1);
-  }
-  .side.mobile-open { transform: translateX(0); }
-  .mobile-drawer-mask, .mobile-info-mask {
+  /*
+   * 手机端：会话列表与聊天窗口二选一整屏显示（列表 → 点进会话 → 左上返回列表），
+   * 高度锁定在一屏内，输入框始终贴在底部，不随页面滚走。
+   * --im-offset 由外层（实战中心的三段 Tab）声明，单独打开 /practice/im 时为 0。
+   */
+  .side, .main { height: calc(var(--tc-page-h, 80dvh) - var(--im-offset, 0px)); min-height: 360px; max-height: none; }
+  .side { display: none; padding: 8px; border-radius: 18px; }
+  .side.mobile-open { display: flex; }
+  .side.mobile-open + .mobile-drawer-mask, .mobile-drawer-mask { display: none; }
+  .side.mobile-open ~ .main { display: none; }
+  .side-head { padding: 4px 6px 6px; }
+  .side-title { font-size: 17px; }
+  .row-item { min-height: 60px; padding: 10px 8px; border-radius: 12px; }
+  .mobile-info-mask {
     display: block; position: fixed; inset: 0; z-index: 230; border: 0;
     background: rgba(13,40,63,.34); backdrop-filter: blur(3px);
   }
-  .main { min-height: 560px; height: calc(100dvh - 205px); max-height: none; }
-  .m-head { align-items: flex-start; flex-wrap: wrap; gap: 9px; padding: 12px; }
-  .mh-l { width: 100%; flex-wrap: wrap; gap: 6px; }
+  .main { border-radius: 18px; overflow: hidden; }
+  .m-head { flex-wrap: nowrap; align-items: center; gap: 6px; padding: 8px 10px 8px 6px; }
+  .mh-l { flex: 1; min-width: 0; flex-wrap: nowrap; gap: 6px; overflow: hidden; }
   .mobile-drawer-btn {
-    display: inline-flex; align-items: center; gap: 5px; border: 1px solid $color-border;
-    border-radius: 999px; background: #fff; color: $color-primary; padding: 6px 10px; font: inherit; font-size: 13px; cursor: pointer;
+    display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border: 0; border-radius: 10px; background: transparent; color: $color-text; cursor: pointer;
   }
-  .mh-name { font-size: 17px; }
-  .mh-type, .mh-kind, .mh-members, .mh-order { font-size: 12.5px; }
-  .mh-r { margin-left: auto; }
-  .msgs { padding: 12px; gap: 10px; }
-  .row .body { max-width: 84%; }
+  .mobile-drawer-btn:active { background: $color-primary-softer; }
+  .mh-name { min-width: 0; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mh-kind, .mh-order { display: none; } /* 次要信息收进「会话信息」，避免标题区换行成两三行 */
+  .mh-type, .mh-members { flex-shrink: 0; font-size: 12.5px; white-space: nowrap; }
+  .mh-r { flex-shrink: 0; margin-left: 0; gap: 4px; }
+  .mh-r .icon-btn { width: 34px; height: 34px; }
+  .lock-bar { padding: 8px 12px; font-size: 13.5px; }
+  .msgs { padding: 12px 10px; gap: 10px; }
+  .row .body { max-width: 82%; }
   .bubble { font-size: 15px; padding: 9px 11px; }
   .card-msg { max-width: 100%; }
-  .input { padding: 9px 10px; }
-  .target-row { align-items: flex-start; flex-direction: column; gap: 5px; }
-  .target-select { width: 100%; }
-  .tools { overflow-x: auto; padding-bottom: 2px; }
-  .tool { flex: 0 0 auto; }
-  .input .send { align-self: stretch; justify-content: center; min-height: 42px; }
+  /* 输入区：[语音][+] [输入框] [发送] 单行排布；「+」展开后附件按钮另起一行 */
+  .input { flex-direction: row; flex-wrap: wrap; align-items: flex-end; gap: 6px; padding: 8px; }
+  .target-row { width: 100%; flex-direction: row; align-items: center; gap: 8px; }
+  .target-label { flex-shrink: 0; }
+  .target-select { flex: 1; min-width: 0; width: auto; height: 36px; }
+  .tools { flex: 0 0 auto; gap: 4px; overflow: visible; padding: 0; }
+  .tools .tool { width: 40px; height: 44px; justify-content: center; padding: 0; font-size: 0; gap: 0; border-radius: 12px; }
+  .tools .tool svg { width: 18px; height: 18px; }
+  .tools.expanded { order: 5; width: 100%; flex-wrap: wrap; }
+  .tools.expanded .tool { width: auto; padding: 0 12px; font-size: 14px; gap: 5px; height: 38px; }
+  .ipt { flex: 1; min-width: 0; height: 44px; min-height: 44px; max-height: 120px; padding: 10px 12px; border-radius: 12px; line-height: 1.45; }
+  .input .send { flex: 0 0 auto; min-height: 44px; height: 44px; padding: 0 14px; border-radius: 12px; }
+  .input .send svg { display: none; }
   .info {
-    position: fixed; z-index: 240; top: calc(78px + env(safe-area-inset-top)); bottom: calc(82px + env(safe-area-inset-bottom));
+    position: fixed; z-index: 240; top: calc(var(--tc-topbar-h, 60px) + 10px); bottom: calc(12px + env(safe-area-inset-bottom));
     right: 10px; width: min(88vw, 330px); max-height: none; border-radius: 20px;
     box-shadow: 0 22px 60px rgba(13,40,63,.28);
   }

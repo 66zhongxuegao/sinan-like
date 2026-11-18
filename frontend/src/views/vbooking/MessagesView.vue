@@ -36,7 +36,7 @@
                 <option v-for="l in languages" :key="l" :value="l">{{ l }}</option>
               </select>
             </label>
-            <button class="refresh" :disabled="busy" @click="refresh">
+            <button class="refresh" data-tour="refresh-dispatch" :disabled="busy" @click="refresh">
               {{ busy ? '刷新中…' : '刷新' }}
             </button>
           </div>
@@ -62,7 +62,7 @@
                 <div class="msg-foot">
                   <span class="rivals">{{ o.dispatch.rivals }} 位定制师同时在抢</span>
                   <span class="eta">最快约 {{ o.dispatch.rival_eta_min }} 分钟后被接走</span>
-                  <button class="grab" :disabled="grabbing === o.order_id" @click.stop="grab(o)">
+                  <button class="grab" data-tour="grab" :disabled="grabbing === o.order_id" @click.stop="grab(o)">
                     {{ grabbing === o.order_id ? '抢单中…' : '抢单' }}
                   </button>
                 </div>
@@ -226,7 +226,7 @@ onUnmounted(() => { if (poll) clearInterval(poll) })
 .refresh { margin-left: auto; border: 1px solid $color-border; background: #fff; border-radius: 999px; padding: 4px 13px; font-size: 14px; color: $color-primary; cursor: pointer; }
 .refresh:hover { background: $color-primary-softer; }
 .refresh:disabled, .gen:disabled { opacity: .6; cursor: default; }
-.gen { margin-left: 6px; border: none; background: linear-gradient(135deg, #133450, #0d283f); color: #fff;
+.gen { margin-left: 6px; border: none; background: linear-gradient(135deg, #1d4a70, #133450); color: #fff;
   border-radius: 999px; padding: 5px 14px; font-size: 14px; font-weight: 700; cursor: pointer; }
 .gen:hover { filter: brightness(1.06); }
 .diff { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
@@ -257,7 +257,7 @@ onUnmounted(() => { if (poll) clearInterval(poll) })
 .eta { font-size: 14px; color: $color-text-muted; }
 .grab {
   margin-left: auto; flex-shrink: 0; border: none; cursor: pointer; font-size: 15.5px; font-weight: 700;
-  color: #fff; background: linear-gradient(135deg, #133450, #0d283f);
+  color: #fff; background: linear-gradient(135deg, #1d4a70, #133450);
   border-radius: 999px; padding: 6px 20px; box-shadow: 0 4px 12px rgba(19,52,80,0.28);
 }
 .grab:hover { filter: brightness(1.06); }
@@ -270,7 +270,7 @@ onUnmounted(() => { if (poll) clearInterval(poll) })
   .vb-crumb { display: none; }
   .vb-body { flex-direction: column; gap: 10px; }
   .vb-side {
-    position: sticky; top: 84px; z-index: 6; width: 100%;
+    position: sticky; top: calc(var(--tc-topbar-h, 54px) + 6px); z-index: 6; width: 100%; flex-shrink: 0;
     display: flex; gap: 6px; overflow-x: auto; padding: 8px;
     border-radius: 14px; scrollbar-width: none;
   }
@@ -284,7 +284,9 @@ onUnmounted(() => { if (poll) clearInterval(poll) })
   }
   .grp-title.active, .child.active { border-color: rgba(19,52,80,.15); background: $color-primary; color: #fff; }
   .badge { margin-left: 3px; }
-  .msg-head { align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .vb-main { min-width: 0; padding-top: 2px; }
+  .msg-head { align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+  .msg-sub { flex: 1 1 150px; min-width: 0; }
   .msg-title { font-size: 19px; }
   .msg-sub { font-size: 13.5px; }
   .lang-pick { margin-left: 0; }

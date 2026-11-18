@@ -27,7 +27,7 @@
         <p>可以不填需求，直接让管家按画像短板排；也可以说说这次最想补什么。</p>
         <textarea v-model="routeDemand" rows="2" placeholder="例如：下个月接亲子团，重点补报价、节奏和突发处理" />
         <div class="re-actions">
-          <button class="tc-btn primary" :disabled="routeBusy" @click="generateRoute()">
+          <button class="tc-btn primary" data-tour="gen-route" :disabled="routeBusy" @click="generateRoute()">
             <SIcon name="sparkle" :size="14" /> {{ routeBusy ? '正在排路线…' : '直接生成推荐路线' }}
           </button>
           <button class="tc-btn ghost" @click="setMode('tree')">先看技能树</button>
@@ -58,7 +58,7 @@
             <b>{{ priorityItem.score.toFixed(0) }}</b>
             <span>初始能力</span>
           </div>
-          <button v-if="priorityItem" class="ph-start" @click="enter(priorityItem.id)">
+          <button v-if="priorityItem" class="ph-start" data-tour="route-first" @click="enter(priorityItem.id)">
             开始学习这一项 <SIcon name="right" :size="15" />
           </button>
         </article>
@@ -513,7 +513,7 @@ onUnmounted(() => {
 .mode-switch button { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; border: 1px solid transparent; border-radius: 9px;
   background: transparent; color: #687b93; font: inherit; font-size: 14px; cursor: pointer; white-space: nowrap; transition: all .16s ease; }
 .mode-switch button:hover { color: #133450; }
-.mode-switch button.on { background: #fff; color: #356b93; border-color: #d9e4ec; box-shadow: 0 3px 8px rgba(36,87,126,.09); font-weight: 700; }
+.mode-switch button.on { background: #fff; color: #2b6699; border-color: #d9e4ec; box-shadow: 0 3px 8px rgba(36,87,126,.09); font-weight: 700; }
 .route-shell { min-height: calc(100vh - 300px); border: 1px solid #e3e9f1; border-radius: 16px; padding: 20px;
   background: linear-gradient(180deg, #d9e4ec 0%, #d9e4ec 100%); }
 .route-state { min-height: 220px; display: flex; align-items: center; justify-content: center; gap: 9px; color: #73869e; font-size: 15px; }
@@ -531,7 +531,8 @@ onUnmounted(() => {
 .tc-btn.primary:hover:not(:disabled) { background: #0d283f; }
 .tc-btn.ghost { color: #3f5c7d; background: #fff; border-color: #d8e2ee; }
 .tc-btn.ghost:hover:not(:disabled) { color: #133450; border-color: #a9bfd1; }
-.tc-btn:disabled { opacity: .5; cursor: default; }
+.tc-btn:disabled { opacity: .55; cursor: default; }
+.tc-btn:not(.ghost):disabled { opacity: 1; background: #b9d0e6; color: #fff; box-shadow: none; }
 .mini { border: 1px solid #d9e3ef; background: #fff; color: #3f5c7d; border-radius: 7px; padding: 5px 10px; font: inherit; font-size: 13px; cursor: pointer; }
 .priority-hero { position: relative; isolation: isolate; overflow: hidden; min-height: 330px; display: grid; grid-template-columns: 108px minmax(0,1fr) 140px; grid-template-rows: auto 1fr auto; gap: 12px 20px; padding: 28px 32px 26px; border-radius: 22px;
   border: 1px solid #f0d9b9; background: linear-gradient(125deg, #fffdf8 0%, #fff8ed 42%, #d9e4ec 100%); box-shadow: 0 22px 60px rgba(36,87,126,.13), inset 0 1px 0 #fff;
@@ -557,7 +558,7 @@ onUnmounted(() => {
 .stream-title { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 6px 13px; color: #243a57; font-size: 21px; font-weight: 800; }
 .stream-title b { color: #133450; font-size: 15px; border-radius: 999px; background: #d9e4ec; padding: 5px 11px; }
 .route-lane { position: relative; padding-left: 14px; }
-.route-lane::before { content: ''; position: absolute; left: 24px; top: 20px; bottom: 24px; width: 3px; border-radius: 99px; background: linear-gradient(#e08a1e, #133450 36%, #12a76a 68%, #aebbc9); transform-origin: top; animation: lineGrow .8s .25s cubic-bezier(.25,.8,.25,1) both; }
+.route-lane::before { content: ''; position: absolute; left: 24px; top: 20px; bottom: 24px; width: 3px; border-radius: 99px; background: linear-gradient(#e08a1e, #2f6fa3 36%, #12a76a 68%, #aebbc9); transform-origin: top; animation: lineGrow .8s .25s cubic-bezier(.25,.8,.25,1) both; }
 .route-tier { position: relative; margin-bottom: 26px; }
 .tier-head { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; padding-left: 4px; }
 .tier-dot { width: 14px; height: 14px; flex-shrink: 0; border-radius: 50%; background: var(--tier); box-shadow: 0 0 0 5px color-mix(in srgb, var(--tier) 14%, white); }

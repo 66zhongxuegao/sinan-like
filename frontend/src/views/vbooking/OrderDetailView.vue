@@ -32,7 +32,7 @@
           </div>
           <div class="head-right">
             <!-- 入口落到「当前阶段」：优先按 journey 给的下一步交付物打开，没有就按本阶段第一份文档 -->
-            <button class="tc-btn head-cta" data-testid="workbench-cta"
+            <button class="tc-btn head-cta" data-testid="workbench-cta" data-tour="folder"
               @click="openWorkbench(nextAction?.deliverable || currentDocCode)">
               <SIcon name="filetext" :size="15" /> 文件夹
             </button>
@@ -50,7 +50,7 @@
               <div class="ci-name">{{ order?.customer || '客户' }}</div>
               <div class="ci-hint">接通后按流程完成需求挖掘</div>
             </div>
-            <button class="tc-btn call-btn" @click="startCall()"><SIcon name="mic" :size="14" /> 拨打电话</button>
+            <button class="tc-btn call-btn" data-tour="first-call" @click="startCall()"><SIcon name="mic" :size="14" /> 拨打电话</button>
           </div>
         </div>
 
@@ -344,6 +344,7 @@ function editPlan(planId: string) {
 async function loadOrder() {
   const id = orderId.value
   orderError.value = ''
+  loadPlans()   // 方案列表不依赖订单详情，和订单详情并行请求，少等一轮网络往返
   try {
     const o = await client.get(`/practice/orders/${id}`)
     order.value = o.data
@@ -351,7 +352,6 @@ async function loadOrder() {
       label: s.label, state: s.state, note: s.note || undefined,
       urgent: !!s.urgent, deadline_at: s.deadline_at || '',
     }))
-    loadPlans()
   } catch (e: any) {
     order.value = null
     rawSteps.value = []
@@ -521,24 +521,32 @@ watch(orderId, () => {
   .head-right { width: 100%; gap: 8px; }
   .head-cta { flex: 1; justify-content: center; min-width: 0; }
   .sec { padding: 15px; }
-  .row { align-items: flex-start; flex-wrap: wrap; gap: 4px 8px; }
-  .k { width: 78px; }
+  /* 键值行：标签左、值右，标签不换行（避免「商家服务人员」折成两行） */
+  .row { align-items: baseline; justify-content: space-between; flex-wrap: nowrap; gap: 12px; padding: 3px 0; }
+  .k { width: auto; flex-shrink: 0; white-space: nowrap; }
+  .v { min-width: 0; text-align: right; overflow-wrap: anywhere; }
   .grid2 { grid-template-columns: 1fr; gap: 0; }
-  .call-row { flex-direction: column; align-items: stretch; gap: 12px; }
-  .call-btn { width: 100%; }
+  .call-row { flex-direction: row; align-items: center; gap: 12px; }
+  .call-info { min-width: 0; flex: 1; }
+  .call-btn { flex-shrink: 0; padding: 0 16px; border-radius: 999px; }
   .plan-empty { flex-direction: column; align-items: flex-start; gap: 10px; }
   .plan-row { display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 8px; align-items: start; }
   .p-btn { grid-column: 1 / -1; width: 100%; }
   .plan-foot { flex-direction: column; align-items: stretch; }
   .tbl { display: block; overflow-x: auto; white-space: nowrap; min-width: 0; }
   .tbl thead, .tbl tbody, .tbl tfoot { min-width: 620px; display: table; width: 100%; }
-  .st-head { flex-wrap: wrap; gap: 6px; }
-  .st-step { margin-left: auto; }
+  .st-head { flex-wrap: nowrap; gap: 6px; }
+  .st-name { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .st-state, .st-chev { flex-shrink: 0; white-space: nowrap; }
+  .st-step { margin-left: auto; flex-shrink: 0; }
   .na { flex-direction: column; align-items: stretch; }
   .na-go { width: 100%; justify-content: center; }
-  .doc-row { flex-wrap: wrap; gap: 7px; }
-  .dr-tag { order: 4; }
-  .dr-go { margin-left: auto; }
+  /* 步骤行：整行可点，去掉重复的「进入」字样，状态标签与名称保持同一行 */
+  .doc-row { flex-wrap: nowrap; gap: 8px; min-height: 48px; }
+  .step-mid { flex: 1; min-width: 0; }
+  .dr-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  .dr-tag, .dr-done { flex-shrink: 0; }
+  .dr-go { display: none; }
   .side-col .sec { padding: 14px 15px; }
 }
 </style>

@@ -12,7 +12,7 @@
             <router-link v-if="isBridge" class="tc-btn ghost mini" :to="`/learn/bridge/${spId}`">
               看文化桥内容
             </router-link>
-            <router-link class="tc-btn ghost mini" to="/learn">学习地图</router-link>
+            <router-link class="tc-btn ghost mini to-map" to="/learn">学习地图</router-link>
           </div>
         </div>
 
@@ -42,7 +42,7 @@
             </div>
 
             <!-- 题目卡：跟着聊天记录走，每道题各一张；答过的那张留在原位变只读回放 -->
-            <div v-if="m.kind === 'quiz'" class="quiz card">
+            <div v-if="m.kind === 'quiz'" class="quiz card" data-tour="quiz-item">
               <div class="q-head">
                 <span class="q-tag">难度 {{ m.quiz.difficulty }}</span>
                 <span class="q-nth">第 {{ m.nth }} 题</span>
@@ -87,14 +87,14 @@
 
         <div class="chat-input">
           <div class="quick">
-            <button v-for="a in QUICK" :key="a.label" class="qbtn" :disabled="busy" @click="fill(a)">
+            <button v-for="a in QUICK" :key="a.label" class="qbtn" :data-tour="'q-' + a.label" :disabled="busy" @click="fill(a)">
               <SIcon :name="a.icon" :size="13" /> {{ a.label }}
             </button>
           </div>
           <div class="composer">
             <textarea ref="iptEl" v-model="q" class="ipt" rows="2"
-              placeholder="问老师，或点上面的按钮自动填入这一项…" @keydown.enter.exact.prevent="send" />
-            <button class="tc-btn send" :disabled="busy" @click="send">
+              placeholder="问老师，或点上方按钮快速提问…" @keydown.enter.exact.prevent="send" />
+            <button class="tc-btn send" data-tour="thread-send" :disabled="busy" @click="send">
               <SIcon name="right" :size="14" /> {{ busy ? '思考中…' : '发送' }}
             </button>
           </div>
@@ -662,7 +662,7 @@ function openAsset(a: any) { preview.value = { title: a.title, content: a.conten
   border: 1px solid rgba(217,228,236, 0.8); border-radius: 20px;
   box-shadow: 0 24px 80px rgba(13,40,63, 0.24), inset 0 0 0 1px rgba(255,255,255, 0.6); }
 .am-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; color: #fff;
-  background: linear-gradient(135deg, rgba(79,120,151, 0.94), rgba(110,140,164, 0.94)); backdrop-filter: blur(10px); }
+  background: linear-gradient(135deg, rgba(58,123,176, 0.94), rgba(91,149,201, 0.94)); backdrop-filter: blur(10px); }
 .am-title { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 800; }
 .am-live { width: 9px; height: 9px; border-radius: 50%; background: #fff; box-shadow: 0 0 10px #fff; animation: amPulse 1.4s ease-in-out infinite; }
 .am-live.big { width: 14px; height: 14px; }
@@ -698,7 +698,7 @@ function openAsset(a: any) { preview.value = { title: a.title, content: a.conten
   animation: sweepSpin 2.4s linear infinite; }
 @keyframes sweepSpin { to { transform: rotate(360deg); } }
 .sched-node { position: absolute; inset: 31px; border-radius: 50%; color: #fff;
-  background: linear-gradient(135deg, #133450, #3f6e91); display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #133450, #2f6fa3); display: flex; align-items: center; justify-content: center;
   box-shadow: 0 0 30px rgba(19,52,80, 0.5), inset 0 1px 0 rgba(255,255,255, 0.35); }
 .am-sched-title { margin-top: 16px; font-size: 17px; font-weight: 800; color: #16223a; }
 .am-sched-sub { margin-top: 7px; font-size: 15px; color: #6b7a90; display: flex; align-items: center; }
@@ -762,24 +762,29 @@ function openAsset(a: any) { preview.value = { title: a.title, content: a.conten
 @media (max-width: 800px) {
   .thread { max-width: none; }
   .cols { grid-template-columns: minmax(0,1fr); gap: 12px; }
-  .mid { height: calc(100dvh - 205px); min-height: 570px; border-radius: 18px; overflow: hidden; }
-  .chat-head { align-items: flex-start; flex-wrap: wrap; gap: 9px; padding: 13px 14px; }
-  .ch-left { flex: 1; flex-wrap: wrap; gap: 6px; min-width: 0; }
-  .spname { font-size: 17px; }
-  .ch-right { width: 100%; justify-content: flex-end; }
-  .ch-right .mini { padding: 6px 11px; font-size: 13.5px; }
+  /* 对话区锁定一屏：消息区滚动，输入框贴底；掌握度等侧栏内容在下方继续滚动查看 */
+  .mid { height: var(--tc-page-h, calc(100dvh - 120px)); min-height: 420px; border-radius: 18px; overflow: hidden; }
+  .chat-head { align-items: center; flex-wrap: nowrap; gap: 8px; padding: 10px 12px; }
+  .ch-left { flex: 1; flex-wrap: nowrap; gap: 6px; min-width: 0; overflow: hidden; }
+  .spid { flex-shrink: 0; }
+  .spname { min-width: 0; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ch-right { flex-shrink: 0; }
+  .ch-right .mini { min-height: 34px; padding: 5px 10px; font-size: 13px; }
+  .ch-right .to-map { display: none; } /* 顶栏返回键即回学习地图 */
   .msgs { padding: 14px; gap: 14px; }
   .bubble-wrap { max-width: 92%; }
   .who { font-size: 13px; }
   .bubble { padding: 11px 13px; font-size: 16px; line-height: 1.72; }
   .trace-toggle, .trace-item { font-size: 13.5px; }
-  .chat-input { padding: 10px 12px; }
+  .chat-input { padding: 8px 10px; gap: 8px; }
   .quick { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
   .quick::-webkit-scrollbar { display: none; }
   .qbtn { flex: 0 0 auto; padding: 7px 12px; font-size: 14px; }
-  .composer { flex-direction: column; align-items: stretch; }
-  .ipt { min-height: 80px; font-size: 16px; }
-  .send { width: 100%; height: 44px; }
+  /* 输入框 + 发送 同一行，和常见聊天 App 一致 */
+  .composer { flex-direction: row; align-items: flex-end; gap: 8px; }
+  .ipt { flex: 1; min-width: 0; height: 44px; min-height: 44px; max-height: 120px; padding: 10px 12px; font-size: 16px; line-height: 1.45; resize: none; border-radius: 12px; }
+  .send { flex-shrink: 0; width: auto; height: 44px; min-height: 44px; padding: 0 14px; border-radius: 12px; }
+  .send svg { display: none; }
   .quiz { padding: 15px; border-radius: 16px; }
   .q-head { flex-wrap: wrap; }
   .q-stem { font-size: 17px; line-height: 1.7; }

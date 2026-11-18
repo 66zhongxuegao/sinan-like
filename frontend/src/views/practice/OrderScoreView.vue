@@ -438,7 +438,7 @@ watch(orderId, () => {
 .run {
   display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer;
   border-radius: 999px; padding: 9px 18px; font-size: 15px; font-weight: 700; color: #fff;
-  background: linear-gradient(135deg, #133450, #0d283f); box-shadow: 0 6px 16px rgba(19,52,80,0.28);
+  background: linear-gradient(135deg, #1d4a70, #133450); box-shadow: 0 6px 16px rgba(19,52,80,0.28);
 }
 .run:hover { filter: brightness(1.06); }
 .run:disabled { opacity: .7; cursor: default; }
@@ -459,7 +459,7 @@ watch(orderId, () => {
 .cv-num i { font-size: 15.5px; color: $color-text-muted; font-style: normal; }
 .cv-pct { font-size: 15.5px; color: $color-text-secondary; }
 .cv-bar { grid-area: bar; height: 8px; border-radius: 999px; background: #eef1f5; overflow: hidden; }
-.cv-bar i { display: block; height: 100%; background: linear-gradient(90deg, #133450, #3f6e91); }
+.cv-bar i { display: block; height: 100%; background: linear-gradient(90deg, #133450, #2f6fa3); }
 .cover.pass .cv-bar i { background: linear-gradient(90deg, #12a76a, #35c084); }
 .cv-right { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; }
 .cv-state { font-size: 15.5px; color: $color-text-secondary; }
@@ -574,18 +574,18 @@ watch(orderId, () => {
 .sm-status { padding: 2px 6px; border-radius: 999px; font-size: 11px; text-align: center; background: #fff7ed; color: #b45309; white-space: nowrap; }
 .sm-status.ok { background: #ecfdf5; color: #047857; }
 .sm-diff { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 10px 0 12px; }
-.sm-explain { margin: -2px 0 10px; padding: 8px 10px; border-radius: 8px; background: #d9e4ec; color: #4f7897; font-size: 13px; line-height: 1.6; }
+.sm-explain { margin: -2px 0 10px; padding: 8px 10px; border-radius: 8px; background: #d9e4ec; color: #3a7bb0; font-size: 13px; line-height: 1.6; }
 .sm-current, .sm-next { padding: 6px 12px; border-radius: 999px; font-weight: 700; }
 .sm-current { background: #f1f5f9; color: #475569; }
 .sm-next { background: #fff7ed; color: #c2410c; }
 .sm-arrow { color: #94a3b8; font-weight: 700; }
 .sm-targets { display: flex; flex-wrap: wrap; gap: 6px; }
-.sm-target { padding: 4px 9px; border-radius: 999px; background: #d9e4ec; color: #4f7897; font-size: 13px; }
+.sm-target { padding: 4px 9px; border-radius: 999px; background: #d9e4ec; color: #3a7bb0; font-size: 13px; }
 .sm-knobs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; margin: 14px 0; }
 .sm-knob { display: grid; grid-template-columns: 94px 1fr 62px; align-items: center; gap: 8px; font-size: 13px; }
 .sm-knob > span { color: #475569; }
 .sm-knob i { display: block; height: 7px; overflow: hidden; border-radius: 999px; background: #eef2f7; }
-.sm-knob i b { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #133450, #3f6e91); }
+.sm-knob i b { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #133450, #2f6fa3); }
 .sm-knob em { font-style: normal; text-align: right; font-size: 11px; color: $color-text-muted; }
 .sm-rationale { margin: 12px 0; padding: 9px 11px; border-left: 3px solid $color-primary; border-radius: 6px; background: #f8fafc; color: #475569; font-size: 14px; line-height: 1.7; }
 .sm-plan { display: flex; gap: 10px; flex-wrap: wrap; font-size: 13px; color: $color-text-muted; }
@@ -620,9 +620,15 @@ watch(orderId, () => {
   .d-cnt { flex-basis: 100%; padding-left: 16px; }
   .d-score { margin-left: auto; }
   .d-body { padding: 8px 14px 12px; }
-  .p-row { flex-wrap: wrap; gap: 7px; }
-  .p-name { flex-basis: calc(100% - 52px); }
-  .p-btn { flex: 1; }
+  /* 技能点行：第一行编号+名称，第二行等级/分数 + 右侧小按钮，不再每行一个整宽大按钮 */
+  .p-row { flex-wrap: wrap; gap: 4px 8px; padding: 10px 0; }
+  .p-id { width: 40px; font-size: 13.5px; }
+  .p-name { flex: 1 1 calc(100% - 52px); min-width: 0; }
+  .p-lv { margin-left: 48px; font-size: 14px; }
+  .p-score { width: auto; }
+  .p-btn { flex: 0 0 auto; min-height: 34px; padding: 0 12px; font-size: 14px; border-radius: 999px; }
+  .p-score + .p-btn { margin-left: auto; }
+  .back { display: none; } /* 顶栏已有返回键 */
   .sm-dialog { border-radius: 18px; }
   .sm-head h2 { font-size: 23px; }
   .sm-block-head { align-items: flex-start; flex-direction: column; gap: 4px; }

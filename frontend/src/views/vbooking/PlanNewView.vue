@@ -634,6 +634,7 @@ onUnmounted(() => { if (planTimer) clearInterval(planTimer) })
 .btn.ghost { background: #fff; color: $color-primary; border-color: $color-border; }
 .btn.ghost:hover:not(:disabled) { border-color: $color-primary; }
 .btn:disabled { opacity: .5; cursor: default; box-shadow: none; }
+.btn.primary:disabled { opacity: 1; background: #b9d0e6; color: #fff; }
 .import-template { white-space: nowrap; }
 .spin { width: 14px; height: 14px; display: inline-block; border: 2px solid rgba(19,52,80,.25); border-top-color: $color-primary; border-radius: 50%; animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -661,13 +662,25 @@ onUnmounted(() => { if (planTimer) clearInterval(planTimer) })
 @media (max-width: 560px) { .basic-info-row { grid-template-columns: minmax(0, 1fr); } }
 
 @media (max-width: 560px) {
-  .topbar { position: static; flex-direction: column; align-items: stretch; padding: 14px; }
+  /* backdrop-filter 会成为 fixed 子元素的定位容器，手机端去掉，底部操作栏才能贴住屏幕底边 */
+  .topbar { position: static; flex-direction: column; align-items: stretch; padding: 14px; backdrop-filter: none; background: #fff; }
   .tb-id { width: 100%; }
   .tb-id .title { font-size: 21px; }
   .tb-id .meta { white-space: normal; line-height: 1.45; }
   .ver { align-self: flex-start; margin-left: 0; }
-  .tb-acts { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
-  .tb-acts .btn { width: 100%; min-height: 40px; padding: 0 8px; }
+  .back { display: none; } /* 顶栏已有返回键 */
+  /* 操作按钮固定在屏幕底部（手机编辑页习惯），填写长表单时随时可保存/发送 */
+  /* 入场动画 fill-mode 设为 backwards：动画结束后不再保留 transform，否则 fixed 底栏会被困在页面容器里 */
+  .pn { padding-bottom: calc(64px + env(safe-area-inset-bottom)); animation-fill-mode: backwards; }
+  .tb-acts {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 70;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; width: auto; margin: 0;
+    padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+    background: rgba(255,255,255,.96); backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(19,52,80,.10); box-shadow: 0 -6px 18px rgba(13,40,63,.06);
+  }
+  .tb-acts .btn { width: 100%; min-height: 44px; padding: 0 4px; font-size: 13.5px; white-space: nowrap; gap: 3px; }
+  .tb-acts .btn svg { display: none; }
   .grid { display: block; }
   .col-main { gap: 10px; }
   .col-side { margin-top: 10px; }
@@ -675,13 +688,14 @@ onUnmounted(() => { if (planTimer) clearInterval(planTimer) })
   .sec-title { align-items: flex-start; flex-wrap: wrap; gap: 6px; }
   .sec-hint { flex-basis: 100%; font-size: 13px; line-height: 1.5; }
   .day { padding: 13px; }
-  .day-grid { grid-template-columns: 1fr; }
+  .day-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 10px; }
   .sect { grid-template-columns: 1fr; }
   .tpl-row { flex-direction: column; }
   .tpl-bar .sel, .tpl-bar .nm, .tpl-row .mini { width: 100%; }
   .day-head { flex-wrap: wrap; }
   .status { padding: 15px; }
 }
+@media (max-width: 359px) { .day-grid { grid-template-columns: 1fr; } }
 
 @media (prefers-reduced-motion: reduce) {
   .pn, .feedback, .steps li.now .dot { animation: none; }

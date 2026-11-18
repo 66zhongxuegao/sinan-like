@@ -87,7 +87,8 @@ onMounted(loadExisting)
 .tc-btn.primary:hover:not(:disabled) { background: $color-primary-dark; }
 .tc-btn.ghost { background: #fff; color: $color-text-secondary; border-color: #d9e4ec; }
 .tc-btn.ghost:hover:not(:disabled) { color: $color-primary; border-color: #a9bfd1; }
-.tc-btn:disabled { opacity: .5; cursor: default; }
+.tc-btn:disabled { opacity: .55; cursor: default; }
+.tc-btn:not(.ghost):disabled { opacity: 1; background: #b9d0e6; color: #fff; box-shadow: none; }
 .spin { width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; animation: spin .8s linear infinite; }
 .rl-error { margin: 8px 0 0; color: $color-danger; font-size: $fs-meta; }
 @keyframes spin { to { transform: rotate(360deg); } }

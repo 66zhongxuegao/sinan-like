@@ -211,7 +211,7 @@ function deltaText(v: number, unit: 'pct' | 'pt' | 'count'): string {
 <style scoped>
 .db-risk-total { display: flex; align-items: baseline; gap: 8px; margin: 2px 0 12px; }
 .db-risk-total b { font-family: 'Bahnschrift', 'Microsoft YaHei', sans-serif; font-size: 38px; line-height: 1;
-  letter-spacing: -1px; background: linear-gradient(120deg, #16223a, #e05a78); -webkit-background-clip: text;
+  letter-spacing: -1px; background: linear-gradient(120deg, #133450, #3a7bb0); -webkit-background-clip: text;
   background-clip: text; color: transparent; }
 .db-risk-total span { font-size: 11.5px; color: #8296b6; }
 </style>

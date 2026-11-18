@@ -53,8 +53,10 @@ a { color: $color-primary; text-decoration: none; }
   font-size: $fs-body; font-weight: 600; line-height: 1.2; transition: all .16s ease;
   background: $color-primary; color: #fff;
   &:hover { background: $color-primary-dark; box-shadow: $shadow-hover; }
-  &:disabled { opacity: .5; cursor: not-allowed; }
+  /* 禁用态用浅色阶底色，不用 opacity：深蓝半透明叠白底会变成发灰的 #8999a7 */
+  &:disabled { background: $blue-200; color: #fff; box-shadow: none; cursor: not-allowed; }
   &.ghost { background: #fff; color: $color-primary; border-color: $color-border-strong; }
+  &.ghost:disabled { background: #fff; color: $color-text-muted; border-color: $color-border; }
   &.ghost:hover { border-color: $color-primary; background: $color-primary-softer; }
 }
 
@@ -73,4 +75,6 @@ a { color: $color-primary; text-decoration: none; }
   body { min-height: 100dvh; }
   button, input, select, textarea { font-size: 16px; }
   input, textarea, select { scroll-margin-top: 110px; }
+  /* 去掉 iOS 点按时的灰色高亮块，配合各按钮自己的 :active 反馈 */
+  a, button { -webkit-tap-highlight-color: transparent; }
 }

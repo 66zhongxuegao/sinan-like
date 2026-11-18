@@ -51,7 +51,7 @@ onBeforeUnmount(restore)
     radial-gradient(ellipse at 90% 85%, #e3f5f0 0%, transparent 44%), #d9e4ec; }
 .completion-content { width: min(100%, 760px); text-align: center; }
 .completion-emblem { display: grid; place-items: center; width: 108px; height: 108px; margin: 0 auto 36px;
-  color: #fff; border-radius: 50%; background: linear-gradient(145deg, #6e8ca4, #4f7897);
+  color: #fff; border-radius: 50%; background: linear-gradient(145deg, #5b95c9, #3a7bb0);
   box-shadow: 0 0 0 14px #e6edf3, 0 18px 48px #13345026; }
 h1 { margin: 0; font-size: clamp(26px, 3.2vw, 40px); font-weight: 750; line-height: 1.5; }
 p { margin: 16px 0 36px; color: #6b7d97; font-size: clamp(18px, 2vw, 22px); line-height: 1.7; }
@@ -59,6 +59,6 @@ p { margin: 16px 0 36px; color: #6b7d97; font-size: clamp(18px, 2vw, 22px); line
   min-height: 56px; padding: 14px 30px; border: 0; border-radius: 12px; color: #fff;
   background: #133450; box-shadow: 0 10px 24px #13345030; cursor: pointer;
   font-family: inherit; font-size: 18px; font-weight: 700; }
-.completion-continue:hover { background: #356b93; }
+.completion-continue:hover { background: #2b6699; }
 .completion-continue:focus-visible { outline: 3px solid #24577e; outline-offset: 5px; }
 </style>

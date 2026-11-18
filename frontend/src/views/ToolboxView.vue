@@ -412,8 +412,11 @@ onMounted(() => { query() })
   .tool { padding: 14px; border-radius: 16px; }
   .tool-name { font-size: 17px; line-height: 1.35; }
   .tools-grid { grid-template-columns: 1fr; }
-  .mini-row-in { flex-wrap: wrap; }
-  .mini-row-in .ipt { flex: 1 1 150px; min-width: 0; }
+  /* 输入 + 「查」按钮同一行；日期框与城市框平分宽度，按钮固定在行尾 */
+  .mini-row-in { flex-wrap: nowrap; gap: 6px; }
+  .mini-row-in .ipt { flex: 1 1 0; min-width: 0; }
+  .mini-btn { flex-shrink: 0; min-width: 52px; min-height: 44px; }
+  .tool-name { white-space: normal; }
   .map { min-height: 260px; max-height: 300px; border-radius: 14px; }
   .fx-grid { grid-template-columns: 1fr 1fr; }
   .fx-calc { flex-wrap: wrap; }

@@ -27,9 +27,29 @@ export default defineConfig(({ mode }) => {
     },
   }
 
+  /**
+   * 公网静态资源缓存：/assets/ 下的文件名带内容哈希，内容变了文件名就变，
+   * 所以可以放心让浏览器和 Cloudflare 边缘长期缓存（immutable）。
+   * vite preview 默认给所有文件发 `Cache-Control: no-cache`，导致每次打开页面
+   * 都要穿过隧道回源到本机校验，这里只覆盖 /assets/，index.html 仍然每次校验。
+   */
+  const immutableAssets = {
+    name: 'tc-immutable-assets',
+    configurePreviewServer(server: any) {
+      server.middlewares.use((req: any, res: any, next: () => void) => {
+        if (req.url && /^\/assets\//.test(req.url)) {
+          const setHeader = res.setHeader.bind(res)
+          setHeader('Cache-Control', 'public, max-age=31536000, immutable')
+          res.setHeader = (k: string, v: any) => (k.toLowerCase() === 'cache-control' ? res : setHeader(k, v))
+        }
+        next()
+      })
+    },
+  }
+
   return {
     base: './',
-    plugins: [vue()],
+    plugins: [vue(), immutableAssets],
     resolve: {
       alias: { '@': resolve(__dirname, 'src') },
     },

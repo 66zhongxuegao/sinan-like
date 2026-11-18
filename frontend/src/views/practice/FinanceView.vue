@@ -304,25 +304,29 @@ watch(orderId, load)
 
 @media (max-width: 640px) {
   .fin { gap: 10px; }
-  .head { align-items: stretch; flex-direction: column; gap: 12px; }
-  .h-l { align-items: flex-start; }
-  .h-title { font-size: 21px; line-height: 1.35; }
-  .h-r { justify-content: space-between; flex-wrap: wrap; }
-  .h-r .tc-btn { flex: 1; min-width: 160px; }
-  .kpis { grid-template-columns: 1fr; gap: 9px; }
-  .kpi { padding: 14px; }
+  .head { align-items: stretch; flex-direction: column; gap: 10px; }
+  .h-l { align-items: center; }
+  .back { display: none; } /* 顶栏已有返回键 */
+  .h-title { font-size: 17px; line-height: 1.35; }
+  .h-r { justify-content: space-between; flex-wrap: nowrap; gap: 10px; }
+  .h-r .stage { flex-shrink: 0; }
+  .h-r .tc-btn { flex: 1; min-width: 0; }
+  /* 四个指标两两并排，一屏内看完收入/成本/损失/毛利 */
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .kpi { padding: 12px; gap: 4px; min-width: 0; }
+  .k-label { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .k-val { font-size: 20px; }
+  .k-sub { font-size: 12.5px; line-height: 1.4; }
   .sec { padding: 14px; }
-  .sec-title { align-items: flex-start; flex-wrap: wrap; gap: 5px 7px; }
-  .sec-tag { flex-basis: 100%; margin-left: 21px; line-height: 1.45; }
-  .tbl { display: block; overflow-x: auto; white-space: nowrap; }
-  .tbl thead, .tbl tbody, .tbl tfoot { display: table; width: 100%; min-width: 520px; }
+  .sec-title { align-items: center; flex-wrap: wrap; gap: 5px 7px; }
+  .sec-tag { margin-left: auto; line-height: 1.45; }
+  /* 成本明细只有三列，手机上直接自适应宽度，不再横向滚动 */
+  .tbl { display: table; width: 100%; table-layout: auto; }
+  .tbl th, .tbl td { padding-left: 6px; padding-right: 6px; }
+  .tbl .num { white-space: nowrap; }
   .entry { align-items: flex-start; flex-wrap: wrap; }
   .e-amt { margin-left: auto; }
   .e-bearer { width: 100%; min-width: 0; justify-content: flex-start; flex-wrap: wrap; }
-  .link-btn { width: 100%; justify-content: center; min-height: 40px; }
-}
-
-@media (max-width: 420px) {
-  .kpis { grid-template-columns: 1fr; }
+  .link-btn { width: 100%; justify-content: center; min-height: 44px; }
 }
 </style>

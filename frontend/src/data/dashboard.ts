@@ -139,7 +139,7 @@ export const teamRadar: RadarAxis[] = [
 
 export const teamFunnel: FunnelStep[] = [
   { label: '进入学习', short: '进入学习', value: 48, color: '#24577e' },
-  { label: '完成技能点', short: '技能点', value: 44, color: '#356b93' },
+  { label: '完成技能点', short: '技能点', value: 44, color: '#2b6699' },
   { label: '进入实战', short: '进入实战', value: 39, color: '#10a99a' },
   { label: '提交方案', short: '提交方案', value: 35, color: '#e89a2b' },
   { label: '评分达标', short: '评分达标', value: 33, color: '#7c6ad6' },
@@ -210,7 +210,7 @@ export const opsTrendSeries: TrendSeries[] = [
 
 export const opsFunnel: FunnelStep[] = [
   { label: '注册学员', short: '注册', value: 2846, color: '#24577e' },
-  { label: '完成激活', short: '激活', value: 2412, color: '#356b93' },
+  { label: '完成激活', short: '激活', value: 2412, color: '#2b6699' },
   { label: '首次实战', short: '首战', value: 1985, color: '#10a99a' },
   { label: '提交方案', short: '提交', value: 1612, color: '#e89a2b' },
   { label: '评分达标', short: '达标', value: 1088, color: '#7c6ad6' },

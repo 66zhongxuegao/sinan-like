@@ -95,7 +95,7 @@ h1 { font-size: 22px; margin: 0; }
 .list { width: 232px; flex: none; overflow: auto; display: flex; flex-direction: column; gap: 8px; }
 .item { display: flex; align-items: center; gap: 8px; text-align: left; cursor: pointer;
   border: 1px solid #d9e4ec; background: #fff; border-radius: 12px; padding: 10px 12px; }
-.item:hover { border-color: #afc3d2; }
+.item:hover { border-color: #b9d0e6; }
 .item.on { border-color: #133450; background: #d9e4ec; }
 .dot { width: 8px; height: 8px; border-radius: 50%; background: #0ea5b7; flex: none; }
 .nm { font-size: 14px; font-weight: 600; }
