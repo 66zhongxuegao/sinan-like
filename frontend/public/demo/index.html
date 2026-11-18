@@ -3,109 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#edf2ee" />
-  <title>司南礼客 · 七站全流程演示</title>
-  <meta name="description" content="司南礼客七站全流程录屏演示：画像、学习、做题、接单、行前、行中、行后。" />
-  <meta property="og:title" content="司南礼客 · 七站全流程演示" />
+  <meta name="theme-color" content="#133450" />
+  <title>司南礼客使用说明</title>
+  <meta name="description" content="司南礼客使用说明：按步骤完成画像测评、个性化学习、动态做题、接单首呼、行前方案、行中应急与行后复盘。" />
+  <meta property="og:title" content="司南礼客使用说明" />
   <meta property="og:image" content="https://sinanlike.com/demo/media/overview.jpg" />
   <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="./demo.css" />
 </head>
 <body>
-  <main>
-    <header class="masthead">
-      <p class="brand">司南礼客</p>
-      <h1>七站全流程</h1>
-    </header>
+  <header class="hero">
+    <p class="brand">司南礼客</p>
+    <h1>使用说明</h1>
+    <p class="hero-line">按顺序完成下面 7 步</p>
+  </header>
 
-    <section class="scene" id="profile">
-      <div class="scene-title">
-        <span>01</span>
-        <h2>画像自测</h2>
+  <main class="manual-wrap">
+    <section class="manual-card" aria-labelledby="step-title">
+      <div class="step-head">
+        <p class="step-count" id="step-count">第 01 步 / 共 07 步</p>
+        <h2 id="step-title">画像自测</h2>
+        <p class="step-goal" id="step-goal">先建立你的八维能力画像</p>
       </div>
-      <p class="scene-line">八维画像 · 学习建议</p>
-      <div class="video-shell">
-        <video autoplay muted loop playsinline controls preload="metadata" poster="./media/01-profile.jpg" aria-label="画像自测录屏">
+
+      <div class="video-stage" id="video-stage">
+        <button class="arrow arrow--prev" id="prev" type="button" aria-label="上一步">‹</button>
+        <video id="step-video" autoplay muted loop playsinline controls preload="auto" poster="./media/01-profile.jpg">
           <source src="./media/01-profile.mp4" type="video/mp4" />
         </video>
+        <button class="arrow arrow--next" id="next" type="button" aria-label="下一步">›</button>
       </div>
-    </section>
 
-    <section class="scene" id="learning">
-      <div class="scene-title">
-        <span>02</span>
-        <h2>个性化学习</h2>
+      <div class="instruction-block" aria-live="polite">
+        <p class="instruction-title">这样操作</p>
+        <ol class="instruction-list" id="step-list">
+          <li>在首页点击「画像」。新账号先点右上角「新建用户」。</li>
+          <li>按顺序完成测评题，选择答案后系统自动进入下一题。</li>
+          <li>提交后查看八维能力画像和学习建议，再进入学习地图。</li>
+        </ol>
       </div>
-      <p class="scene-line">学习地图 · 多 Agent 资源</p>
-      <div class="video-shell">
-        <video autoplay muted loop playsinline controls preload="metadata" poster="./media/02-learning.jpg" aria-label="个性化学习资源生成录屏">
-          <source src="./media/02-learning.mp4" type="video/mp4" />
-        </video>
-      </div>
-    </section>
 
-    <section class="scene" id="quiz">
-      <div class="scene-title">
-        <span>03</span>
-        <h2>动态做题</h2>
-      </div>
-      <p class="scene-line">答对升档 · 答错降档</p>
-      <div class="video-shell">
-        <video autoplay muted loop playsinline controls preload="metadata" poster="./media/03-quiz.jpg" aria-label="动态难度做题录屏">
-          <source src="./media/03-quiz.mp4" type="video/mp4" />
-        </video>
-      </div>
-    </section>
-
-    <section class="scene" id="order">
-      <div class="scene-title">
-        <span>04</span>
-        <h2>接单与首呼</h2>
-      </div>
-      <p class="scene-line">限时抢单 · 需求确认</p>
-      <div class="video-shell">
-        <video autoplay muted loop playsinline controls preload="metadata" poster="./media/04-order.jpg" aria-label="接单与首呼录屏">
-          <source src="./media/04-order.mp4" type="video/mp4" />
-        </video>
-      </div>
-    </section>
-
-    <section class="scene" id="prepare">
-      <div class="scene-title">
-        <span>05</span>
-        <h2>行前方案</h2>
-      </div>
-      <p class="scene-line">询价 · 方案 · 报价 · 合同</p>
-      <div class="video-shell">
-        <video autoplay muted loop playsinline controls preload="metadata" poster="./media/05-prepare.jpg" aria-label="行前方案与报价录屏">
-          <source src="./media/05-prepare.mp4" type="video/mp4" />
-        </video>
-      </div>
-    </section>
-
-    <section class="scene" id="incident">
-      <div class="scene-title">
-        <span>06</span>
-        <h2>行中应急</h2>
-      </div>
-      <p class="scene-line">安抚客户 · 协调资源 · 解决问题</p>
-      <div class="video-shell">
-        <video autoplay muted loop playsinline controls preload="metadata" poster="./media/06-incident.jpg" aria-label="行中突发事件处置录屏">
-          <source src="./media/06-incident.mp4" type="video/mp4" />
-        </video>
-      </div>
-    </section>
-
-    <section class="scene" id="settlement">
-      <div class="scene-title">
-        <span>07</span>
-        <h2>行后复盘</h2>
-      </div>
-      <p class="scene-line">结算 · 61 技能点评分 · 画像回写</p>
-      <div class="video-shell">
-        <video autoplay muted loop playsinline controls preload="metadata" poster="./media/07-settlement.jpg" aria-label="行后结算评分与画像回写录屏">
-          <source src="./media/07-settlement.mp4" type="video/mp4" />
-        </video>
+      <div class="carousel-footer">
+        <button class="step-button" id="prev-text" type="button">← 上一步</button>
+        <div class="dots" id="dots" aria-label="步骤切换"></div>
+        <button class="step-button" id="next-text" type="button">下一步 →</button>
       </div>
     </section>
   </main>
