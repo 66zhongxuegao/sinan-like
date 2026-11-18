@@ -91,7 +91,8 @@ def public_call_snapshot(snapshot: dict | None) -> dict:
 def public_quiz_card(question: dict | None) -> dict:
     """题卡公开投影：剥掉答案与评分要点，只留题干与选项。"""
     q = dict(question or {})
-    for key in ("answer", "reference", "rubric_points", "explain"):
+    # design / quality 是服务端出题留档（干扰条件清单、错项陷阱、校验记录），下发等于泄题
+    for key in ("answer", "reference", "rubric_points", "explain", "design", "quality"):
         q.pop(key, None)
     return q
 

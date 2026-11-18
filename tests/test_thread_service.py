@@ -78,10 +78,19 @@ def test_pick_question_follows_judged_level():
     assert q["difficulty"] == "L3", "M3 应对应 L3 难度（L1–L5 五档）"
 
 
+def right_answer(store, q) -> str:
+    """正确答案位置由服务端随机指定，测试从服务端题库读取，而不是假设固定是 B。"""
+    return store.quiz_question(q["question_id"])["answer"]
+
+
+def wrong_answer(store, q) -> str:
+    return next(x for x in "ABCD" if x != right_answer(store, q))
+
+
 def test_submit_answer_updates_mastery():
     svc, store = make()
     q = svc.pick_question("u1", "C2.2")
-    r = svc.submit_answer("u1", "C2.2", q, "B")
+    r = svc.submit_answer("u1", "C2.2", q, right_answer(store, q))
     assert r["correct"] is True
     assert r["teach"] > 60, "答对应提升教学掌握度"
     assert len(store.attempts("u1", "C2.2")) == 1
@@ -90,7 +99,7 @@ def test_submit_answer_updates_mastery():
 def test_submit_wrong_triggers_reteach():
     svc, store = make()
     q = svc.pick_question("u1", "C2.2")
-    r = svc.submit_answer("u1", "C2.2", q, "A")
+    r = svc.submit_answer("u1", "C2.2", q, wrong_answer(store, q))
     assert r["correct"] is False
     assert r["reteach"] is True
     assert store.memories("u1"), "答错应写入记忆"
@@ -244,3 +253,118 @@ def test_asset_audit_is_recomputed_on_final_draft_not_first_draft():
     assert "人均" in asset["content"]
     assert asset["evidence_audit"]["decision"] == "allow"
     assert all("签证" not in c["claim"] for c in asset["evidence_audit"]["claims"])
+
+
+# ---------------- 出题难度规格：干扰条件 / 约束 / 题干长度 / 选项近似度 ----------------
+
+from tripcraft.contracts.quiz_difficulty import (  # noqa: E402
+    QUIZ_DIFFICULTY, place_answer, spec_for, text_len, validate_question,
+)
+
+
+def _good_question(level: str) -> dict:
+    """按规格拼一道合格题（用于校验器正向用例）。"""
+    spec = spec_for(level)
+    distractors = [f"客户顺口提到第{i}件和本次决策无关的小事情" for i in range(spec.distractors)]
+    body = "客户张女士一家四口计划十月去云南，预算人均八千元，老人行动不便需要少走路。" + "".join(distractors)
+    while text_len(body) < spec.stem_min:
+        body += "她在电话里反复确认出发日期和住宿位置。"
+    stem = body + "此时你最应该先做什么？"
+    opt = "先电话确认预算口径与老人身体情况，再据此推荐{}"
+    return {"type": "choice", "stem": stem,
+            "options": [opt.format(x) for x in ("一号方案", "二号方案", "三号方案", "四号方案")],
+            "answer": "C", "explain": "选C，因为先确认约束。",
+            "design": {"distractor_conditions": distractors,
+                       "key_constraints": [f"约束{i}" for i in range(spec.constraints)],
+                       "option_traps": {"A": "a", "B": "b", "C": "", "D": "d"},
+                       "answer_basis": "约束0 决定先确认再推荐；B 违反约束1"}}
+
+
+def test_difficulty_spec_is_strictly_increasing():
+    levels = [QUIZ_DIFFICULTY[f"L{i}"] for i in range(1, 6)]
+    for lo, hi in zip(levels, levels[1:]):
+        assert hi.stem_min > lo.stem_min, "题干长度要随难度递增"
+        assert hi.distractors >= lo.distractors and hi.constraints >= lo.constraints
+        assert hi.option_ratio < lo.option_ratio, "选项近似度要随难度收紧"
+    assert levels[-1].distractors > levels[0].distractors
+
+
+def test_validator_accepts_spec_compliant_question():
+    for lv in ("L1", "L3", "L5"):
+        assert validate_question(_good_question(lv), spec_for(lv)) == [], lv
+
+
+def test_validator_catches_three_short_one_long():
+    q = _good_question("L3")
+    q["options"] = ["直接报价给客户确认一下", "先加微信再说吧好不好", "马上发送行程方案过去",
+                    "先电话确认预算口径、老人身体情况和出发日期，再按约束筛选两套方案推荐并说明取舍理由"]
+    q["answer"] = "D"
+    issues = validate_question(q, spec_for("L3"))
+    assert any("长短差距" in x for x in issues)
+    assert any("可以靠长度猜对" in x for x in issues)
+
+
+def test_validator_requires_distractors_written_into_stem():
+    q = _good_question("L4")
+    q["design"]["distractor_conditions"] = ["这句话根本没有出现在题干里面"] * 3
+    assert any("干扰条件" in x for x in validate_question(q, spec_for("L4")))
+
+
+def test_validator_rejects_short_stem_and_internal_words():
+    q = _good_question("L5")
+    q["stem"] = "客户要去云南，按 M3 档位你怎么做？"
+    issues = validate_question(q, spec_for("L5"))
+    assert any("题干只有" in x for x in issues)
+    assert any("内部评分词" in x for x in issues)
+
+
+def test_place_answer_moves_correct_option_and_rewrites_explain():
+    q = _good_question("L2")
+    q["options"][2] = "正确做法"
+    out = place_answer(q, "A")
+    assert out["answer"] == "A" and out["options"][0] == "正确做法"
+    assert "选A" in out["explain"]
+    assert out["design"]["option_traps"]["C"] == "a", "错项陷阱说明要跟着选项一起换位"
+
+
+def test_pick_question_retries_with_issue_list_and_hides_design():
+    class StrictLLM(FakeLLM):
+        def __init__(self):
+            self.question_calls = []
+
+        def chat_json(self, messages, **kwargs):
+            system = messages[0]["content"] if messages else ""
+            if "实战出题老师" in system:
+                self.question_calls.append(messages)
+                if len(self.question_calls) == 1:
+                    return {"type": "choice", "stem": "太短", "options": ["a", "b", "c", "很长很长很长很长的选项"],
+                            "answer": "D", "explain": ""}
+                return _good_question("L3")
+            return super().chat_json(messages, **kwargs)
+
+    import random
+    store = Store(os.path.join(tempfile.gettempdir(), f"tc_{uuid4().hex}.sqlite"))
+    llm = StrictLLM()
+    svc = ThreadService(store, llm, rng=random.Random(7))
+    q = svc.pick_question("u1", "C2.2")
+    assert len(llm.question_calls) == 2, "第一稿不合格应带问题清单重出一次"
+    assert "上一稿不符合难度规格" in llm.question_calls[1][-1]["content"]
+    assert "design" not in q and "quality" not in q and "answer" not in q, "出题留档不能下发"
+    stored = __import__("json").loads(store.quiz_question(q["question_id"])["payload"])
+    assert stored["quality"]["passed"] is True and stored["quality"]["attempts"] == 2
+    assert stored["design"]["distractor_conditions"], "服务端保留干扰条件清单以便抽查"
+    assert stored["answer"] == store.quiz_question(q["question_id"])["answer"]
+
+
+def test_answer_position_is_spread_across_letters():
+    import random
+    svc, store = make()
+    svc._rng = random.Random(3)
+    letters = {right_answer(store, svc.pick_question("u1", "C2.2")) for _ in range(12)}
+    assert len(letters) >= 3, "正确答案不能总在同一个位置"
+
+
+def test_validator_requires_answer_basis_for_near_identical_options():
+    q = _good_question("L4")
+    q["design"].pop("answer_basis")
+    assert any("answer_basis" in x for x in validate_question(q, spec_for("L4")))

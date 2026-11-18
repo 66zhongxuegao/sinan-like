@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import json
+import random
 import re
 import uuid
 from dataclasses import dataclass, field
@@ -17,6 +18,7 @@ from pathlib import Path
 from ..agents.llm import DeepSeekClient
 from ..agents.review import SixHatsReview
 from ..contracts.enums import mastery_of
+from ..contracts.quiz_difficulty import LETTERS, place_answer, render_spec_prompt, spec_for, validate_question
 from ..contracts.rubric import RUBRICS
 from ..contracts.culture_bridges import get as get_bridge
 from ..contracts.skill_points import SKILL_POINTS_BY_ID
@@ -79,7 +81,8 @@ class QuizQuestionAnswered(QuizError):
         super().__init__(msg)
 
 
-QUIZ_ANSWER_KEYS = ("answer", "reference", "rubric_points", "explain")
+# design（哪些条件是干扰、每个错项的陷阱）与 quality（出题校验记录）同样不能下发，否则等于泄题
+QUIZ_ANSWER_KEYS = ("answer", "reference", "rubric_points", "explain", "design", "quality")
 
 
 def strip_quiz_answers(card: dict | None) -> dict:
@@ -255,22 +258,27 @@ JUDGE_SYSTEM = """你是评分专家。依据给定 Rubric 的 M1–M5 锚点，
 只输出 JSON。
 """
 
-QUESTION_SYSTEM = """你是实战出题老师，给学员出一道贴近真实工作场景的题。
+QUESTION_SYSTEM = """你是实战出题老师，给学员出一道贴近真实工作场景的**情景单选题**。
 
-【规则】
-- 必须围绕该技能点，用一个具体的客户/订单/突发场景出题，考「遇到这种情况该怎么做」，不考概念背诵。
-- 难度只是你出题时的复杂度标尺（绝对不要把难度分级、M1-M5、Rubric 档位这些内部词说给学员听）：
-  L1 基础：场景明确，直接套标准动作
-  L2 简单辨析：带一个干扰点
-  L3 进阶：带两个干扰点，需比较取舍
-  L4 高阶：加时间压力 / 资源紧张 / 情绪升级
-  L5 高压综合：多冲突并发，要排优先级并书面闭环
-- 选择题 options 必须 4 个，answer 用 A/B/C/D；简答题给参考答案与评分要点。
-- 题干里绝对不要出现「M1/M2/M3/M4/M5」「档位」「Rubric」等内部评分词。
+【总规则】
+- 必须围绕该技能点，用一个具体的客户/订单/突发情景出题，考「在这个情景下该怎么做」，不考概念背诵。
+- 难度参数（题干字数、干扰条件数、关键约束数、选项近似度）会在用户消息里给出，必须逐条满足。
+- 干扰条件：与正确决策无关、但看起来相关的信息（如客户顺口提到的偏好、无关的历史细节、
+  不影响本步动作的数字）。它们要自然地写在情景里，不能标注「干扰」。
+- 关键约束：决定正确答案的条件（预算上限、时间节点、人员构成、合规要求、客户明确拒绝的事项等）。
+- 题干里绝对不要出现「M1–M5」「档位」「Rubric」「难度 L1–L5」等内部评分词。
+
+【选项规则（防止靠形式猜答案）】
+- 4 个选项句式结构一致、长度相近；正确选项不能是最长、最具体、最「面面俱到」的那个。
+- 每个错误选项都对应一种真实的错误思路（写在 design.option_traps 里），不能是明显荒谬的凑数项。
+- 不使用「以上都对」「以上皆是」「都不对」类选项；不要让绝对化用词只出现在错误选项里。
+- explain 先说正确做法的依据，再逐个点出其余选项错在哪；引用选项时直接复述内容，不要只写字母。
 
 【输出 JSON】
-{"type":"choice","stem":"","options":["","","",""],"answer":"A","explain":"","difficulty":"L2"}
-或 {"type":"short","stem":"","reference":"","rubric_points":["",""],"difficulty":"L3"}
+{"type":"choice","stem":"","options":["","","",""],"answer":"A","explain":"",
+ "design":{"distractor_conditions":["题干中的原文片段"],"key_constraints":[""],
+           "option_traps":{"A":"","B":"","C":"","D":""},
+           "answer_basis":"正确答案由哪条约束唯一推出；最接近的错项违反了哪一条"}}
 只输出 JSON。
 """
 
@@ -305,8 +313,9 @@ def _difficulty_of(level: str) -> str:
 
 class ThreadService:
     def __init__(self, store: Store, llm: DeepSeekClient | None = None,
-                 conductor: Conductor | None = None) -> None:
+                 conductor: Conductor | None = None, rng: random.Random | None = None) -> None:
         self._store = store
+        self._rng = rng or random.Random()  # 正确答案位置随机；测试可注入固定种子
         self._llm = llm
         self._conductor = conductor or Conductor()
         self._bind_agents()
@@ -681,21 +690,63 @@ class ThreadService:
     def pick_question(self, user_id: str, sp: str) -> dict:
         j = self.judge_mastery(user_id, sp)
         ctx = self.build_context(user_id, sp)
-        q = self._require_llm().chat_json(
-            [{"role": "system", "content": QUESTION_SYSTEM},
-             {"role": "system", "content": "资料：\n\n" + ctx.render()},
-             {"role": "user", "content": f"请出一档难度为 {j['difficulty']} 的题。"}],
-            temperature=0.5, max_tokens=900)
+        q = self._generate_question(ctx, j["difficulty"])
         q["difficulty"] = j["difficulty"]
         q["judged_level"] = j["level"]
         q["question_id"] = f"{sp}-{uuid.uuid4().hex}"
-        q["pipeline"] = [{"id": "judge", "name": "掌握度判档"}, {"id": "question", "name": "Rubric 出题"}]
+        q["pipeline"] = [{"id": "judge", "name": "掌握度判档"}, {"id": "question", "name": "Rubric 出题"},
+                         {"id": "quiz_check", "name": "难度规格校验", "icon": "shield"}]
         # P0：题目与答案**只存服务端**。这里按 question_id 落库（带 user_id + 技能点归属），
         # 下发前剥离答案；判分时按 question_id 取回这份存档，永不采信客户端传来的题目内容。
         self._store.save_quiz_question(
             q["question_id"], user_id, sp, q,
             answer=str(q.get("answer") or ""), reference=str(q.get("reference") or ""))
         return strip_quiz_answers(q)
+
+    def _generate_question(self, ctx: ThreadContext, difficulty: str) -> dict:
+        """按难度规格出题 → 确定性校验 → 不合格带问题清单重出一次 → 取问题更少的一稿。
+
+        正确答案位置由服务端随机指定（模型普遍偏爱 A/B），最后再兜底换位一次。
+        校验结果存进题卡 `quality`（服务端留档，下发前剥离），便于抽查出题质量。
+        """
+        spec = spec_for(difficulty)
+        target = self._rng.choice(LETTERS)
+        base = [{"role": "system", "content": QUESTION_SYSTEM},
+                {"role": "system", "content": "资料：\n\n" + ctx.render()}]
+        ask = render_spec_prompt(spec, target)
+        # 高档题干长、带四条错项陷阱说明与逐项讲解，token 不够会截断成坏 JSON
+        max_tokens = 1200 + 260 * int(spec.level[1])
+        best: dict | None = None
+        best_issues: list[str] = []
+        attempts = 0
+        for attempt in range(2):
+            attempts += 1
+            msgs = base + [{"role": "user", "content": ask}]
+            if attempt and best is not None:
+                msgs.append({"role": "assistant", "content": json.dumps(best, ensure_ascii=False)})
+                msgs.append({"role": "user", "content": "上一稿不符合难度规格：\n- " + "\n- ".join(best_issues)
+                             + "\n请按全部参数重新出一道完整的题，只输出 JSON。"})
+            try:
+                q = self._require_llm().chat_json(msgs, temperature=0.5, max_tokens=max_tokens)
+            except Exception:
+                # 单次返回坏 JSON（多为截断）计作一次失败重出；两次都失败且没有可用稿才向上抛
+                if attempt == 1 and best is None:
+                    raise
+                continue
+            if not isinstance(q, dict):
+                q = {}
+            # 模型偶尔漏写 type 或写成「单选」「single」：有题干 + 4 个选项就是单选题，服务端统一，不为格式字段重出
+            if q.get("type") != "choice" and q.get("stem") and len(q.get("options") or []) == 4:
+                q["type"] = "choice"
+            issues = validate_question(q, spec)
+            if best is None or len(issues) < len(best_issues):
+                best, best_issues = q, issues
+            if not issues:
+                break
+        q = place_answer(dict(best or {}), target)
+        q["quality"] = {"spec": spec.level, "passed": not best_issues,
+                        "issues": best_issues, "attempts": attempts}
+        return q
 
     def submit_answer(self, user_id: str, sp: str, question: dict, answer: str) -> dict:
         """判分**只信服务端**：按 question_id 取回出题时落库的题卡，客户端传的一律忽略。
