@@ -205,6 +205,11 @@ function goto(o: any, tabName: string) {
 }
 
 onMounted(loadOrders)
+// 抢单发生在同一页面的「消息」标签里：切回「订单」或带 ?grabbed= 回来时必须重新拉列表，
+// 否则刚抢到的单要手动刷新才出现（实战中心合并三个标签后引入的问题）。
+watch([pane, () => route.query.grabbed], ([p], [prevP]) => {
+  if (p === 'orders' && (prevP !== 'orders' || route.query.grabbed)) loadOrders()
+})
 </script>
 
 <style scoped lang="scss">

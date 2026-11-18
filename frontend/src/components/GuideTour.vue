@@ -115,6 +115,8 @@ const STEPS: Step[] = [
   { stage: '文件', target: 'folder', advance: 'click',
     text: '需求确认单、行程方案、报价单等文件都在「文件夹」里填写，填好后直接投递给客户。' },
   { stage: '文件', target: 'doc-picker', advance: 'next',
+    // 还没通过首呼添加客户时，需求确认单不可填，系统会先跳到聊天页：此时改为解释这条规则
+    alt: { target: 'im-root', text: '需求确认单要先通过首呼拿到客户联系方式、在聊天里添加客户后才能填写，所以系统先带你来到了聊天页。打完首呼、加上客户后，再回文件夹填写即可。' },
     text: '在这里切换要填写的文件。左侧表单填写，下方可以预览客户收到的样子，最后点「提交并投递」。' },
   { stage: '文件', target: 'topbar-back', advance: 'click', text: '点左上角回到订单。' },
   { stage: '下一步', target: 'progress-fab', advance: 'click',
@@ -204,8 +206,9 @@ const hole = computed(() => {
   const r = rect.value
   if (!r) return { top: 0, left: 0, right: 0, bottom: 0, w: 0, h: 0 }
   const vw = window.innerWidth
-  const left = Math.max(4, r.left - PAD), right = Math.min(vw - 4, r.right + PAD)
-  const top = Math.max(0, r.top - PAD), bottom = r.bottom + PAD
+  // 取整：四块遮罩在小数像素处拼接会露出细缝
+  const left = Math.floor(Math.max(4, r.left - PAD)), right = Math.ceil(Math.min(vw - 4, r.right + PAD))
+  const top = Math.floor(Math.max(0, r.top - PAD)), bottom = Math.ceil(r.bottom + PAD)
   return { top, left, right, bottom, w: right - left, h: bottom - top }
 })
 

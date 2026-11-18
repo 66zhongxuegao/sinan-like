@@ -1,5 +1,5 @@
 <template>
-  <div class="im" :class="{ wide: infoOpen }">
+  <div class="im" data-tour="im-root" :class="{ wide: infoOpen }">
     <!-- 左：会话与联系人 -->
     <aside class="col side card" :class="{ 'mobile-open': mobileSideOpen }">
       <div class="side-head">
