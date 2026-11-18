@@ -56,3 +56,7 @@ output/steps13-*/
 
 # Local dependency download cache
 .deploy-cache/
+
+# 独立产品演示页媒体（需要随仓库发布）
+!frontend/public/demo/media/
+!frontend/public/demo/media/*.mp4
