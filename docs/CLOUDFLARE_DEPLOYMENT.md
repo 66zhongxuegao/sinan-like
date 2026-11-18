@@ -43,3 +43,14 @@ Invoke-WebRequest https://sinanlike.com/api/docs -TimeoutSec 30
 ## Operational note
 
 The current deployment uses this computer as the origin. The site remains online while this computer is powered on and both the local Web services and `cloudflared` are running.
+
+## Recommended: serve the production build (faster on phones)
+
+Pointing the tunnel at the Vite dev server (25190) ships unbundled, uncompressed modules through the tunnel on every visit. Measured with an emulated 250 ms RTT / 5 Mbps link: first usable screen 4.8 s on the dev server vs 2.2 s (1.2 s on repeat visits) on the production build.
+
+```powershell
+cd D:\司南礼客项目
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\serve_public.ps1   # build + vite preview on 25180
+```
+
+Then change both `service:` lines in `C:\Users\21559\.cloudflared\sinan-like.yml` from `http://127.0.0.1:25190` to `http://127.0.0.1:25180` and restart `cloudflared`. Re-run the script after each frontend change. Local development keeps using 25190 with hot reload.

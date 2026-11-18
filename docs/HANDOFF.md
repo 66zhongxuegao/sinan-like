@@ -434,11 +434,13 @@ POST /profiles/{user_id}/refresh
 
 当前难度控制事实：
 
-- 题目由 AI 动态生成，不是固定题库抽题
+- 题目由 AI 动态生成，不是固定题库抽题；一律为**情景单选题**
 - `M1→L1`、`M2→L2`、`M3→L3`、`M4→L4`、`M5→L5`
-- 难度主要是 Prompt 中的定性描述
-- 后端覆盖模型返回的 difficulty，但尚未自动校验题目实际复杂度
-- 已知契约不一致：`DifficultyLevel` 枚举当前只定义 L1-L4，而教学题使用 L1-L5
+- 每档难度由 `tripcraft/contracts/quiz_difficulty.py` 的 `QUIZ_DIFFICULTY` 规定：题干字数、干扰条件数、关键约束数、选项长度比与选项近似度要求（L1 约 60–130 字/0 干扰/选项长度比 1.8 → L5 约 260–400 字/4 干扰/1.25）
+- 出题后 `validate_question` 做确定性校验（题干长度、干扰条件是否写进题干、选项长短、正确项是否「独长」、`answer_basis` 唯一依据、内部评分词）；不合格带具体问题清单重出一次，取问题更少的一稿
+- 正确答案位置由服务端随机指定（`ThreadService(rng=...)` 可注入），`place_answer` 兜底换位并同步改写讲解里的字母引用
+- 题卡里的 `design`（干扰条件清单、错项陷阱、答案依据）与 `quality`（校验记录）只存服务端，下发前剥离
+- 订单任务的 `contracts.enums.DifficultyLevel`（PRD 四档 L1–L4）与教学题 L1–L5 是两套口径，互不引用
 
 ## 8.3 派单、抢单与订单
 
@@ -1360,8 +1362,8 @@ frontend/src/assets/app.ico
 - [ ] Cloudflare 源站使用 Vite 开发入口，不是长期生产级 Web Server
 - [ ] `local.env` 不进入 Git，换机必须手动恢复
 - [ ] 启动脚本包含本机 Python/Node 绝对路径
-- [ ] 题目难度主要靠 Prompt 控制，缺少结构化 DifficultySpec 与出题校验器
-- [ ] `DifficultyLevel` 只定义 L1-L4，但教学题已使用 L1-L5
+- [x] 教学题结构化难度规格与出题校验器（`contracts/quiz_difficulty.py`）
+- [ ] 出题校验是确定性规则，无法判断「答案在业务上是否真的唯一正确」，高档题仍建议人工抽查服务端 `quality` / `design` 留档
 - [ ] 小部分旧路由/旧页面仍在目录中但不在当前主路由
 - [ ] `PracticeService`、`SupplierService`、`DeliverableWorkbenchView`、`ImView` 等文件较大
 - [ ] 前端主包存在 >1MB 大 chunk
@@ -1448,6 +1450,31 @@ http://127.0.0.1:25190/api/docs
 ---
 
 ## 19. 变更记录
+
+### 2026-11-18（教学出题难度分档）
+
+- 新增 `tripcraft/contracts/quiz_difficulty.py`：L1–L5 难度规格 + 出题校验 + 答案换位
+- `ThreadService.pick_question` 改为「按规格出题 → 校验 → 带问题清单重出一次」，出题 Prompt 改为情景单选、防「三短一长」、要求 `answer_basis`
+- 测试：原「答案固定是 B」的两个用例改为从服务端题库读正确答案；新增 9 个难度规格用例
+
+### 2026-11-18（配色色阶 + 性能）
+
+- 配色：`tokens.scss` 新增深蓝色阶 `$blue-50 … $blue-900`（同色相 ≈208°），把换主题时遗留的低饱和灰蓝（#6e8ca4、#4f7897、#356b93 等）统一映射到色阶；按钮渐变改为 `$color-primary-mid → $color-primary`，不再「深→更深」发黑；去掉橙→深蓝、深蓝→粉的跨色相渐变；禁用按钮改用浅蓝底而不是 opacity 发灰
+- 性能：移除未使用的 Element Plus 全量注册（主包 1150KB → 206KB）；ECharts 改按需引入（画像页 1058KB → 505KB）；路由空闲预取；相同 GET 并发合并（`api/client.ts`）；订单详情方案列表与订单详情并行加载
+- 手机端：订单列表进度条的 hover 提示只在有鼠标的设备启用（iOS 上曾导致需要点两次）
+- 新增 `scripts/serve_public.ps1`：构建并以 `vite preview` 在 25180 托管生产版本，/assets/ 带 immutable 缓存头。公网切换到该端口需修改 `~/.cloudflared/sinan-like.yml` 并重启 cloudflared（见 `docs/CLOUDFLARE_DEPLOYMENT.md`）
+
+### 2026-11-18（移动端体验优化）
+
+- 顶栏改为单行 54px：一级页（首页/学习/实战/我的）显示品牌图标，二级页显示返回键（`App.vue` `goBack`，无站内历史时按层级回父页）
+- 二级页隐藏底部 Tab，整屏留给内容；页面内重复的「返回订单」按钮在手机端隐藏
+- 流程进度浮球在手机端 Teleport 进顶栏（`#tc-topbar-dock`），缩成 40px 进度环，不再遮挡输入框
+- 新增 `composables/useIsMobile.ts`（断点 900px）与 CSS 变量 `--tc-page-h`（一屏可用高度）、`--im-offset`
+- 聊天：手机端先看会话列表，点进会话再聊；输入区改为 [语音][+][输入框][发送] 单行
+- 通话 / AI 教师对话：锁定一屏，输入框单行贴底
+- 订单详情键值行改为左标签右值；成本结算 KPI 2×2；学情画像维度明细不再竖排折行；评分复盘按钮缩小
+- 创建方案：操作按钮固定在屏幕底部
+- 注意：`position: fixed` 元素的祖先不能有 `transform`/`backdrop-filter`/保留 transform 的动画（fill-mode both），否则会被困在容器里
 
 ### 2026-11-17
 
