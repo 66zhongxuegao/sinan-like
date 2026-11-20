@@ -4,16 +4,36 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { marked } from 'marked'
+import { Marked } from 'marked'
 import DOMPurify from 'dompurify'
 
 const props = withDefaults(defineProps<{ text?: string }>(), { text: '' })
 
+/**
+ * 讲义里的 ```svg 代码块渲染成真正的矢量图（视觉型学员的讲义靠它传达核心内容）。
+ * 安全：SVG 来自模型输出，一律过 DOMPurify 的 SVG 白名单，并额外禁掉 style / script / foreignObject /
+ * use / image / a / 动画 以及所有 href 与事件属性；消毒后不是合法 <svg> 的，原样显示为代码块，不会静默吞掉。
+ */
+const SVG_CFG = {
+  USE_PROFILES: { svg: true },
+  FORBID_TAGS: ['style', 'script', 'foreignObject', 'use', 'image', 'a', 'animate', 'set', 'animateTransform'],
+  FORBID_ATTR: ['style', 'href', 'xlink:href'],
+}
+const md = new Marked({ gfm: true, breaks: true, pedantic: false })
+md.use({
+  renderer: {
+    code(token: { text: string; lang?: string }) {
+      if (String(token.lang || '').trim().toLowerCase() !== 'svg') return false
+      const clean = String(DOMPurify.sanitize(token.text, SVG_CFG)).trim()
+      if (!/^<svg[\s>]/i.test(clean)) return false
+      return `<figure class="md-svg">${clean}</figure>`
+    },
+  },
+})
+
 const html = computed(() => {
   // GFM（表格 / 删除线 / 任务列表）+ breaks：交付物里大量单换行，不开启会挤成一段
-  const raw = marked.parse(props.text || '', {
-    async: false, gfm: true, breaks: true, pedantic: false,
-  }) as string
+  const raw = md.parse(props.text || '', { async: false }) as string
   // 宽表格（逐日行程有 7-8 列）单独包一层，横向滚动而不是把列挤到换行
   const wrapped = raw
     .replace(/<table>/g, '<div class="md-table"><table>')
@@ -85,6 +105,11 @@ const html = computed(() => {
 
   hr { border: none; border-top: 1px solid $color-border; margin: 16px 0; }
   img { max-width: 100%; border-radius: 8px; }
+
+  /* 讲义里的 SVG 示意图：随容器宽度缩放，浅底卡片承托 */
+  .md-svg { margin: 14px 0; padding: 12px; border: 1px solid $color-border; border-radius: 12px; background: $color-primary-softer; }
+  .md-svg svg { display: block; width: 100%; max-width: 640px; height: auto; margin: 0 auto; }
+  .md-svg text { font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif; }
 
   .refs { margin-top: 16px; padding-top: 10px; border-top: 1px dashed $color-border-strong; font-size: 15.5px; color: $color-text-muted; }
 }

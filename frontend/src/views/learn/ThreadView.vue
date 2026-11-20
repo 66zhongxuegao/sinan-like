@@ -29,15 +29,7 @@
                 <div v-if="m.role === 'ai'" class="ai-acts">
                   <button class="trace-toggle" @click="openTranslate(m)"><SIcon name="link" :size="11" /> 翻译</button>
                 </div>
-                <div v-if="m.role === 'ai' && m.evidence?.length" class="trace">
-                  <button class="trace-toggle" @click="m.open = !m.open">
-                    <SIcon name="link" :size="11" /> {{ m.open ? '收起溯源' : '展开溯源' }}
-                  </button>
-                  <div v-if="m.open" class="trace-body">
-                    <div class="trace-hd">本次回复用到的来源</div>
-                    <div v-for="e in m.evidence" :key="e" class="trace-item"><span class="c-n"><SIcon name="link" :size="10" /></span>{{ e }}</div>
-                  </div>
-                </div>
+                <EvidencePanel v-if="m.role === 'ai' && m.evidence?.length" :items="m.evidence" />
               </div>
             </div>
 
@@ -155,7 +147,10 @@
             <button class="tc-btn ghost mini" @click="preview = null">关闭</button>
           </div>
         </div>
-        <div class="m-body"><MarkdownView :text="preview.content" /></div>
+        <div class="m-body">
+          <MarkdownView :text="preview.content" />
+          <EvidencePanel v-if="preview.evidence?.length" :items="preview.evidence" />
+        </div>
       </div>
     </div>
 
@@ -254,6 +249,7 @@ import client from '@/api/client'
 import { useUserStore } from '@/stores/user'
 import SIcon from '@/components/SIcon.vue'
 import MarkdownView from '@/components/MarkdownView.vue'
+import EvidencePanel from '@/components/EvidencePanel.vue'
 import { reactive } from 'vue'
 import yunBg from '@/assets/deco/yun-blue.png'
 
@@ -300,7 +296,7 @@ const assets = ref<any[]>([])
 const mastery = ref({ teach: 0, real: 0 })
 const q = ref('')
 const busy = ref(false)
-const preview = ref<{ title: string; content: string } | null>(null)
+const preview = ref<{ title: string; content: string; evidence?: any[] } | null>(null)
 
 const agents = ref<{ id: string; name: string; icon?: string; status: 'pending' | 'working' | 'done'; hat?: boolean }[]>([])
 const agentsOn = ref(false)
@@ -561,7 +557,7 @@ async function submitQuiz(m: any) {
   finally { busy.value = false }
 }
 
-function openAsset(a: any) { preview.value = { title: a.title, content: a.content } }
+function openAsset(a: any) { preview.value = { title: a.title, content: a.content, evidence: a.evidence || [] } }
 // R05：学员界面不提供 Markdown 导出；预览/复制等现有能力保留，内部渲染流程不变。
 </script>
 

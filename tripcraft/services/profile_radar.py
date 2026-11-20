@@ -47,7 +47,8 @@ def build_radar(user_id: str, abilities: dict, baseline: dict,
     # 初始测评就是学习能力的起点：没有后续学习记录时，学习层沿用初始画像，
     # 与学习地图读取 teach/baseline 的口径保持一致。
     has_initial = bool(baseline) or bool(initial_report)
-    has_learning = has_initial or any(row.get("teach_source") == "learning" for row in abilities.values())
+    has_learning_updates = any(row.get("teach_source") == "learning" for row in abilities.values())
+    has_learning = has_initial or has_learning_updates
     has_practice = bool(practice_completed_at) or any(row.get("real_source") == "practice" for row in abilities.values())
 
     def dimension(dim, values, total):
@@ -89,7 +90,9 @@ def build_radar(user_id: str, abilities: dict, baseline: dict,
         current.append(training_dimension(dim, current_values, len(points), base_value, True))
 
     initial_at = initial_at or str(initial_report.get("created_at") or "")
-    if has_initial and not learning_at:
+    # 只有初始测评、尚无后续学习记录时，学习层就是初始快照本身。
+    # 不能在能力表的整点时间与基线时间之间保留秒级漂移。
+    if has_initial and not has_learning_updates:
         learning_at = initial_at
     practice_at = max(practice_at, practice_completed_at)
     delta = [{"id": i["id"], "name": i["name"],

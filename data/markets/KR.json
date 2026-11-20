@@ -1,0 +1,112 @@
+{
+ "code": "KR",
+ "country": "韩国",
+ "region": "东亚",
+ "service_language": "韩语",
+ "lang_short": "韩语",
+ "language": {
+  "intro": "主要服务语言：韩语。",
+  "phrases": [
+   {
+    "scene": "欢迎问候",
+    "zh": "欢迎来到中国，我是您的定制师。",
+    "text": "중국에 오신 것을 환영합니다. 담당 플래너입니다.",
+    "read": "Jungguge osin geoseul hwanyeonghamnida. Damdang peullaeneoimnida."
+   },
+   {
+    "scene": "表示感谢",
+    "zh": "谢谢您的耐心。",
+    "text": "감사합니다.",
+    "read": "Gamsahamnida."
+   },
+   {
+    "scene": "确认预算口径",
+    "zh": "请问这个预算是每人的，还是整个团的总价？",
+    "text": "예산은 1인당인가요, 전체인가요?",
+    "read": "Yesaneun irindang-ingayo, jeoncheingayo?"
+   },
+   {
+    "scene": "询问饮食禁忌",
+    "zh": "请问有饮食禁忌或过敏吗？",
+    "text": "못 드시는 음식이나 알레르기가 있으신가요?",
+    "read": "Mot deusineun eumsigina allereugiga isseusingayo?"
+   },
+   {
+    "scene": "致歉",
+    "zh": "抱歉给您添麻烦了。",
+    "text": "불편을 드려 죄송합니다.",
+    "read": "Bulpyeoneul deuryeo joesonghamnida."
+   },
+   {
+    "scene": "请对方稍等",
+    "zh": "请稍等，我马上确认。",
+    "text": "잠시만 기다려 주세요. 확인해 드리겠습니다.",
+    "read": "Jamsiman gidaryeo juseyo. Hwaginhae deurigetseumnida."
+   }
+  ]
+ },
+ "culture": [
+  {
+   "title": "长幼有序与敬语",
+   "body": "称呼与座次以年龄、职位为序，介绍和敬酒先长辈；对年长客人使用敬语，更容易建立信任。"
+  },
+  {
+   "title": "重视体验与拍照出片",
+   "body": "对环境氛围和拍照点要求较高，行程中安排两三个适合出片的点位更受欢迎。"
+  }
+ ],
+ "policy": [
+  {
+   "title": "入境中国：免签与过境免签（需核验）",
+   "body": "我国近年对多个国家实施单方面免签或互免签证，并实行 144/240 小时过境免签。各国适用名单、可停留天数和有效期会不时调整，做方案前必须到国家移民管理局官网核对该国公民当前适用的政策，不要凭记忆向客人承诺。过境免签要求联程机票（出发国→中国→第三国或地区），往返同一国家不适用。",
+   "verify": true,
+   "sources": [
+    "nia",
+    "mfa"
+   ]
+  },
+  {
+   "title": "通讯与支付：行前提醒（需核验）",
+   "body": "部分海外常用的搜索、地图、社交应用在境内可能无法正常使用，建议客人行前准备可用的翻译与地图工具、eSIM 或漫游方案；境外银行卡可绑定支付宝、微信支付后使用，但部分场所仍以现金或银联为主，具体以平台最新规则为准。",
+   "verify": true,
+   "sources": []
+  }
+ ],
+ "customs": [
+  {
+   "title": "餐桌礼仪",
+   "body": "长辈先动筷，晚辈再动；韩餐偏辣，也有不吃辣的客人，点餐前要确认。"
+  },
+  {
+   "title": "酒文化",
+   "body": "聚餐常有敬酒环节，倒酒与接酒用双手；若客人不饮酒，要提前问清，不要劝酒。"
+  }
+ ],
+ "sources": [
+  {
+   "id": "nia",
+   "title": "国家移民管理局（入出境政策）",
+   "url": "https://www.nia.gov.cn/"
+  },
+  {
+   "id": "mfa",
+   "title": "外交部领事服务网（签证与领事信息）",
+   "url": "https://cs.mfa.gov.cn/"
+  },
+  {
+   "id": "mct",
+   "title": "文化和旅游部（入境旅游）",
+   "url": "https://www.mct.gov.cn/"
+  },
+  {
+   "id": "fmprc",
+   "title": "外交部 · 国家和地区（国别概况）",
+   "url": "https://www.fmprc.gov.cn/web/gjhdq_676201/"
+  },
+  {
+   "id": "tourism",
+   "title": "韩国官方旅游推广机构：韩国观光公社",
+   "url": "https://english.visitkorea.or.kr/"
+  }
+ ]
+}

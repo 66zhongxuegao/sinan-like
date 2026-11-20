@@ -1,0 +1,112 @@
+{
+ "code": "ID",
+ "country": "印度尼西亚",
+ "region": "东南亚",
+ "service_language": "印尼语",
+ "lang_short": "印尼语",
+ "language": {
+  "intro": "主要服务语言：印尼语。",
+  "phrases": [
+   {
+    "scene": "欢迎问候",
+    "zh": "欢迎来到中国，我是您的定制师。",
+    "text": "Selamat datang di Tiongkok. Saya perencana perjalanan Anda.",
+    "read": ""
+   },
+   {
+    "scene": "表示感谢",
+    "zh": "谢谢您的耐心。",
+    "text": "Terima kasih atas kesabaran Anda.",
+    "read": ""
+   },
+   {
+    "scene": "确认预算口径",
+    "zh": "请问这个预算是每人的，还是整个团的总价？",
+    "text": "Apakah anggaran ini per orang atau untuk seluruh rombongan?",
+    "read": ""
+   },
+   {
+    "scene": "询问饮食禁忌",
+    "zh": "请问有饮食禁忌或过敏吗？",
+    "text": "Apakah Anda punya pantangan makanan atau alergi?",
+    "read": ""
+   },
+   {
+    "scene": "致歉",
+    "zh": "抱歉给您添麻烦了。",
+    "text": "Mohon maaf atas ketidaknyamanannya.",
+    "read": ""
+   },
+   {
+    "scene": "请对方稍等",
+    "zh": "请稍等，我马上确认。",
+    "text": "Mohon tunggu sebentar, saya akan memastikannya.",
+    "read": ""
+   }
+  ]
+ },
+ "culture": [
+  {
+   "title": "穆斯林为主的社会",
+   "body": "每日五次礼拜，斋月作息会变化；行程避开礼拜时间并为客人预留祈祷空间。"
+  },
+  {
+   "title": "重视和谐与礼貌",
+   "body": "说话温和，不爱直接说「不」；要多确认，不要把沉默当作同意。"
+  }
+ ],
+ "policy": [
+  {
+   "title": "入境中国：免签与过境免签（需核验）",
+   "body": "我国近年对多个国家实施单方面免签或互免签证，并实行 144/240 小时过境免签。各国适用名单、可停留天数和有效期会不时调整，做方案前必须到国家移民管理局官网核对该国公民当前适用的政策，不要凭记忆向客人承诺。过境免签要求联程机票（出发国→中国→第三国或地区），往返同一国家不适用。",
+   "verify": true,
+   "sources": [
+    "nia",
+    "mfa"
+   ]
+  },
+  {
+   "title": "通讯与支付：行前提醒（需核验）",
+   "body": "部分海外常用的搜索、地图、社交应用在境内可能无法正常使用，建议客人行前准备可用的翻译与地图工具、eSIM 或漫游方案；境外银行卡可绑定支付宝、微信支付后使用，但部分场所仍以现金或银联为主，具体以平台最新规则为准。",
+   "verify": true,
+   "sources": []
+  }
+ ],
+ "customs": [
+  {
+   "title": "清真饮食",
+   "body": "不食猪肉与酒类，要求清真（Halal）餐饮；巴厘岛客人则可能是印度教徒，不吃牛肉。"
+  },
+  {
+   "title": "手与头的礼仪",
+   "body": "用右手递物与进食，左手被视为不洁；不要触碰他人头部。"
+  }
+ ],
+ "sources": [
+  {
+   "id": "nia",
+   "title": "国家移民管理局（入出境政策）",
+   "url": "https://www.nia.gov.cn/"
+  },
+  {
+   "id": "mfa",
+   "title": "外交部领事服务网（签证与领事信息）",
+   "url": "https://cs.mfa.gov.cn/"
+  },
+  {
+   "id": "mct",
+   "title": "文化和旅游部（入境旅游）",
+   "url": "https://www.mct.gov.cn/"
+  },
+  {
+   "id": "fmprc",
+   "title": "外交部 · 国家和地区（国别概况）",
+   "url": "https://www.fmprc.gov.cn/web/gjhdq_676201/"
+  },
+  {
+   "id": "tourism",
+   "title": "印度尼西亚官方旅游推广机构：印度尼西亚旅游部",
+   "url": "https://www.indonesia.travel/"
+  }
+ ]
+}

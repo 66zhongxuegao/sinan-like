@@ -17,8 +17,8 @@
       <!-- 顶部进度 -->
       <section class="card panel head">
         <div class="head-left">
-          <div class="head-title">初始画像测评</div>
-          <div class="head-sub">账号 {{ userStore.username }} · {{ phase === 'quiz' ? `第 ${idx + 1} / ${total} 题` : '系统据此确定你的起始水平' }}</div>
+          <div class="head-title">{{ personalOnly ? '个性化测评' : '初始画像测评' }}</div>
+          <div class="head-sub">账号 {{ userStore.username }} · {{ phase === 'quiz' ? `${partName} · 第 ${idx + 1} / ${total} 题` : '系统据此确定你的起始水平' }}</div>
         </div>
         <div class="head-bar"><i :style="{ width: progress + '%' }" /></div>
         <div class="head-pct">{{ Math.round(progress) }}%</div>
@@ -30,7 +30,35 @@
           <div :key="cur.id" class="qbody">
             <div class="q-dim"><i class="q-dot" />{{ cur.dim_name }}</div>
             <div class="q-title">{{ cur.title }}</div>
-            <div class="opts">
+
+            <!-- 目标客源国：选一个，之后的语言题按该国语言出 -->
+            <div v-if="cur.part === 'market'" class="mk-grid">
+              <button v-for="m in cur.markets" :key="m.code" class="mk-chip" :class="{ on: answers[cur.id] === m.code }"
+                @click="choose(m.code)">
+                <b>{{ m.country }}</b><span>{{ m.service_language }}</span>
+              </button>
+              <button class="mk-chip none" :class="{ on: answers[cur.id] === 'NONE' }" @click="choose('NONE')">
+                <b>暂不确定</b><span>先不定制客源国</span>
+              </button>
+            </div>
+
+            <!-- 背景：选一个状态 + 选填一句话（需要点「下一题」，不自动跳） -->
+            <template v-else-if="cur.part === 'background'">
+              <div class="opts">
+                <button v-for="(o, i) in cur.options" :key="o.key" class="opt"
+                  :class="{ on: answers[cur.id] === o.key }" @click="chooseHold(o.key)">
+                  <span class="opt-key">{{ 'ABCD'[i] }}</span>
+                  <span class="opt-label">{{ o.label }}</span>
+                  <span class="opt-check"><SIcon name="check" :size="14" /></span>
+                </button>
+              </div>
+              <label class="bg-note">
+                <span>{{ cur.text_label }}</span>
+                <input v-model.trim="bgNote" type="text" maxlength="40" :placeholder="cur.text_placeholder" />
+              </label>
+            </template>
+
+            <div v-else class="opts">
               <button v-for="(o, i) in cur.options" :key="o.key" class="opt"
                 :class="{ on: answers[cur.id] === o.key }" :style="{ animationDelay: (0.04 * i) + 's' }"
                 @click="choose(o.key)">
@@ -47,7 +75,7 @@
             <i v-for="(q, i) in questions" :key="q.id" :class="{ done: answered(q.id), cur: i === idx }" />
           </div>
           <button class="tc-btn" :disabled="!answers[cur.id]" @click="next">
-            {{ idx === total - 1 ? '提交并生成画像' : '下一题' }} <SIcon name="right" :size="14" />
+            {{ idx === total - 1 ? (personalOnly ? '保存画像' : '提交并生成画像') : '下一题' }} <SIcon name="right" :size="14" />
           </button>
         </div>
       </section>
@@ -205,6 +233,8 @@
           </div>
         </section>
 
+        <LearnerProfileCard v-if="userStore.userId" :user-id="userStore.userId" :refresh-key="learnerKey" />
+
         <LearningRouteLauncher />
 
         <div class="result-foot">
@@ -220,13 +250,15 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import SIcon from '@/components/SIcon.vue'
 import LearningRouteLauncher from '@/components/LearningRouteLauncher.vue'
+import LearnerProfileCard from '@/components/LearnerProfileCard.vue'
 import client from '@/api/client'
 import { useUserStore } from '@/stores/user'
 
 const router = useRouter()
+const route = useRoute()
 const userStore = useUserStore()
 
 const blocked = ref(false)
@@ -241,13 +273,45 @@ const error = ref('')
 const anIdx = ref(0)
 let anTimer = 0
 
-const total = computed(() => questions.value.length || 12)
-const cur = computed(() => questions.value[idx.value] || { id: '', dim_name: '', title: '', options: [] })
-const answeredCount = computed(() => questions.value.filter((q) => answers.value[q.id]).length)
+/* ── 测评步骤：①学习风格(4) + 背景(1) → ②目标客源国(1) + 语言水平(3) → ③八维掌握度(12) ──
+   ?part=personal 时只做前两部分（已测过八维的老账号补做个性化画像），保存走 PUT /profiles/{id}/learner */
+const personal = ref<any>({ style_questions: [], background_question: null, markets: [], language_questions: [] })
+const personalOnly = computed(() => route.query.part === 'personal')
+const bgNote = ref('')
+
+interface Step { id: string; part: string; dim_name: string; title: string; options: any[]; [k: string]: any }
+const marketCode = computed(() => answers.value.MK && answers.value.MK !== 'NONE' ? answers.value.MK : '')
+const marketInfo = computed(() => (personal.value.markets || []).find((m: any) => m.code === marketCode.value))
+const steps = computed<Step[]>(() => {
+  const out: Step[] = []
+  for (const q of personal.value.style_questions || []) out.push(q)
+  if (personal.value.background_question) out.push(personal.value.background_question)
+  if ((personal.value.markets || []).length) {
+    out.push({ id: 'MK', part: 'market', dim_name: '目标客源国', options: [], markets: personal.value.markets,
+               title: '你主要想接待哪个国家的客人？（讲义会加入该国的语言提示、文化提示和政策提示）' })
+  }
+  if (marketInfo.value) {
+    for (const q of personal.value.language_questions || []) {
+      out.push({ ...q, dim_name: `${marketInfo.value.country}客人 · ${marketInfo.value.service_language}水平（${q.skill_name}）`,
+                 title: String(q.title).split('{lang}').join(marketInfo.value.lang_short || marketInfo.value.service_language) })
+    }
+  }
+  if (!personalOnly.value) for (const q of questions.value) out.push({ ...q, part: 'ability' })
+  return out
+})
+const PART_NAMES: Record<string, string> = {
+  style: '第 1 部分 · 学习风格', background: '第 1 部分 · 学习风格', market: '第 2 部分 · 目标客源国',
+  language: '第 2 部分 · 目标客源国', ability: '第 3 部分 · 八维能力',
+}
+const total = computed(() => steps.value.length || 12)
+const cur = computed<Step>(() => steps.value[idx.value] || { id: '', part: '', dim_name: '', title: '', options: [] })
+const partName = computed(() => PART_NAMES[cur.value.part] || '')
+const answeredCount = computed(() => steps.value.filter((q) => answers.value[q.id]).length)
 const progress = computed(() => (phase.value === 'quiz' ? (answeredCount.value / total.value) * 100 : 100))
 function answered(id: string) { return !!answers.value[id] }
+const learnerKey = ref(0)
 
-const analyzeSteps = ['读取你的测评选择', '对齐你的能力起点', '生成定性描述与学习建议', '保存初始画像']
+const analyzeSteps = ['读取你的测评选择', '记录学习风格与目标客源国', '对齐你的能力起点', '生成定性描述与学习建议', '保存初始画像']
 const C52 = 2 * Math.PI * 52
 const animOverall = ref(0)
 const radarOn = ref(false)
@@ -371,11 +435,13 @@ async function load() {
   blocked.value = false
   try {
     const gate = await client.get(`/profiles/${userStore.userId}/intake`)
-    if (!gate.data.can_assess) { blocked.value = true; return }
+    // 补做个性化画像不受「已完成初始测评」限制
+    if (!gate.data.can_assess && !personalOnly.value) { blocked.value = true; return }
     const r = await client.get('/profile/quiz')
     questions.value = r.data.questions || []
+    personal.value = r.data.personal || personal.value
     if (!questions.value.length) throw new Error('测评题目暂时为空')
-    await Promise.all([loadRadar(), loadTrend()])
+    if (!personalOnly.value) await Promise.all([loadRadar(), loadTrend()])
   } catch {
     loadError.value = '测评状态或题目暂时无法读取，请重新加载。'
   } finally {
@@ -384,11 +450,20 @@ async function load() {
 }
 
 function choose(key: string) {
-  answers.value = { ...answers.value, [cur.value.id]: key }
+  const id = cur.value.id
+  answers.value = { ...answers.value, [id]: key }
+  // 换了客源国：之前答的语言题是按旧语种答的，作废重答
+  if (id === 'MK') {
+    const rest = { ...answers.value }
+    for (const q of personal.value.language_questions || []) delete rest[q.id]
+    answers.value = rest
+  }
   if (idx.value < total.value - 1) {
-    window.setTimeout(() => { if (answers.value[cur.value.id] === key) next() }, 280)
+    window.setTimeout(() => { if (answers.value[id] === key) next() }, 280)
   }
 }
+/** 背景题要留时间填「专业/原行业」，选完不自动跳 */
+function chooseHold(key: string) { answers.value = { ...answers.value, [cur.value.id]: key } }
 function next() {
   if (!answers.value[cur.value.id]) return
   if (idx.value < total.value - 1) { idx.value += 1; return }
@@ -396,11 +471,35 @@ function next() {
 }
 function prev() { if (idx.value > 0) idx.value -= 1 }
 
+/** 个性化部分的答案，格式同后端 LearnerBody */
+function personalPayload() {
+  const pick = (ids: string[]) => Object.fromEntries(ids.filter((i) => answers.value[i]).map((i) => [i, answers.value[i]]))
+  return {
+    style: pick((personal.value.style_questions || []).map((q: any) => q.id)),
+    background: { status: answers.value.BG1 || '', note: bgNote.value },
+    market: marketCode.value,
+    language: marketCode.value ? pick((personal.value.language_questions || []).map((q: any) => q.id)) : {},
+  }
+}
+
 async function submit() {
+  if (personalOnly.value) {          // 只补做个性化画像：保存后回到画像页
+    phase.value = 'analyzing'
+    anIdx.value = 0
+    try {
+      await client.put(`/profiles/${userStore.userId}/learner`, personalPayload())
+      learnerKey.value += 1
+      await router.replace('/profile')
+    } catch (e: any) {
+      phase.value = 'quiz'
+      error.value = e?.response?.data?.detail || '保存失败，请重试。'
+    }
+    return
+  }
   phase.value = 'analyzing'
   anIdx.value = 0
   anTimer = window.setInterval(() => { anIdx.value = Math.min(analyzeSteps.length - 1, anIdx.value + 1) }, 900)
-  const payload = { user_id: userStore.userId, language: '中文',
+  const payload = { user_id: userStore.userId, language: '中文', personal: personalPayload(),
     answers: questions.value.map((q) => ({ qid: q.id, key: answers.value[q.id] })) }
   try {
     const r = await client.post('/profile/assessment', payload)
@@ -616,6 +715,19 @@ onUnmounted(() => { if (anTimer) clearInterval(anTimer) })
 .sug-go:hover { background: $color-primary; border-color: $color-primary; color: #fff; }
 .sug-go svg { transition: transform .18s ease; }
 .sug-go:hover svg { transform: translateX(3px); }
+
+.mk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 9px; margin-top: 4px; }
+.mk-chip { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 11px 12px; border-radius: 12px;
+  border: 1px solid $color-border; background: #fff; cursor: pointer; text-align: left; font: inherit; -webkit-tap-highlight-color: transparent;
+  transition: border-color .15s, background .15s, box-shadow .15s; }
+.mk-chip b { font-size: 16px; color: $color-text; }
+.mk-chip span { font-size: 12.5px; color: $color-text-muted; }
+.mk-chip:hover { border-color: $color-primary-light; }
+.mk-chip.on { border-color: $color-primary; background: $color-primary-soft; box-shadow: 0 0 0 3px rgba(19,52,80,.10); }
+.mk-chip.none { border-style: dashed; }
+.bg-note { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; font-size: 14.5px; color: $color-text-secondary; }
+.bg-note input { height: 46px; border: 1px solid $color-border-strong; border-radius: 12px; padding: 0 14px; font: inherit; font-size: 16px; color: $color-text; outline: none; background: #fff; }
+.bg-note input:focus { border-color: $color-primary; box-shadow: 0 0 0 3px rgba(19,52,80,.10); }
 
 .result-foot { display: flex; gap: 12px; }
 .result-foot .tc-btn { display: inline-flex; align-items: center; gap: 6px; }

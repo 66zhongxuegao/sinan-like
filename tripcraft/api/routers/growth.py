@@ -68,6 +68,8 @@ from tripcraft.services.practice_service import GROUP_STEP, PracticeService
 from tripcraft.services.thread_service import ThreadService
 from tripcraft.services.profile_radar import build_radar, initial_only, radar_abilities
 from tripcraft.services import learning_route
+from tripcraft.contracts import learner_profile
+from tripcraft.services import market_kb, personalization
 from tripcraft.services.tools_service import ToolsService
 from tripcraft.voice.bridge import VoiceBridge
 from tripcraft.services.visit_monitor import VISIT_MONITOR, VisitMonitorMiddleware
@@ -630,7 +632,73 @@ def build(ctx: AppContext) -> APIRouter:
     def profile_quiz():
         return {"questions": profile_agent.questions_public(),
                 "total": len(profile_agent.QUIZ),
-                "dimensions": [{"id": d.value, "name": DIMENSION_NAMES[d]} for d in Dimension]}
+                "dimensions": [{"id": d.value, "name": DIMENSION_NAMES[d]} for d in Dimension],
+                # 个性化画像三块里的前两块（第三块「八维掌握度」就是上面的 questions）
+                "personal": {
+                    "style_questions": learner_profile.style_questions_public(),
+                    "background_question": learner_profile.background_question_public(),
+                    "markets": market_kb.public_list(),
+                    # 语言题的 {lang} 由前端按所选国家替换成「日语」「韩语」…
+                    "language_questions": learner_profile.lang_questions_public("{lang}"),
+                }}
+
+    # ---------------- 个性化画像：学习风格 / 职业背景 / 目标客源国与语言水平 ----------------
+
+    def _learner_from_answers(body_style: dict, body_bg: dict, market_code: str, body_lang: dict) -> dict:
+        code = str(market_code or "").strip().upper()
+        market = market_kb.get_market(code) if code else None
+        if code and not market:
+            raise HTTPException(400, f"未知的客源国：{code}")
+        bg = body_bg if isinstance(body_bg, dict) else {}
+        profile = learner_profile.build_profile(
+            style_answers={str(k): str(v) for k, v in (body_style or {}).items()},
+            background_status=str(bg.get("status") or ""), background_note=str(bg.get("note") or ""),
+            market_code=code, market=market,
+            language_answers={str(k): str(v) for k, v in (body_lang or {}).items()})
+        return profile
+
+    def _learner_view(user_id: str) -> dict:
+        profile = ctx.store.learner_profile(user_id)
+        market = market_kb.get_market(((profile or {}).get("market") or {}).get("code", "")) if profile else None
+        return {
+            "has_profile": not learner_profile.is_empty(profile),
+            "profile": profile or {},
+            "style": learner_profile.describe_style((profile or {}).get("style") or {}),
+            "background": (profile or {}).get("background") or {},
+            "market": ((profile or {}).get("market") or {}),
+            "effects": personalization.learner_effects(profile, market),
+            "knowledge": ({"code": market["code"], "country": market["country"],
+                           "service_language": market.get("service_language", ""),
+                           "culture": market.get("culture", []), "customs": market.get("customs", []),
+                           "policy": market.get("policy", []), "sources": market.get("sources", []),
+                           "phrases": (market.get("language") or {}).get("phrases", [])} if market else None),
+        }
+
+    @router.get("/profiles/{user_id}/learner")
+    def get_learner(user_id: str, uid: str = Depends(current_user)):
+        _owned(user_id, uid)
+        return _learner_view(user_id)
+
+    @router.put("/profiles/{user_id}/learner")
+    def put_learner(user_id: str, body: S.LearnerBody, uid: str = Depends(current_user)):
+        """更新个性化画像（风格 / 背景 / 客源国）。已做过初始测评的账号也可以随时重测这一部分。"""
+        _owned(user_id, uid)
+        profile = _learner_from_answers(body.style, body.background, body.market, body.language)
+        if learner_profile.is_empty(profile):
+            raise HTTPException(400, "没有可保存的内容：请至少回答学习风格、背景或客源国中的一部分")
+        ctx.store.save_learner_profile(user_id, profile)
+        return _learner_view(user_id)
+
+    @router.get("/markets")
+    def list_markets(uid: str = Depends(current_user)):
+        return {"markets": market_kb.public_list()}
+
+    @router.get("/markets/{code}")
+    def get_market(code: str, uid: str = Depends(current_user)):
+        m = market_kb.get_market(code)
+        if not m:
+            raise HTTPException(404, "没有这个客源国的知识库")
+        return m
 
     # ---------------- 学习路线管家（初始画像 + 学习需求） ----------------
 
@@ -676,6 +744,10 @@ def build(ctx: AppContext) -> APIRouter:
         answers = [a for a in (body.answers or []) if isinstance(a, dict)]
         if len(answers) < len(profile_agent.QUIZ):
             raise HTTPException(400, f"请完成全部 {len(profile_agent.QUIZ)} 道题再提交")
+        # 个性化部分先校验（未知客源国直接 400），不要等初始画像都写完了才报错
+        p = body.personal if isinstance(body.personal, dict) else {}
+        personal_profile = _learner_from_answers(p.get("style") or {}, p.get("background") or {},
+                                                 str(p.get("market") or ""), p.get("language") or {}) if p else {}
         scores = profile_agent.score_answers(answers)
         user_row = ctx.store.user_by_id(user_id) or {}
         from tripcraft.services import demo_blank_state, demo_guest
@@ -695,7 +767,15 @@ def build(ctx: AppContext) -> APIRouter:
             ctx.store.save_baseline(user_id, d.value, float(scores.get(d.value, 0)), source="intake")
         radar = build_radar(user_id, ctx.store.abilities(user_id), ctx.store.baseline(user_id), report)
         saved = ctx.store.save_profile_snapshot(user_id, "initial", radar, report)
-        return {**saved, "scores": scores, "user_id": user_id}
+        # 个性化画像随测评一起提交（可选）：失败不应让已经生成的初始画像白做，所以单独兜底
+        personal_saved = False
+        if not learner_profile.is_empty(personal_profile):
+            try:
+                ctx.store.save_learner_profile(user_id, personal_profile)
+                personal_saved = True
+            except Exception:  # noqa: BLE001
+                personal_saved = False
+        return {**saved, "scores": scores, "user_id": user_id, "personal_saved": personal_saved}
 
     @router.get("/profiles/{user_id}/report")
     def profile_report(user_id: str, uid: str = Depends(current_user)):

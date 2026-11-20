@@ -65,7 +65,7 @@ CASE_MAIN_TABLE = "biz_order"
 USER_CHILD_TABLES = (("thread_message", "thread_id", "thread", "thread_id"),)
 USER_PARENT_TABLES = ("thread",)
 USER_TABLES = ("asset", "quiz_attempt", "memory", "profile_snapshot", "profile_baseline",
-               "ability", "profile", "doc_template")
+               "ability", "profile", "doc_template", "learner_profile")
 # 资源方状态：按 order_id 的随订单删，全局默认行（order_id='')按账号删
 SUPPLIER_TABLE = "supplier_state"
 

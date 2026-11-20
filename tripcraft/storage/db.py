@@ -25,6 +25,8 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS sessions (
   token_hash TEXT PRIMARY KEY, user_id TEXT, created_at TEXT, expires_at TEXT,
   revoked_at TEXT DEFAULT '', last_seen_at TEXT DEFAULT '', ua TEXT DEFAULT '');
+CREATE TABLE IF NOT EXISTS learner_profile (
+  user_id TEXT PRIMARY KEY, payload TEXT NOT NULL, updated_at TEXT);
 CREATE TABLE IF NOT EXISTS profile_baseline (
   user_id TEXT, dimension TEXT, value REAL DEFAULT 0, source TEXT DEFAULT '', created_at TEXT,
   PRIMARY KEY (user_id, dimension));
@@ -318,6 +320,26 @@ class Store:
         row = self._one("""SELECT COUNT(*) AS n FROM order_score os
             JOIN biz_order o ON o.order_id = os.order_id WHERE o.user_id=?""", (user_id,))
         return bool(row and int(row["n"] or 0) > 0)
+
+    # ---- 个性化画像（学习风格 / 职业背景 / 目标客源国与语言水平） ----
+
+    def save_learner_profile(self, user_id: str, profile: dict) -> dict:
+        """整份覆盖保存。画像是学员自己的选择，没有「累加」语义，重测就是替换。"""
+        ts = now()
+        data = {**profile, "updated_at": ts}
+        self._exec("INSERT OR REPLACE INTO learner_profile(user_id, payload, updated_at) VALUES(?,?,?)",
+                   (user_id, json.dumps(data, ensure_ascii=False), ts))
+        return data
+
+    def learner_profile(self, user_id: str) -> dict | None:
+        row = self._one("SELECT payload FROM learner_profile WHERE user_id=?", (user_id,))
+        if not row:
+            return None
+        try:
+            data = json.loads(row["payload"] or "{}")
+        except (TypeError, ValueError):
+            return None
+        return data if isinstance(data, dict) and data else None
 
     def has_initial_assessment(self, user_id: str) -> bool:
         """初始测评以持久化基线或初始报告为准，不被做题、实战评分挡住。"""

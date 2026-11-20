@@ -1,0 +1,112 @@
+{
+ "code": "IT",
+ "country": "意大利",
+ "region": "欧洲",
+ "service_language": "意大利语",
+ "lang_short": "意大利语",
+ "language": {
+  "intro": "主要服务语言：意大利语。",
+  "phrases": [
+   {
+    "scene": "欢迎问候",
+    "zh": "欢迎来到中国，我是您的定制师。",
+    "text": "Benvenuti in Cina. Sono il vostro pianificatore di viaggio.",
+    "read": ""
+   },
+   {
+    "scene": "表示感谢",
+    "zh": "谢谢您的耐心。",
+    "text": "Grazie mille per la pazienza.",
+    "read": ""
+   },
+   {
+    "scene": "确认预算口径",
+    "zh": "请问这个预算是每人的，还是整个团的总价？",
+    "text": "Questo budget è a persona o per tutto il gruppo?",
+    "read": ""
+   },
+   {
+    "scene": "询问饮食禁忌",
+    "zh": "请问有饮食禁忌或过敏吗？",
+    "text": "Avete restrizioni alimentari o allergie?",
+    "read": ""
+   },
+   {
+    "scene": "致歉",
+    "zh": "抱歉给您添麻烦了。",
+    "text": "Ci scusiamo per il disagio.",
+    "read": ""
+   },
+   {
+    "scene": "请对方稍等",
+    "zh": "请稍等，我马上确认。",
+    "text": "Un momento, verifico subito.",
+    "read": ""
+   }
+  ]
+ },
+ "culture": [
+  {
+   "title": "重视家庭与美食",
+   "body": "家庭出行较多，用餐是核心体验；餐厅的品质与氛围比数量更重要。"
+  },
+  {
+   "title": "热情、重视人情",
+   "body": "沟通热情，喜欢被当作朋友而非客户；过度冷冰冰的流程化沟通会降低好感。"
+  }
+ ],
+ "policy": [
+  {
+   "title": "入境中国：免签与过境免签（需核验）",
+   "body": "我国近年对多个国家实施单方面免签或互免签证，并实行 144/240 小时过境免签。各国适用名单、可停留天数和有效期会不时调整，做方案前必须到国家移民管理局官网核对该国公民当前适用的政策，不要凭记忆向客人承诺。过境免签要求联程机票（出发国→中国→第三国或地区），往返同一国家不适用。",
+   "verify": true,
+   "sources": [
+    "nia",
+    "mfa"
+   ]
+  },
+  {
+   "title": "通讯与支付：行前提醒（需核验）",
+   "body": "部分海外常用的搜索、地图、社交应用在境内可能无法正常使用，建议客人行前准备可用的翻译与地图工具、eSIM 或漫游方案；境外银行卡可绑定支付宝、微信支付后使用，但部分场所仍以现金或银联为主，具体以平台最新规则为准。",
+   "verify": true,
+   "sources": []
+  }
+ ],
+ "customs": [
+  {
+   "title": "饮食习惯",
+   "body": "对本国饮食很讲究，团餐中可以安排一两顿地道中餐体验，同时备有清淡、简单的备选。"
+  },
+  {
+   "title": "节奏与时间",
+   "body": "对时间的弹性较大，但对服务缺失敏感；关键节点要提前反复确认。"
+  }
+ ],
+ "sources": [
+  {
+   "id": "nia",
+   "title": "国家移民管理局（入出境政策）",
+   "url": "https://www.nia.gov.cn/"
+  },
+  {
+   "id": "mfa",
+   "title": "外交部领事服务网（签证与领事信息）",
+   "url": "https://cs.mfa.gov.cn/"
+  },
+  {
+   "id": "mct",
+   "title": "文化和旅游部（入境旅游）",
+   "url": "https://www.mct.gov.cn/"
+  },
+  {
+   "id": "fmprc",
+   "title": "外交部 · 国家和地区（国别概况）",
+   "url": "https://www.fmprc.gov.cn/web/gjhdq_676201/"
+  },
+  {
+   "id": "tourism",
+   "title": "意大利官方旅游推广机构：意大利国家旅游局",
+   "url": "https://www.italia.it/"
+  }
+ ]
+}

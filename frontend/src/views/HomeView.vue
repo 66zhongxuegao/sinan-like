@@ -202,6 +202,7 @@
 
 
 
+          <p v-if="registerHint" class="auth-hint" role="status">{{ registerHint }}</p>
           <button class="auth-submit" type="submit" :disabled="authBusy || !authFormReady">
 
 
@@ -421,6 +422,24 @@ const redirectTo = computed(() => {
 const USERNAME_RE = /^[A-Za-z0-9_.-]{3,32}$/
 
 
+/** 注册时按钮为什么还不能点：按顺序给出第一条没满足的规则（之前按钮只是变灰，用户不知道原因） */
+const registerHint = computed(() => {
+  if (authMode.value !== 'register') return ''
+  const u = authUsername.value, pw = authPassword.value, c = authConfirm.value
+  if (!u && !pw && !c) return ''
+  if (u && !USERNAME_RE.test(u)) {
+    if (/[^\x00-\x7F]/.test(u)) return '用户名只能用英文字母、数字或 _ . -，不支持中文'
+    if (u.length < 3) return `用户名至少 3 位，还差 ${3 - u.length} 位`
+    if (u.length > 32) return '用户名最多 32 位'
+    return '用户名只能用英文字母、数字或 _ . -，不能有空格和其他符号'
+  }
+  if (!u) return '请填写用户名'
+  if (pw.length < 8) return pw ? `密码至少 8 位，还差 ${8 - pw.length} 位` : '请填写密码'
+  if (!c) return '请再输入一次密码'
+  if (c !== pw) return '两次输入的密码不一致'
+  return ''
+})
+
 const authFormReady = computed(() => {
 
 
@@ -529,7 +548,8 @@ async function loadLoginAccounts() {
     loginAccounts.value = r.accounts || []
 
 
-    if (!authUsername.value && loginAccounts.value.length) {
+    // 仅登录模式回填演示账号；注册模式必须保持用户名和密码为空。
+    if (authMode.value === 'login' && !authUsername.value && loginAccounts.value.length) {
 
 
       authUsername.value = loginAccounts.value[0].username
@@ -1506,6 +1526,7 @@ onMounted(async () => {
 
 
 .auth-fields { display: flex; flex-direction: column; gap: 11px; }
+.auth-hint { margin: 9px 2px 0; font-size: 14px; line-height: 1.5; color: #b3730f; }
 
 
 .auth-input {
@@ -2030,5 +2051,7 @@ onMounted(async () => {
 
 
 </style>
+
+
 
 

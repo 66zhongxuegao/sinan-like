@@ -65,6 +65,17 @@ class AssessmentBody(BaseModel):
     user_id: str = ""
     answers: list[dict] = []
     language: str = "中文"
+    # 个性化画像（学习风格 / 背景 / 目标客源国与语言水平），可选；格式同 LearnerBody
+    personal: dict = {}
+
+
+class LearnerBody(BaseModel):
+    """个性化画像答案：{style: {ST1: 'a'..}, background: {status, note}, market: 'JP', language: {LG1: 'b'..}}"""
+    user_id: str = ""
+    style: dict = {}
+    background: dict = {}
+    market: str = ""
+    language: dict = {}
 
 
 class CreateS2(BaseModel):

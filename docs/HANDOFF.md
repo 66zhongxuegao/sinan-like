@@ -1451,6 +1451,21 @@ http://127.0.0.1:25190/api/docs
 
 ## 19. 变更记录
 
+### 2026-11-20（个性化画像 × 教学联动）
+
+画像分三部分，各管教学的一个侧面：
+1. **学习风格（Felder–Silverman）**四题 + 背景一题：控制「怎么教」。视觉型讲义必须配 SVG 示意图，言语型必须有话术示范不画图，主动型有「现在就试」，反思型有「先想一想」，感知型有真实案例，直觉型有背后的原理，序列型用步骤 1/2/3，整体型以全景图开头；背景生成「结合你的背景」类比小节
+2. **目标客源国 + 语言水平**（三道题 0–9 分五档）：控制语言提示与文化提示。国别知识库 `data/markets/*.json`（18 国，由 `scripts/build_market_kb.py` 生成；政策类一律 verify=true、只写框架并指向官方来源链接）；语言水平越低，讲义越要原样引用知识库里的客服用语
+3. **八维掌握度**：原 12 题，逻辑不变，仍决定学什么与顺序。判档 `judge_mastery` 用 `ctx.render(learner=False)`，**风格和客源国不会影响掌握度判档**
+
+代码位置：契约 `contracts/learner_profile.py`、知识库读取 `services/market_kb.py`、讲法要求/讲后核对/证据 `services/personalization.py`、存储表 `learner_profile`、接口 `GET/PUT /profiles/{id}/learner`、`GET /markets`、测评题在 `GET /profile/quiz` 的 `personal` 字段。前端：测评页分步（风格→背景→客源国→语言→八维）、`LearnerProfileCard`（画像页与测评完成页）、`EvidencePanel`（讲义下方可展开「依据」）、`MarkdownView` 渲染 ```svg（DOMPurify SVG 白名单，禁 script/style/use/image/href）。
+
+- 讲义/实操指南生成后做确定性核对（必须出现的小节、SVG 是否合法等），不满足带原因返工一次；首稿已超过 45 秒则不再返工并如实返回 `personalization.passed=false`
+- 审查与证据闸门用 `factual_text()` 去掉 SVG、练习、对话、类比、案例等非事实性小节再核验；高风险词的句子仍保留
+- 证据改为 `{no, group, label, detail, url}` 结构（P 画像 / M 国别知识库 / R 评分标准 / K 技能知识库 / G 技能图 / W 网络来源 / H 学习记录 / O 实战记录 / D 出题依据）；旧消息里的字符串证据由前端翻成中文
+- 已知：证据闸门对「教学类」文本支持率偏低（无画像的基线讲义也只有约 34%），多数讲义会标 `needs_review`；这是闸门既有行为，未改动阈值
+- 未做：国别知识库内容需业务专家审阅；外语表达已标「请由母语者校对」
+
 ### 2026-11-18（教学出题难度分档）
 
 - 新增 `tripcraft/contracts/quiz_difficulty.py`：L1–L5 难度规格 + 出题校验 + 答案换位

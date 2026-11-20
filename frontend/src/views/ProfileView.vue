@@ -61,6 +61,9 @@
 
     <LearningRouteLauncher v-if="radarAssessed" />
 
+    <!-- 个性化画像：学习风格 / 背景 / 目标客源国与语言；与下方八维能力雷达是画像的三个部分 -->
+    <LearnerProfileCard v-if="userStore.userId" :user-id="userStore.userId" />
+
     <!-- 图表区：初始 vs 当前雷达 + 真实趋势 -->
     <section class="charts">
       <div class="card panel rise radar-panel">
@@ -298,6 +301,7 @@ import { useUserStore } from '@/stores/user'
 import SIcon from '@/components/SIcon.vue'
 import ProfileRadar from '@/components/ProfileRadar.vue'
 import LearningRouteLauncher from '@/components/LearningRouteLauncher.vue'
+import LearnerProfileCard from '@/components/LearnerProfileCard.vue'
 
 const router = useRouter()
 const userStore = useUserStore()

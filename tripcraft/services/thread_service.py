@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import random
+import time
 import re
 import uuid
 from dataclasses import dataclass, field
@@ -18,6 +19,7 @@ from pathlib import Path
 from ..agents.llm import DeepSeekClient
 from ..agents.review import SixHatsReview
 from ..contracts.enums import mastery_of
+from ..contracts.learner_profile import is_empty as learner_is_empty
 from ..contracts.quiz_difficulty import LETTERS, place_answer, render_spec_prompt, spec_for, validate_question
 from ..contracts.rubric import RUBRICS
 from ..contracts.culture_bridges import get as get_bridge
@@ -30,6 +32,7 @@ from .capability_compounding import compile_learning_signal, persist_learning_si
 from .evidence_verifier import classify_source, get_verifier
 from .experience_compiler import get_skill_graph
 from .source_registry import OfficialSourceRegistry
+from . import market_kb, personalization
 
 ROOT = Path(__file__).resolve().parents[2]
 KNOWLEDGE_DIR = ROOT / "data" / "knowledge"
@@ -130,6 +133,14 @@ class ThreadContext:
     ability: dict = field(default_factory=dict)
     evidence: list[dict] = field(default_factory=list)
     skill_graph: dict = field(default_factory=dict)
+    # 个性化画像（学习风格 / 背景 / 客源国）及其对应的国别知识库；kind 决定个性化要求的严格程度
+    learner: dict = field(default_factory=dict)
+    market: dict = field(default_factory=dict)
+    kind: str = "chat"
+
+    def evidence_items(self, content: str = "") -> list[dict]:
+        """讲义/回复下方展开的「依据」：编号 + 中文来源说明（网络来源带链接）。"""
+        return personalization.build_evidence_items(self, self.learner, self.market, self.kind, content)
 
     def sources(self) -> list[str]:
         out = [f"bridge:{self.sp}" if self.is_bridge else f"rubric:{self.sp}"]
@@ -191,9 +202,11 @@ class ThreadContext:
                 oid = str(item.get("order_id") or "unknown")
                 rows.append({"id": f"O:{oid}", "source": f"order:{oid}",
                              "text": summary, "trust": "observed"})
+        if self.market:
+            rows += market_kb.evidence_rows(self.market)
         return [r for r in rows if r.get("text")]
 
-    def render(self) -> str:
+    def render(self, *, learner: bool = True) -> str:
         lines: list[str] = [f"【本次技能点】{self.name}（{self.sp}）"]
         if self.rubric:
             r = self.rubric
@@ -221,6 +234,10 @@ class ThreadContext:
         if self.evidence:
             ev = "\n".join(f"  {e.get('order_id')}：{e.get('summary', '')}" for e in self.evidence[:3])
             lines.append("【实战证据】\n" + ev)
+        if learner:
+            block = personalization.render_block(self.learner, self.market, self.kind, self.name)
+            if block:
+                lines.append(block)
         return "\n\n".join(lines)
 
 
@@ -233,10 +250,11 @@ TEACHER_SYSTEM = """你是「司南」，定制师实训系统的带教老师，
 4. 不讲与当前技能点无关的内容；严格对照给定的 Rubric 锚点。
 5. 涉及事实时只依据提供的资料，不得编造；资料不足就说「这块资料还不全」。
 6. 用口语短句，别写列表式提纲，别用「作为AI」这类套话。
+7. 资料里若有【学员个性化画像】，按其偏好调整讲法（例子、顺序、是否配图、语言与文化提示），但不改变事实。
 
 【输出格式】
 用 Markdown 回复（可用小标题、加粗、列表、引用）。
-结尾另起一行用 <div class="refs">参考来源：…</div> 标出本次用到的来源。
+不要自己写「参考来源」：系统会在回复下方展开显示每条依据。
 """
 
 ASSET_SYSTEM = """你是定制师培训教研专家，负责按技能点生成学习资料。
@@ -244,7 +262,7 @@ ASSET_SYSTEM = """你是定制师培训教研专家，负责按技能点生成�
 【要求】
 - 输出 **Markdown**（含标题、小标题、表格、引用、列表）。
 - 内容必须围绕该技能点的 Rubric 锚点与知识点基座，不得跑题、不得编造事实。
-- 末尾必须有一节「参考来源」，列出用到的 Rubric 锚点 / 知识点。
+- 不要写「参考来源」小节：系统会在内容下方自动列出每条依据（评分标准、知识库、网络来源链接）。
 - 只输出 Markdown 正文，不要额外解释。
 """
 
@@ -420,8 +438,10 @@ class ThreadService:
         # 文化桥没有知识点基座文件，直接把桥的底座喂给教师，否则资料块是空的
         if bridge is not None and not (knowledge or {}).get("text"):
             knowledge = bridge_knowledge(bridge)
+        learner = self._store.learner_profile(user_id) or {}
+        market = market_kb.get_market((learner.get("market") or {}).get("code", "")) or {}
         return ThreadContext(
-            sp=sp,
+            sp=sp, learner=learner, market=market,
             name=(skill.name if skill else (bridge.name if bridge else sp)),
             is_bridge=bridge is not None,
             rubric=self._rubric(sp), knowledge=knowledge,
@@ -528,7 +548,7 @@ class ThreadService:
             q = self.pick_question(user_id, sp)
             content = (f"按你现在的掌握度出了一道 **{q.get('difficulty', 'L1')}** 难度的题，"
                        f"见下方题目卡，做完点「交卷」。")
-            evidence = [f"bridge:{sp}" if get_bridge(sp) else f"rubric:{sp}", "出题：Rubric + 掌握度判档"]
+            evidence = self._quiz_evidence(user_id, sp, q)
             # 题目存成 kind=quiz 的结构化消息：聊天记录里每道题各占一张卡，不会被下一题顶掉
             self._store.add_message(thread["thread_id"], "ai", content, evidence,
                                     kind="quiz", payload=json.dumps(q, ensure_ascii=False))
@@ -559,7 +579,7 @@ class ThreadService:
         messages.append({"role": "user", "content": message})
 
         content = self._require_llm().chat(messages, temperature=0.6, max_tokens=1600)
-        sources = ctx.sources()
+        sources = ctx.evidence_items(content)
         self._store.add_message(thread["thread_id"], "ai", content, sources)
         self._store.touch_thread(thread["thread_id"])
         return {"content": content, "evidence": sources}
@@ -609,6 +629,7 @@ class ThreadService:
         if kind not in ASSET_TYPES:
             raise ValueError(f"未知资产类型: {kind}")
         ctx = self.build_context(user_id, sp, query=f"生成{ASSET_TYPES[kind]}")
+        ctx.kind = kind          # 讲义/实操指南按画像做严格定制，学习报告/错题本只做轻量调整
         thread = self._store.get_or_create_thread(user_id, sp)
         ask = f"请为技能点「{ctx.name}（{sp}）」生成一份「{ASSET_TYPES[kind]}」。"
         if kind == "report":
@@ -621,8 +642,11 @@ class ThreadService:
         evidence_audit: dict = {}
         regenerated = False
         attempts = 0
+        style_issues: list[str] = []
+        personalized = not learner_is_empty(ctx.learner) and kind in personalization.STRICT_KINDS
+        started = time.monotonic()
 
-        # 先审查、后核验；任一门失败都只触发一次带具体原因的返工。
+        # 先审查、后核验、再核对个性化；任一门失败都只触发一次带具体原因的返工。
         # 关键点是：evidence_audit 必须针对最终 content，而不是第一稿。
         for attempt in range(2):
             attempts = attempt + 1
@@ -633,24 +657,35 @@ class ThreadService:
                     reasons.append("六帽审查的硬门槛未通过")
                 if evidence_audit.get("decision") != "allow":
                     reasons.append(f"证据闸门：{evidence_audit.get('reason', '未通过')}")
+                reasons += [f"个性化要求未满足：{x}" for x in style_issues]
                 prompt += ("\n（上一版未通过：" + "；".join(reasons) +
                            "。请只修正失败项，保留已核验内容，重新输出完整材料。）")
             content = self._require_llm().chat(
                 [{"role": "system", "content": ASSET_SYSTEM},
                  {"role": "system", "content": "资料依据：\n\n" + ctx.render()},
                  {"role": "user", "content": prompt}],
-                temperature=0.5, max_tokens=2600)
-            review = reviewer.review(content, ctx.render())
+                temperature=0.5, max_tokens=4200 if personalized else 2600)
+            # 审查与证据核验只看「事实性」文字：SVG 坐标、练习任务、思考题、话术对话、背景类比、案例叙述
+            # 都不是对世界的事实陈述（含高风险词的句子仍会保留下来核验）
+            plain = personalization.factual_text(content)
+            review = reviewer.review(plain, ctx.render())
             registry = OfficialSourceRegistry(self._store)
             evidence_audit = verifier.audit(
-                content, ctx.evidence_payload(), strict_provenance=True,
+                plain, ctx.evidence_payload(), strict_provenance=True,
                 snapshot_resolver=registry.resolve,
             )
-            if not review.get("critical_fail") and evidence_audit.get("decision") == "allow":
+            style_issues = personalization.check_content(content, ctx.learner, ctx.market, kind)
+            if not review.get("critical_fail") and evidence_audit.get("decision") == "allow" and not style_issues:
                 break
             regenerated = True
+            # 公网经 Cloudflare 隧道的单次请求上限约 100 秒：第一稿已经很慢时不再返工，
+            # 带着未满足项直接交付（personalization.passed=false 会如实告诉前端）
+            if attempt == 0 and time.monotonic() - started > 45:
+                break
 
-        sources = ctx.sources()
+        if kind in personalization.STRICT_KINDS:
+            content = personalization.preface(ctx.learner, ctx.market) + content
+        sources = ctx.evidence_items(content)
         aid = "asset_" + datetime.now().strftime("%Y%m%d%H%M%S%f")[:18]
         self._store.add_asset(aid, user_id, thread["thread_id"], sp, kind,
                               ASSET_TYPES[kind], content, sources)
@@ -663,6 +698,7 @@ class ThreadService:
         safe = (review.get("verdict") == "合格" and evidence_audit.get("decision") == "allow")
         return {"asset_id": aid, "type": kind, "title": ASSET_TYPES[kind], "content": content,
                 "evidence": sources, "evidence_audit": evidence_audit,
+                "personalization": {"applied": personalized, "passed": not style_issues, "issues": style_issues},
                 "status": "ready" if safe else "needs_review",
                 "review": {"verdict": review.get("verdict", "需修改"),
                            "regenerated": regenerated, "attempts": attempts,
@@ -675,7 +711,8 @@ class ThreadService:
         ctx = self.build_context(user_id, sp)
         data = self._require_llm().chat_json(
             [{"role": "system", "content": JUDGE_SYSTEM},
-             {"role": "system", "content": "资料：\n\n" + ctx.render()},
+             # 判档只看 Rubric、答题与实战证据：风格、客源国都不能影响「学到哪一档」
+             {"role": "system", "content": "资料：\n\n" + ctx.render(learner=False)},
              {"role": "user", "content": "请判断学员当前掌握度档位。"}],
             temperature=0.2, max_tokens=300)
         level = str(data.get("level") or "M1")
@@ -690,6 +727,7 @@ class ThreadService:
     def pick_question(self, user_id: str, sp: str) -> dict:
         j = self.judge_mastery(user_id, sp)
         ctx = self.build_context(user_id, sp)
+        ctx.kind = "quiz"
         q = self._generate_question(ctx, j["difficulty"])
         q["difficulty"] = j["difficulty"]
         q["judged_level"] = j["level"]
@@ -702,6 +740,21 @@ class ThreadService:
             q["question_id"], user_id, sp, q,
             answer=str(q.get("answer") or ""), reference=str(q.get("reference") or ""))
         return strip_quiz_answers(q)
+
+    def _quiz_evidence(self, user_id: str, sp: str, q: dict) -> list[dict]:
+        """题目卡下方的「依据」：出题难度怎么来的 + 情景是否带入了目标客源国。"""
+        ctx = self.build_context(user_id, sp)
+        ctx.kind = "quiz"
+        items = [it for it in ctx.evidence_items() if it["no"][0] in ("R", "K", "G", "H")]
+        items.insert(0, {"no": "D1", "group": "出题依据",
+                         "label": f"出题难度 · {q.get('difficulty', 'L1')}（由掌握度档位 {q.get('judged_level', 'M1')} 判定）",
+                         "detail": "按难度规格出情景单选题；风格与客源国不影响难度", "url": ""})
+        market = ctx.market
+        if market and (ctx.learner.get("market") or {}).get("country"):
+            items.insert(1, {"no": "D2", "group": "出题依据",
+                             "label": f"题目情景 · 客人来自{market.get('country', '')}",
+                             "detail": f"取自国别知识库 · {market.get('country', '')}的语言与文化要点", "url": ""})
+        return items
 
     def _generate_question(self, ctx: ThreadContext, difficulty: str) -> dict:
         """按难度规格出题 → 确定性校验 → 不合格带问题清单重出一次 → 取问题更少的一稿。

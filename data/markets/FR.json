@@ -1,0 +1,112 @@
+{
+ "code": "FR",
+ "country": "法国",
+ "region": "欧洲",
+ "service_language": "法语",
+ "lang_short": "法语",
+ "language": {
+  "intro": "主要服务语言：法语。",
+  "phrases": [
+   {
+    "scene": "欢迎问候",
+    "zh": "欢迎来到中国，我是您的定制师。",
+    "text": "Bienvenue en Chine. Je suis votre planificateur de voyage.",
+    "read": ""
+   },
+   {
+    "scene": "表示感谢",
+    "zh": "谢谢您的耐心。",
+    "text": "Merci beaucoup pour votre patience.",
+    "read": ""
+   },
+   {
+    "scene": "确认预算口径",
+    "zh": "请问这个预算是每人的，还是整个团的总价？",
+    "text": "Ce budget est-il par personne ou pour tout le groupe ?",
+    "read": ""
+   },
+   {
+    "scene": "询问饮食禁忌",
+    "zh": "请问有饮食禁忌或过敏吗？",
+    "text": "Avez-vous des restrictions alimentaires ou des allergies ?",
+    "read": ""
+   },
+   {
+    "scene": "致歉",
+    "zh": "抱歉给您添麻烦了。",
+    "text": "Veuillez nous excuser pour la gêne occasionnée.",
+    "read": ""
+   },
+   {
+    "scene": "请对方稍等",
+    "zh": "请稍等，我马上确认。",
+    "text": "Un instant, je vérifie cela tout de suite.",
+    "read": ""
+   }
+  ]
+ },
+ "culture": [
+  {
+   "title": "重视礼貌与问候",
+   "body": "见面先打招呼（Bonjour）再进入正题，这在法国是基本礼貌；直接开口谈事会显得无礼。"
+  },
+  {
+   "title": "饮食与文化体验",
+   "body": "重视美食、艺术与慢节奏体验，不适合把行程排得太满。"
+  }
+ ],
+ "policy": [
+  {
+   "title": "入境中国：免签与过境免签（需核验）",
+   "body": "我国近年对多个国家实施单方面免签或互免签证，并实行 144/240 小时过境免签。各国适用名单、可停留天数和有效期会不时调整，做方案前必须到国家移民管理局官网核对该国公民当前适用的政策，不要凭记忆向客人承诺。过境免签要求联程机票（出发国→中国→第三国或地区），往返同一国家不适用。",
+   "verify": true,
+   "sources": [
+    "nia",
+    "mfa"
+   ]
+  },
+  {
+   "title": "通讯与支付：行前提醒（需核验）",
+   "body": "部分海外常用的搜索、地图、社交应用在境内可能无法正常使用，建议客人行前准备可用的翻译与地图工具、eSIM 或漫游方案；境外银行卡可绑定支付宝、微信支付后使用，但部分场所仍以现金或银联为主，具体以平台最新规则为准。",
+   "verify": true,
+   "sources": []
+  }
+ ],
+ "customs": [
+  {
+   "title": "用餐时间长",
+   "body": "用餐被视为社交，午餐和晚餐时间较长，行程要给用餐留足时间。"
+  },
+  {
+   "title": "对服务品质挑剔",
+   "body": "对餐厅与酒店的品质敏感，宁可少而精，也不要为了数量牺牲体验。"
+  }
+ ],
+ "sources": [
+  {
+   "id": "nia",
+   "title": "国家移民管理局（入出境政策）",
+   "url": "https://www.nia.gov.cn/"
+  },
+  {
+   "id": "mfa",
+   "title": "外交部领事服务网（签证与领事信息）",
+   "url": "https://cs.mfa.gov.cn/"
+  },
+  {
+   "id": "mct",
+   "title": "文化和旅游部（入境旅游）",
+   "url": "https://www.mct.gov.cn/"
+  },
+  {
+   "id": "fmprc",
+   "title": "外交部 · 国家和地区（国别概况）",
+   "url": "https://www.fmprc.gov.cn/web/gjhdq_676201/"
+  },
+  {
+   "id": "tourism",
+   "title": "法国官方旅游推广机构：法国旅游发展署",
+   "url": "https://www.france.fr/"
+  }
+ ]
+}

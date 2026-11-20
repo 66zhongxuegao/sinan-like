@@ -1,0 +1,112 @@
+{
+ "code": "VN",
+ "country": "越南",
+ "region": "东南亚",
+ "service_language": "越南语",
+ "lang_short": "越南语",
+ "language": {
+  "intro": "主要服务语言：越南语。",
+  "phrases": [
+   {
+    "scene": "欢迎问候",
+    "zh": "欢迎来到中国，我是您的定制师。",
+    "text": "Chào mừng bạn đến Trung Quốc. Tôi là người lên kế hoạch hành trình cho bạn.",
+    "read": ""
+   },
+   {
+    "scene": "表示感谢",
+    "zh": "谢谢您的耐心。",
+    "text": "Cảm ơn bạn đã kiên nhẫn.",
+    "read": ""
+   },
+   {
+    "scene": "确认预算口径",
+    "zh": "请问这个预算是每人的，还是整个团的总价？",
+    "text": "Ngân sách này là cho mỗi người hay cho cả nhóm ạ?",
+    "read": ""
+   },
+   {
+    "scene": "询问饮食禁忌",
+    "zh": "请问有饮食禁忌或过敏吗？",
+    "text": "Bạn có kiêng món ăn nào hoặc bị dị ứng không ạ?",
+    "read": ""
+   },
+   {
+    "scene": "致歉",
+    "zh": "抱歉给您添麻烦了。",
+    "text": "Xin lỗi vì sự bất tiện này ạ.",
+    "read": ""
+   },
+   {
+    "scene": "请对方稍等",
+    "zh": "请稍等，我马上确认。",
+    "text": "Xin chờ một chút, tôi sẽ xác nhận ngay ạ.",
+    "read": ""
+   }
+  ]
+ },
+ "culture": [
+  {
+   "title": "重视礼貌与长幼",
+   "body": "称呼要带上辈分或职衔，对年长客人更要恭敬；多用「ạ」等敬语语气词可以拉近关系。"
+  },
+  {
+   "title": "重视人情与面子",
+   "body": "不喜欢被当面否定，提出调整时先肯定客人的想法，再给出替代方案。"
+  }
+ ],
+ "policy": [
+  {
+   "title": "入境中国：免签与过境免签（需核验）",
+   "body": "我国近年对多个国家实施单方面免签或互免签证，并实行 144/240 小时过境免签。各国适用名单、可停留天数和有效期会不时调整，做方案前必须到国家移民管理局官网核对该国公民当前适用的政策，不要凭记忆向客人承诺。过境免签要求联程机票（出发国→中国→第三国或地区），往返同一国家不适用。",
+   "verify": true,
+   "sources": [
+    "nia",
+    "mfa"
+   ]
+  },
+  {
+   "title": "通讯与支付：行前提醒（需核验）",
+   "body": "部分海外常用的搜索、地图、社交应用在境内可能无法正常使用，建议客人行前准备可用的翻译与地图工具、eSIM 或漫游方案；境外银行卡可绑定支付宝、微信支付后使用，但部分场所仍以现金或银联为主，具体以平台最新规则为准。",
+   "verify": true,
+   "sources": []
+  }
+ ],
+ "customs": [
+  {
+   "title": "饮食偏好",
+   "body": "喜欢鲜香、清淡、多香草的口味；咖啡与街头小吃是体验亮点，可安排到行程里。"
+  },
+  {
+   "title": "敏感话题回避",
+   "body": "行程与讲解中避免触及政治、边界与历史争议话题。"
+  }
+ ],
+ "sources": [
+  {
+   "id": "nia",
+   "title": "国家移民管理局（入出境政策）",
+   "url": "https://www.nia.gov.cn/"
+  },
+  {
+   "id": "mfa",
+   "title": "外交部领事服务网（签证与领事信息）",
+   "url": "https://cs.mfa.gov.cn/"
+  },
+  {
+   "id": "mct",
+   "title": "文化和旅游部（入境旅游）",
+   "url": "https://www.mct.gov.cn/"
+  },
+  {
+   "id": "fmprc",
+   "title": "外交部 · 国家和地区（国别概况）",
+   "url": "https://www.fmprc.gov.cn/web/gjhdq_676201/"
+  },
+  {
+   "id": "tourism",
+   "title": "越南官方旅游推广机构：越南国家旅游局",
+   "url": "https://vietnam.travel/"
+  }
+ ]
+}
